@@ -1,6 +1,14 @@
 # Courier
 📦 Package manager for python
 
+
+## Overview of Features
+As seen in [Trakr](https://github.com/JoshuaDRose/Trakr), a package management system
+was introduced which assisted the installation and maintance of Trakr's dependencies.
+This project hopes to extend upon that package management system, and develop further
+features in the hope that it will assist with the local dependency maintaince of future
+projects.
+
 ## License
 
 ```
