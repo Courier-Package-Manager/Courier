@@ -15,4 +15,9 @@ copies or substantial portions of the Software.
 """
 
 import json
-import requests
+try:
+    import requests
+except ImportError:
+    print("ImportError: module \'requests\' must be externally sourced.", end=" ")
+    print("Install file \'requirements.txt\' through pip")
+    print("For more information on how to do this, visit https://pip.pypa.io/en/stable/user_guide/")
