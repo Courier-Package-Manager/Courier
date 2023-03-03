@@ -116,7 +116,7 @@ def update_packages():
     # TODO auto read python files and add dependencies
     ...
 
-if if __name__ == "__main__":
+if __name__ == "__main__":
     loc_package_file()
     logger.debug("Package file {magenta}{package}{reset} was created {date}".format(
         magenta=colorama.Fore.GREEN,
