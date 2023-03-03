@@ -18,7 +18,6 @@ all copies or substantial portions of the Software.
 import os
 import json
 import logging
-import datetime
 from datetime import datetime
 
 from posix import DirEntry
@@ -29,7 +28,7 @@ logger = logging.getLogger()
 
 try:
     import colorama
-except ImportError as exception:
+except ImportError:
     logger.critical("Dependencies are not installed. run \'make install\' to install.")
     raise SystemExit
 
@@ -41,10 +40,14 @@ PACKAGE = 'update.json'
 def scan_dir(files=True, folders=True) -> list[DirEntry]:
     """ A better version of the os.scandir function, as it takes multiple args. """
     items = []
-    for item in os.scandir(os.getcwd()): items.append(item)
-    if not files: [items.remove(item) for item in items if os.path.isfile(item)]
-    if not folders: [items.remove(item) for item in items if os.path.isdir(item)]
+    for item in os.scandir(os.getcwd()):
+        items.append(item)
+    if not files:
+        [items.remove(item) for item in items if os.path.isfile(item)]
+    if not folders:
+        [items.remove(item) for item in items if os.path.isdir(item)]
     return items
+
 
 def loc_package_file():
     """
@@ -74,6 +77,7 @@ def loc_package_file():
         json.dump(data, fp)
         fp.close()
 
+
 def get_date(timestamp=datetime.now().timestamp) -> str:
     """ Return a 🎆 colorized 🎆 version of timestamp """
 
@@ -99,6 +103,7 @@ def get_date(timestamp=datetime.now().timestamp) -> str:
 
     return date
 
+
 def last_updated():
     """ last update in datetime format. """
     # NOTE this is assuming that the following code has run:
@@ -108,7 +113,7 @@ def last_updated():
     date = get_date(timestamp=timestamp)
     return date
 
-# def get_packages{}
+
 
 def update_packages():
     """ The core function of this entire repo """
