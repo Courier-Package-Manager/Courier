@@ -1,12 +1,9 @@
 name: Flake
 
 on:
-  push:
-    branches:
-      - "master"
-  pull_request:
-    branches:
-      - "master" 
+ - push
+ - pull_request
+ - release
 
 jobs:
   flake8-lint:
