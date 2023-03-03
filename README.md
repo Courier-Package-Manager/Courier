@@ -9,6 +9,13 @@ This project hopes to extend upon that package management system, and develop fu
 features in the hope that it will assist with the local dependency maintaince of future
 projects.
 
+## Contributing
+When making commits in a forked repository (with the intent of a pr) please ensure that
+you read the [commits](commits.md) syntax file. Note that this file also generally applies
+to pull requests as well. There are plans to make a contributing file in the future, however
+that is nor needed or relevant right now but will be introduced if there is good reason for 
+doing so. Contributions are always encouraged and appreciated.
+
 ## License
 
 ```
