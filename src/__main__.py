@@ -69,7 +69,8 @@ def loc_package_file():
     with open(PACKAGE, 'w', True, 'UTF-8') as fp:
         ts = datetime.now().timestamp()
         data = {
-                "created": ts
+                "created": ts,
+                "dependencies": {}
                 }
         json.dump(data, fp)
         fp.close()
@@ -108,9 +109,17 @@ def last_updated():
     date = get_date(timestamp=timestamp)
     return date
 
-loc_package_file()
-logger.debug("Package file {magenta}{package}{reset} was created {date}".format(
-    magenta=colorama.Fore.GREEN,
-    package=PACKAGE,
-    reset=colorama.Fore.RESET,
-    date=last_updated()))
+def get_packages{}
+
+def update_packages():
+    """ The core function of this entire repo """
+    # TODO auto read python files and add dependencies
+    ...
+
+if if __name__ == "__main__":
+    loc_package_file()
+    logger.debug("Package file {magenta}{package}{reset} was created {date}".format(
+        magenta=colorama.Fore.GREEN,
+        package=PACKAGE,
+        reset=colorama.Fore.RESET,
+        date=last_updated()))
