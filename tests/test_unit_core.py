@@ -13,3 +13,15 @@ furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 """
+
+import imp
+import src
+import unittest
+
+
+class TestFiles(unittest.TestCase):
+    def test_instances(self):
+        self.assertIsInstance(src.PACKAGE, str)
+
+    def test_file_dunder(self):
+        imp.load_source('__main__', 'src/__main__.py')
