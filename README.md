@@ -1,4 +1,21 @@
-## Overview of Features
+## Installation
+Note before installing: the `master` branch is very unstable and may not work. For a working
+installation, download the last listed release.
+
+```
+git clone https://github.com/JoshuaDRose/Courier
+```
+ > Download via https or ssh (or gh)
+```
+git checkout master
+```
+ > Navigate to the master branch if downloading from a seperate branch
+```
+make install
+```
+ > Install dependencies and required files
+
+## Features
 As seen in [Trakr](https://github.com/JoshuaDRose/Trakr), a package management system
 was introduced which assisted the installation and maintance of Trakr's dependencies.
 This project hopes to extend upon that package management system, and develop further
