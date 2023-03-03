@@ -1,5 +1,9 @@
 # Copyright (c) 2023 Joshua Rose
 
 install:
-	# Install dependencies from pypy w/ pip
-	python -m pip install -r requirements.txt
+	@sh libs/install.sh
+	@python -m pip install -r requirements.txt
+	@python -m pip install git+https://github.com/psf/black
+
+lint:
+	@echo "Getting active workflows"
