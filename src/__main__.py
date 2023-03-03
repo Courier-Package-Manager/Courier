@@ -109,7 +109,7 @@ def last_updated():
     date = get_date(timestamp=timestamp)
     return date
 
-def get_packages{}
+# def get_packages{}
 
 def update_packages():
     """ The core function of this entire repo """
