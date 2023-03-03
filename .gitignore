@@ -1,1 +1,6 @@
 libs/
+
+!build/
+
+build/*
+!build/install.sh
