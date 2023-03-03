@@ -3,4 +3,4 @@ libs/
 !build/
 
 build/*
-!build/install.sh
+!build/scripts/install.sh
