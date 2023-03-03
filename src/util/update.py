@@ -43,10 +43,7 @@ def scan_dir(files=True, folders=True) -> list[DirEntry]:
 
 
 def loc_package_file():
-    """
-     - Locate the package file
-     - Create package file if it doesn't exist.
-    return: str
+    """ Locate the package file & create package file if it doesn't exist.
     """
     project_folder = os.path.basename(os.path.normpath(os.getcwd()))
     if project_folder != 'Courier':
