@@ -19,7 +19,7 @@ import os
 import json
 import logging
 import datetime
-from datetime import datetime, timezone
+from datetime import datetime
 
 from posix import DirEntry
 from logging.config import fileConfig
@@ -28,7 +28,6 @@ fileConfig('config.ini')
 logger = logging.getLogger()
 
 try:
-    import requests
     import colorama
 except ImportError as exception:
     logger.critical("Dependencies are not installed. run \'make install\' to install.")
