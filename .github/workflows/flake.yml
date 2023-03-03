@@ -3,7 +3,6 @@ name: Flake
 on:
  - push
  - pull_request
- - release
 
 jobs:
   flake8-lint:
@@ -20,7 +19,6 @@ jobs:
         uses: py-actions/flake8@v2
         with:
           ignore: "F401"
-            # exclude: ""
           max-line-length: "79"
           path: "src"
           plugins: "flake8-bugbear==22.1.11 flake8-black"
