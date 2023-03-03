@@ -20,4 +20,4 @@ try:
     import requests
 except ImportError as exception:
     print("Dependencies not installed. run \'make install\' to install.")
-    raise SystemExit  # Removes the need for os
+    raise SystemExit
