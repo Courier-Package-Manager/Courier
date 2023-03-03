@@ -62,8 +62,8 @@ def loc_package_file():
     with open(PACKAGE, 'w', True, 'UTF-8') as fp:
         ts = datetime.now().timestamp()
         data = {
-                "created": ts,
-                "dependencies": {}
-                }
+            "created": ts,
+            "dependencies": {}
+        }
         json.dump(data, fp)
         fp.close()

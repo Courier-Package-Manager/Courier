@@ -19,3 +19,12 @@ fileConfig('config.ini')
 logger = logging.getLogger()
 
 colorama.init()
+
+# NOTE this is to simply satisfy flake
+__locals__ = [
+    loc_package_file,
+    last_updated,
+    scan_dir,
+    update_packages,
+    run_script
+]
