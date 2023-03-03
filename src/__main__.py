@@ -1,3 +1,4 @@
+# -*- coding=utf-8 -*-
 """
 The MIT License (MIT)
 
@@ -14,10 +15,27 @@ The above copyright notice and this permission notice shall be included in
 all copies or substantial portions of the Software.
 """
 
+import os
 import json
+import logging
+
+from logging.config import fileConfig
+from datetime import datetime
+
+logging.config.fileConfig('config.ini')
+logger = logging.getLogger()
 
 try:
-    import requests
+    import requestss
 except ImportError as exception:
-    print("Dependencies are not installed. run \'make install\' to install.")
+    logger.critical("Dependencies are not installed. run \'make install\' to install.")
     raise SystemExit
+
+
+def last_updated(self) -> bool:
+    """ last update in datetime format
+
+    returns: bool
+    """
+    for _file in os.scandir(os.getcwd()):
+        print(file)
