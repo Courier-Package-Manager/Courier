@@ -1,3 +1,5 @@
+cd ../..
+mkdir libs
 cd libs
 git clone https://github.com/charmbracelet/glow.git
 cd glow
