@@ -17,9 +17,17 @@ all copies or substantial portions of the Software.
 
 import logging
 import colorama
-import util
+import os
 
 logger = logging.getLogger()
+
+if os.path.basename(os.path.normpath(os.getcwd())) != 'Courier':
+    logging.info("Doing a testing environment import")
+    logging.debug(os.getcwd())
+    os.chdir('src')
+
+import util
+
 
 
 def main():
