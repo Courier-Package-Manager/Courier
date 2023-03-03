@@ -29,7 +29,7 @@ logger = logging.getLogger()
 try:
     import colorama
 except ImportError:
-    logger.critical("Dependencies are not installed. run \'make install\' to install.")
+    logger.critical("Install dependencies using makefile.")
     raise SystemExit
 
 colorama.init()
@@ -38,7 +38,10 @@ PACKAGE = 'update.json'
 
 
 def scan_dir(files=True, folders=True) -> list[DirEntry]:
-    """ A better version of the os.scandir function, as it takes multiple args. """
+    """
+    A better version of the os.scandir function,
+    as it takes multiple args.
+    """
     items = []
     for item in os.scandir(os.getcwd()):
         items.append(item)
@@ -56,17 +59,18 @@ def loc_package_file():
     return: str
     """
     project_folder = os.path.basename(os.path.normpath(os.getcwd()))
-    if project_folder != 'Courier': os.chdir('..')
+    if project_folder != 'Courier':
+        os.chdir('..')
     for file in scan_dir(files=True, folders=False):
         if file.name == PACKAGE:
             return file
 
-    logger.info(" 📨 Creating {green}{package}{reset} in {magenta}{cwd}{reset}".format(
-        green=colorama.Fore.GREEN,
-        reset=colorama.Fore.RESET,
-        magenta=colorama.Fore.MAGENTA,
-        cwd=os.getcwd(),
-        package=PACKAGE))
+    logger.info(" 📨 Creating {G}{P}{R} in {M}{C}{R}".format(
+        G=colorama.Fore.GREEN,
+        R=colorama.Fore.RESET,
+        M=colorama.Fore.MAGENTA,
+        C=os.getcwd(),
+        P=PACKAGE))
 
     with open(PACKAGE, 'w', True, 'UTF-8') as fp:
         ts = datetime.now().timestamp()
@@ -90,16 +94,15 @@ def get_date(timestamp=datetime.now().timestamp) -> str:
         case 3: postfix = 'rd'
         case _: postfix = 'th'
 
-    date = "{blue}{month}{reset} {purple}{day}{postfix},{reset} {blue}{year}{reset}".format(
-            purple=colorama.Fore.MAGENTA,
-            blue=colorama.Fore.BLUE,
+    date = "{B}{M}{R} {P}{D}{P},{R} {B}{Y}{R}".format(
+            B=colorama.Fore.BLUE,
 
-            reset=colorama.Fore.RESET,
-            postfix=postfix,
+            R=colorama.Fore.RESET,
+            P=postfix,
 
-            day=day,
-            month=ts.strftime("%B"),
-            year=ts.strftime("%Y"))
+            D=day,
+            M=ts.strftime("%B"),
+            Y=ts.strftime("%Y"))
 
     return date
 
@@ -107,12 +110,11 @@ def get_date(timestamp=datetime.now().timestamp) -> str:
 def last_updated():
     """ last update in datetime format. """
     # NOTE this is assuming that the following code has run:
-    # >>> if project_folder != 'Courier': os.chdir('..') 
+    # >>> if project_folder != 'Courier': os.chdir('..')
     data = json.load(open(PACKAGE, 'r'))
     timestamp = datetime.fromtimestamp(data['created'])
     date = get_date(timestamp=timestamp)
     return date
-
 
 
 def update_packages():
@@ -120,10 +122,11 @@ def update_packages():
     # TODO auto read python files and add dependencies
     ...
 
+
 if __name__ == "__main__":
     loc_package_file()
-    logger.debug("Package file {magenta}{package}{reset} was created {date}".format(
-        magenta=colorama.Fore.GREEN,
-        package=PACKAGE,
-        reset=colorama.Fore.RESET,
+    logger.debug("Package file {m}{p}{r} was created {date}".format(
+        m=colorama.Fore.GREEN,
+        p=PACKAGE,
+        r=colorama.Fore.RESET,
         date=last_updated()))
