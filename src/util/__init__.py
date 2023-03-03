@@ -20,7 +20,8 @@ logger = logging.getLogger()
 
 colorama.init()
 
-# NOTE this is to simply satisfy flake
+# NOTE this is to satisfy flake errors, serves no practical
+# purpose
 __locals__ = [
     loc_package_file,
     last_updated,
