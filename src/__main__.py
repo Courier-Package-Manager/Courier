@@ -18,10 +18,11 @@ all copies or substantial portions of the Software.
 import os
 import json
 import logging
+import datetime
+from datetime import datetime, timezone
 
 from posix import DirEntry
 from logging.config import fileConfig
-from datetime import datetime
 
 fileConfig('config.ini')
 logger = logging.getLogger()
@@ -47,8 +48,9 @@ def scan_dir(files=True, folders=True) -> list[DirEntry]:
     return items
 
 def loc_package_file():
-    """Locate the package file
-
+    """
+     - Locate the package file
+     - Create package file if it doesn't exist.
     return: str
     """
     project_folder = os.path.basename(os.path.normpath(os.getcwd()))
@@ -56,23 +58,59 @@ def loc_package_file():
     for file in scan_dir(files=True, folders=False):
         if file.name == PACKAGE:
             return file
-    logger.info("creating {green}{package}{reset} in {magenta}{cwd}{reset}".format(
+
+    logger.info(" 📨 Creating {green}{package}{reset} in {magenta}{cwd}{reset}".format(
         green=colorama.Fore.GREEN,
         reset=colorama.Fore.RESET,
         magenta=colorama.Fore.MAGENTA,
         cwd=os.getcwd(),
         package=PACKAGE))
-    """
-    with open('package.json', 'w', False, 'UTF-8') as fp:
-        fp.
-    """
 
+    with open(PACKAGE, 'w', True, 'UTF-8') as fp:
+        ts = datetime.now().timestamp()
+        data = {
+                "created": ts
+                }
+        json.dump(data, fp)
+        fp.close()
 
-def last_updated(_file):
-    """ last update in datetime format
+def get_date(timestamp=datetime.now().timestamp) -> str:
+    """ Return a 🎆 colorized 🎆 version of timestamp """
 
-    returns: bool
-    """
-    pass
+    ts = timestamp
+    day = ts.strftime("%-d")
+
+    match int(day):
+        case 1: postfix = 'st'
+        case 2: postfix = 'nd'
+        case 3: postfix = 'rd'
+        case _: postfix = 'th'
+
+    date = "{blue}{month}{reset} {purple}{day}{postfix},{reset} {blue}{year}{reset}".format(
+            purple=colorama.Fore.MAGENTA,
+            blue=colorama.Fore.BLUE,
+
+            reset=colorama.Fore.RESET,
+            postfix=postfix,
+
+            day=day,
+            month=ts.strftime("%B"),
+            year=ts.strftime("%Y"))
+
+    return date
+
+def last_updated():
+    """ last update in datetime format. """
+    # NOTE this is assuming that the following code has run:
+    # >>> if project_folder != 'Courier': os.chdir('..') 
+    data = json.load(open(PACKAGE, 'r'))
+    timestamp = datetime.fromtimestamp(data['created'])
+    date = get_date(timestamp=timestamp)
+    return date
 
 loc_package_file()
+logger.debug("Package file {magenta}{package}{reset} was created {date}".format(
+    magenta=colorama.Fore.GREEN,
+    package=PACKAGE,
+    reset=colorama.Fore.RESET,
+    date=last_updated()))
