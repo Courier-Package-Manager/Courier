@@ -21,4 +21,4 @@ try:
 except ImportError as exception:
     print("ImportError: module \'requests\' must be externally sourced.", end=" ")
     print("run \'make install' and/or visit https://pip.pypa.io/en/stable/user_guide")
-    raise SystemExit
+    raise SystemExit  # Removes the need for os
