@@ -4,13 +4,9 @@ on:
   push:
     branches:
       - "master"
-      paths:
-        - ".github/workflows/python-package-conda.yaml"
   pull_request:
     branches:
       - "master" 
-    paths:
-      - ".github/workflows/python-package-conda.yaml"
 
 jobs:
   flake8-lint:
