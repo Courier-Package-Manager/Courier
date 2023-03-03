@@ -38,4 +38,4 @@ def last_updated(self) -> bool:
     returns: bool
     """
     for _file in os.scandir(os.getcwd()):
-        print(file)
+        print(_file)
