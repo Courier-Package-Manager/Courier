@@ -20,12 +20,17 @@ all copies or substantial portions of the Software.
 import logging
 import colorama
 import os
-from .util import *
+
+from .util import loc_package_file
+from .util import run_script
+from .util import last_updated
 
 logger = logging.getLogger()
 
+
 def get_file_path() -> str:
-    return os.path.basename(os.path.normpath(os.getcwd())) 
+    return os.path.basename(os.path.normpath(os.getcwd()))
+
 
 def assert_file_path() -> bool:
     os.chdir('src')
@@ -33,10 +38,12 @@ def assert_file_path() -> bool:
     logging.debug(new_file_path)
     return new_file_path == 'Courier'
 
+
 file_path = get_file_path()
 
 if file_path != 'Courier':
     logger.debug(assert_file_path())
+
 
 def main():
     """Currently calling functions for testing"""
@@ -45,5 +52,6 @@ def main():
         m=colorama.Fore.GREEN,
         r=colorama.Fore.RESET,
         d=last_updated()))
+
 
 run_script(__name__, __doc__, main)

@@ -14,14 +14,33 @@ The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 """
 
-import imp
-import src
+from logging import Logger
 import unittest
+from src.util import run_script
+from src import courier
+
+# TODO test get_file_path() function
 
 
-class TestFiles(unittest.TestCase):
-    def test_instances(self):
-        self.assertIsInstance(src.PACKAGE, str)
+class TestCore(unittest.TestCase):
+
+    file_path = courier.get_file_path()
 
     def test_file_dunder(self):
-        imp.load_source('__main__', 'src/__main__.py')
+        run_script(courier.__name__, courier.__doc__, courier.main)
+
+    def test_logger_instance(self):
+        self.assertIsInstance(courier.logger, Logger)
+
+    def test_file_path(self):
+        if not TestCore.file_path == 'Courier':
+            self.assertEqual(courier.get_file_path(), 'Courier')
+        else:
+            self.assertEqual(courier.get_file_path(), 'src')
+
+    def test_assert_func(self):
+        path_is_root = courier.assert_file_path()
+        if not path_is_root:
+            self.assertEqual(TestCore.file_path, 'Courier')
+        else:
+            self.assertEqual(TestCore.file_path, 'src')
