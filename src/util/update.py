@@ -48,6 +48,7 @@ def switch_root():
     if project_folder != 'Courier':
         os.chdir('..')
 
+
 def create_package():
     """ Create package and dump json to said package """
 
