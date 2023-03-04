@@ -1,3 +1,5 @@
 requests
 flake8
 coverage
+scrutinizer
+scrutinizer-ocular
