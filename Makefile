@@ -14,3 +14,6 @@ test:
 
 coverage:
 	coverage report -m
+
+upload:
+	@sh upload-token.sh
