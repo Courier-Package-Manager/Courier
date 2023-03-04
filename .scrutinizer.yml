@@ -9,3 +9,42 @@ build:
       tests:
         override:
           - py-scrutinizer-run
+
+build:
+  nodes:
+    coverage:
+      tests:
+        override:
+          - command: ./my-test-run
+            coverage:
+              file: path/to/coverage-data
+
+              # These formats are supported:
+              # clover, cobertura, jacoco, python-cc, ruby-cc, go-cc, lcov
+              format: name-of-format
+checks:
+    python:
+        code_rating: true
+        duplicate_code: true
+filter:
+    paths: ["pyof/*", "tests/*"]
+
+build:
+    environment:
+        python: 3.6
+        postgresql: false
+        redis: false
+    dependencies:
+        override:
+            - true
+    tests:
+        before:
+            - pip install coverage
+        override:
+            -
+                command: 'tox'
+                coverage:
+                    file: '.coverage'
+                    config_file: '.coveragerc'
+                    format: 'py-cc'
+            - py-scrutinizer-run
