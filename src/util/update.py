@@ -42,12 +42,27 @@ def scan_dir(files=True, folders=True) -> list[DirEntry]:
     return items
 
 
-def loc_package_file():
-    """ Locate the package file & create package file if it doesn't exist.
-    """
+def switch_root():
+    """ Auto switch root when not applicable """
     project_folder = os.path.basename(os.path.normpath(os.getcwd()))
     if project_folder != 'Courier':
         os.chdir('..')
+
+def create_package():
+    """ Create package and dump json to said package """
+
+    with open(PACKAGE, 'w', True, 'UTF-8') as fp:
+        ts = datetime.now().timestamp()
+        data = {
+            "created": ts,
+            "dependencies": {}
+        }
+        json.dump(data, fp)
+        fp.close()
+
+def loc_package_file():
+    """ Locate the package file & create package file if it doesn't exist. """
+    switch_root() # Switch root before asking if its in the switched directory
     for file in scan_dir(files=True, folders=False):
         if file.name == PACKAGE:
             return file
@@ -59,11 +74,4 @@ def loc_package_file():
         C=os.getcwd(),
         P=PACKAGE))
 
-    with open(PACKAGE, 'w', True, 'UTF-8') as fp:
-        ts = datetime.now().timestamp()
-        data = {
-            "created": ts,
-            "dependencies": {}
-        }
-        json.dump(data, fp)
-        fp.close()
+    create_package()
