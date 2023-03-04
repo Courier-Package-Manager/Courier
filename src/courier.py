@@ -1,4 +1,6 @@
 # -*- coding=utf-8 -*-
+# TODO add docstrings to file functions
+# TODO relocate file functions
 """
 The MIT License (MIT)
 
@@ -17,18 +19,39 @@ all copies or substantial portions of the Software.
 
 import logging
 import colorama
-import util
+import os
+
+from .util import loc_package_file
+from .util import run_script
+from .util import last_updated
 
 logger = logging.getLogger()
 
 
+def get_file_path() -> str:
+    return os.path.basename(os.path.normpath(os.getcwd()))
+
+
+def assert_file_path() -> bool:
+    os.chdir('src')
+    new_file_path = get_file_path()
+    logging.debug(new_file_path)
+    return new_file_path == 'Courier'
+
+
+file_path = get_file_path()
+
+if file_path != 'Courier':
+    logger.debug(assert_file_path())
+
+
 def main():
     """Currently calling functions for testing"""
-    util.loc_package_file()
+    loc_package_file()
     logger.debug("Package file {m}update.json{r} was created {d}".format(
         m=colorama.Fore.GREEN,
         r=colorama.Fore.RESET,
-        d=util.last_updated()))
+        d=last_updated()))
 
 
-util.run_script(__name__, __doc__, main)
+run_script(__name__, __doc__, main)

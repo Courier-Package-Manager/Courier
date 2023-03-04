@@ -1,0 +1,8 @@
+[run]
+dynamic_context = test_function
+omit = 
+    tests/*
+
+[report]
+omit = 
+    tests/*

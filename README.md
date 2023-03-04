@@ -1,4 +1,38 @@
-## Overview of Features
+<div align="center">
+<h1>Courier </h1>
+Package manager for Python
+<h3></h3>
+</div>
+
+
+
+[![GuardRails badge](https://api.guardrails.io/v2/badges/166067?token=87de7b0e8f6575ff778db236abe11407ba95aadc924a605cc14e495c9a911e4a)](https://dashboard.guardrails.io/gh/JoshuaDRose/repos/166067)
+![checks](https://img.shields.io/github/checks-status/JoshuaDRose/Courier/master?style=flat)
+![quality](https://img.shields.io/scrutinizer/quality/g/JoshuaDRose/Courier/master)
+## About
+Courier is a package manager that automatically detects new dependencies in your project, whilst
+having the capability to manually specify requireements, requirements files etc. With the ability
+to automatically request the latest version as per a schedule or to be called manually, managing
+dependenies comes at little to no time cost with this tool. Courier boasts high docility with effective and efficient code. 
+
+## Installation
+Note before installing: the `master` branch is very unstable and may not work. For a working
+installation, download the last listed release.
+
+```
+git clone https://github.com/JoshuaDRose/Courier
+```
+ > Download via https or ssh (or gh)
+```
+git checkout master
+```
+ > Navigate to the master branch if downloading from a seperate branch
+```
+make install
+```
+ > Install dependencies and required files
+
+## Features
 As seen in [Trakr](https://github.com/JoshuaDRose/Trakr), a package management system
 was introduced which assisted the installation and maintance of Trakr's dependencies.
 This project hopes to extend upon that package management system, and develop further
