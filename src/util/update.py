@@ -61,6 +61,7 @@ def create_package():
         json.dump(data, fp)
         fp.close()
 
+
 def loc_package_file():
     """ Locate the package file & create package file if it doesn't exist. """
     switch_root() # Switch root before asking if its in the switched directory
