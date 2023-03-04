@@ -6,3 +6,5 @@ build/*
 !build/scripts/install.sh
 
 .pyc
+
+upload-token.sh
