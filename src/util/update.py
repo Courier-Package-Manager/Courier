@@ -64,7 +64,7 @@ def create_package():
 
 def loc_package_file():
     """ Locate the package file & create package file if it doesn't exist. """
-    switch_root() # Switch root before asking if its in the switched directory
+    switch_root()  # Switch root before asking if its in the switched directory
     for file in scan_dir(files=True, folders=False):
         if file.name == PACKAGE:
             return file
