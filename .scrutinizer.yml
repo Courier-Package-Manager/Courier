@@ -1,29 +1,25 @@
+checks:
+    python:
+        code_rating: true
+        duplicate_code: true
+        typecheck_maybe_no_member: true
+        classes_valid_slots: true
+        basic_missing_reversed_argument: true
 build:
-  nodes:
-    coverage:
-      tests:
-        override:
-          checks:
-            python:
-              code_rating: true
-              duplicate_code: true
+    nodes:
+        analysis:
+            project_setup:
+                override:
+                    - 'true'
+            tests:
+                override:
+                    -
+                        command: 'py-scrutinizer-run command: pylint-run use_website_config: true'
+                        use_website_config: true
+
+        tests: true
 filter:
-  paths: ["src/*", "tests/*"]
-  environment:
-    python: 3.6
-    postgresql: false
-    redis: false
-    dependencies:
-      override:
-        - true
-    tests:
-      before:
-        - pip install coverage
-      override:
-        - command: 'tox'
-          coverage:
-            file: '.coverage'
-            config_file: '.coveragerc'
-            format: 'py-cc'
-        - analysis:
-          py-scrutinizer-run
+    excluded_paths:
+        - '*/tests/*'
+    dependency_paths:
+        - 'lib/*'
