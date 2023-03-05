@@ -27,6 +27,7 @@ def load_logging_ini():
     """ Load logging ini file """
     fileConfig('../config.ini')
 
+
 def update_packages():
     """ The core function of this entire repo """
     # TODO auto read python files and add dependencies

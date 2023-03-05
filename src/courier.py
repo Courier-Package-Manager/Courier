@@ -26,6 +26,7 @@ import util
 util.load_logging_ini()
 logger = logging.getLogger()
 
+
 def get_file_path() -> str:
     return os.path.basename(os.path.normpath(os.getcwd()))
 
