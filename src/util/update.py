@@ -25,7 +25,7 @@ def last_updated():
 
 def load_logging_ini():
     """ Load logging ini file """
-    fileConfig('../config.ini')
+    fileConfig('config.ini')
 
 
 def update_packages():

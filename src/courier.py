@@ -19,11 +19,17 @@ all copies or substantial portions of the Software.
 
 import logging
 import colorama
+import sys
 import os
 
-import util
+from .util import load_logging_ini
+from .util import loc_package_file
+from .util import run_script
+from .util import last_updated
 
-util.load_logging_ini()
+sys.path.insert(0, os.path.dirname(__file__))
+
+load_logging_ini()
 logger = logging.getLogger()
 
 
@@ -51,12 +57,13 @@ def get_package_created() -> None:
     logger.debug("Package file {m}update.json{r} was created {d}".format(
         m=colorama.Fore.GREEN,
         r=colorama.Fore.RESET,
-        d=util.last_updated()))
+        d=last_updated()))
 
 
 def main():
     """Currently calling functions for testing"""
-    util.loc_package_file()
+    loc_package_file()
 
 
-util.run_script(__name__, __doc__, main)
+if __name__ == "__main__":
+    run_script(__name__, __doc__, main)
