@@ -1,5 +1,6 @@
 import os
 import json
+from types import EllipsisType
 from .setup import get_date
 from posix import DirEntry
 from datetime import datetime
@@ -28,10 +29,10 @@ def load_logging_ini():
     fileConfig('config.ini')
 
 
-def update_packages():
+def update_packages() -> EllipsisType:
     """ The core function of this entire repo """
     # TODO auto read python files and add dependencies
-    ...
+    return ...
 
 
 def scan_dir(files=True, folders=True) -> list[DirEntry]:
@@ -60,6 +61,7 @@ def switch_root():
     project_folder = get_project_folder()
     if project_folder != 'Courier':
         os.chdir('..')
+    return project_folder
 
 
 def create_package():

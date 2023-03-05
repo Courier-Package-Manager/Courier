@@ -21,6 +21,7 @@ from src.util import get_project_folder
 from src.util.update import switch_root
 from src.util.update import scan_dir
 from src.util.update import create_package
+from src.util.update import update_packages
 
 
 class TestUtil(unittest.TestCase):
@@ -28,8 +29,8 @@ class TestUtil(unittest.TestCase):
 
     def test_switch_root(self):
         """ Assert that project dir changes """ 
-        switch_root()
-        self.assertNotEqual(os.getcwd(), 'Courier')
+        os.chdir('src')
+        self.assertNotEqual(switch_root(), 'Courier')
 
     def test_scan_dir(self):
         """ Assert all files are given """
@@ -40,6 +41,10 @@ class TestUtil(unittest.TestCase):
 
     def test_create_package(self):
         """ Test packages are being created """
+        create_package()
+
+    def test_update_packages(self):
+        self.assertEqual(update_packages(), Ellipsis)
 
 
 if __name__ == '__main__':
