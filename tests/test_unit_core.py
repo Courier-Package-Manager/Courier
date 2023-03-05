@@ -16,31 +16,12 @@ copies or substantial portions of the Software.
 
 from logging import Logger
 import unittest
-from src.util import run_script
-from src import courier
+from src.courier import get_file_path
+from src.courier import assert_file_path
+from src.courier import get_package_created
+from src.courier import main
 
-# TODO test get_file_path() function
 
+class TestCourier(unittest.TestCase):
+    """ Test courier functions """
 
-class TestCore(unittest.TestCase):
-
-    file_path = courier.get_file_path()
-
-    def test_file_dunder(self):
-        run_script(courier.__name__, courier.__doc__, courier.main)
-
-    def test_logger_instance(self):
-        self.assertIsInstance(courier.logger, Logger)
-
-    def test_file_path(self):
-        if not TestCore.file_path == 'Courier':
-            self.assertEqual(courier.get_file_path(), 'Courier')
-        else:
-            self.assertEqual(courier.get_file_path(), 'src')
-
-    def test_assert_func(self):
-        path_is_root = courier.assert_file_path()
-        if not path_is_root:
-            self.assertEqual(TestCore.file_path, 'Courier')
-        else:
-            self.assertEqual(TestCore.file_path, 'src')
