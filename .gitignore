@@ -6,3 +6,4 @@ build/*
 !build/scripts/install.sh
 
 .pyc
+src/__pycache__/
