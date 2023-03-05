@@ -38,13 +38,10 @@ def get_file_path() -> str:
 
 
 def assert_file_path() -> bool:
-    os.chdir('src')
     new_file_path = get_file_path()
     logging.debug(new_file_path)
     return new_file_path == 'Courier'
 
-
-file_path = get_file_path()
 
 """
 if file_path != 'Courier':
@@ -54,6 +51,7 @@ if file_path != 'Courier':
 
 def get_package_created() -> None:
     """ Prints the date that update.json was created """
+    assert_file_path()
     logger.debug("Package file {m}update.json{r} was created {d}".format(
         m=colorama.Fore.GREEN,
         r=colorama.Fore.RESET,
@@ -65,5 +63,4 @@ def main():
     loc_package_file()
 
 
-if __name__ == "__main__":
-    run_script(__name__, __doc__, main)
+run_script(__name__, __doc__, main)
