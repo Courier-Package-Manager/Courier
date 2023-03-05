@@ -49,9 +49,15 @@ def scan_dir(files=True, folders=True) -> list[DirEntry]:
     return items
 
 
+def get_project_folder():
+    """ Dedicate function for testing """
+    project_folder = os.path.basename(os.path.normpath(os.getcwd()))
+    return project_folder
+
+
 def switch_root():
     """ Auto switch root when not applicable """
-    project_folder = os.path.basename(os.path.normpath(os.getcwd()))
+    project_folder = get_project_folder()
     if project_folder != 'Courier':
         os.chdir('..')
 

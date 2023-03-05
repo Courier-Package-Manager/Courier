@@ -16,11 +16,19 @@ copies or substantial portions of the Software.
 
 import unittest
 import os
+
+from src.util import get_project_folder
 from src.util.update import switch_root
 
 
 class TestUtil(unittest.TestCase):
     """ Test util functions """
+
+    def test_switch_root(self):
+        """ Assert that project dir changes """ 
+        switch_root()
+        self.assertNotEqual(os.getcwd(), 'Courier')
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -4,6 +4,7 @@ import logging
 from .mock import run_script
 
 from .update import loc_package_file
+from .update import get_project_folder
 from .update import last_updated
 from .update import scan_dir
 from .update import update_packages
