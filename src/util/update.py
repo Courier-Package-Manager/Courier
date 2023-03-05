@@ -6,6 +6,8 @@ from datetime import datetime
 import logging
 import colorama
 
+from logging.config import fileConfig
+
 logger = logging.getLogger()
 
 PACKAGE = 'update.json'
@@ -20,6 +22,10 @@ def last_updated():
     date = get_date(timestamp)
     return date
 
+
+def load_logging_ini():
+    """ Load logging ini file """
+    fileConfig('../config.ini')
 
 def update_packages():
     """ The core function of this entire repo """

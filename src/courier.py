@@ -23,6 +23,7 @@ import os
 
 import util
 
+util.load_logging_ini()
 logger = logging.getLogger()
 
 def get_file_path() -> str:
@@ -38,8 +39,10 @@ def assert_file_path() -> bool:
 
 file_path = get_file_path()
 
+"""
 if file_path != 'Courier':
     logger.debug(assert_file_path())
+"""
 
 
 def main():

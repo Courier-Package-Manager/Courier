@@ -1,5 +1,4 @@
 import logging
-from logging.config import fileConfig
 
 # TODO import helper, mock, setup & update
 from .mock import run_script
@@ -8,6 +7,7 @@ from .update import loc_package_file
 from .update import last_updated
 from .update import scan_dir
 from .update import update_packages
+from .update import load_logging_ini
 
 try:
     import colorama
@@ -15,7 +15,6 @@ except ImportError:
     print(" [critical] Install dependencies using makefile.")
     raise SystemExit
 
-fileConfig('config.ini')
 logger = logging.getLogger()
 
 colorama.init()
@@ -27,5 +26,6 @@ __locals__ = [
     last_updated,
     scan_dir,
     update_packages,
-    run_script
+    run_script,
+    load_logging_ini
 ]

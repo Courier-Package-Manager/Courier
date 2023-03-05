@@ -20,11 +20,13 @@ def get_date(ts) -> str:
         case _:
             postfix = 'th'
 
-    date = "{B}{M}{R} {P}{D}{P},{R} {B}{Y}{R}".format(
+    date = "{B}{M}{R} {P}{D}{p},{R} {B}{Y}{R}".format(
         B=colorama.Fore.BLUE,
+        P=colorama.Fore.MAGENTA,
+
 
         R=colorama.Fore.RESET,
-        P=postfix,
+        p=postfix,
 
         D=day,
         M=ts.strftime("%B"),
