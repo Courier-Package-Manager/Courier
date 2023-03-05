@@ -22,6 +22,7 @@ from src.util.update import switch_root
 from src.util.update import scan_dir
 from src.util.update import create_package
 from src.util.update import update_packages
+from src.util.update import loc_package_file
 
 
 class TestUtil(unittest.TestCase):
@@ -44,7 +45,12 @@ class TestUtil(unittest.TestCase):
         create_package()
 
     def test_update_packages(self):
+        """ Test update packages equals return ellipses """
         self.assertEqual(update_packages(), Ellipsis)
+
+    def test_loc_package_file(self):
+        """ Test locate package file """
+        loc_package_file()
 
 
 if __name__ == '__main__':
