@@ -17,6 +17,10 @@ copies or substantial portions of the Software.
 import unittest
 import os
 from src.courier import get_file_path
+from src.courier import assert_file_path
+from src.courier import loc_package_file
+from src.courier import last_updated
+from src.courier import run_script
 
 
 class TestCourier(unittest.TestCase):
@@ -28,6 +32,10 @@ class TestCourier(unittest.TestCase):
 
     def test_assert_file_path(self):
         """ Ensure assert file path works """
+        self.assertFalse(assert_file_path())
+
+    def test_get_package_created(self):
+        """ Test creation date of package """
 
 if __name__ == '__main__':
     unittest.main()
