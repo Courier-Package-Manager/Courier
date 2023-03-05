@@ -21,12 +21,9 @@ import logging
 import colorama
 import os
 
-from .util import loc_package_file
-from .util import run_script
-from .util import last_updated
+import util
 
 logger = logging.getLogger()
-
 
 def get_file_path() -> str:
     return os.path.basename(os.path.normpath(os.getcwd()))
@@ -47,11 +44,11 @@ if file_path != 'Courier':
 
 def main():
     """Currently calling functions for testing"""
-    loc_package_file()
+    util.loc_package_file()
     logger.debug("Package file {m}update.json{r} was created {d}".format(
         m=colorama.Fore.GREEN,
         r=colorama.Fore.RESET,
-        d=last_updated()))
+        d=util.last_updated()))
 
 
-run_script(__name__, __doc__, main)
+util.run_script(__name__, __doc__, main)
