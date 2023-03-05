@@ -46,13 +46,17 @@ if file_path != 'Courier':
 """
 
 
-def main():
-    """Currently calling functions for testing"""
-    util.loc_package_file()
+def get_package_created() -> None:
+    """ Prints the date that update.json was created """
     logger.debug("Package file {m}update.json{r} was created {d}".format(
         m=colorama.Fore.GREEN,
         r=colorama.Fore.RESET,
         d=util.last_updated()))
+
+
+def main():
+    """Currently calling functions for testing"""
+    util.loc_package_file()
 
 
 util.run_script(__name__, __doc__, main)
