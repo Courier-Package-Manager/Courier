@@ -14,7 +14,7 @@ to automatically request the latest version as per a schedule or to be called ma
 dependenies comes at little to no time cost with this tool. Courier boasts high docility with effective and efficient code. 
 
 ## Installation
-Note before installing: the `master` branch is very unstable and may not work. For a working
+Note before installing: the `stable` branch is very unstable and may not work. For a working
 installation, download the last listed release.
 
 ```
@@ -22,9 +22,9 @@ git clone https://github.com/JoshuaDRose/Courier
 ```
  > Download via https or ssh (or gh)
 ```
-git checkout master
+git checkout stable
 ```
- > Navigate to the master branch if downloading from a seperate branch
+ > Navigate to the stable branch if downloading from a seperate branch
 ```
 make install
 ```
