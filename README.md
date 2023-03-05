@@ -5,8 +5,8 @@ Package manager for Python
 </div>
 
 
-![checks](https://img.shields.io/github/checks-status/JoshuaDRose/Courier/master?style=flat)
-![quality](https://img.shields.io/scrutinizer/quality/g/JoshuaDRose/Courier/master)
+![checks](https://img.shields.io/github/checks-status/JoshuaDRose/Courier/stable?style=flat)
+![quality](https://img.shields.io/scrutinizer/quality/g/JoshuaDRose/Courier/stable)
 ## About
 Courier is a package manager that automatically detects new dependencies in your project, whilst
 having the capability to manually specify requireements, requirements files etc. With the ability
