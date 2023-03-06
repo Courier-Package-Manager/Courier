@@ -1,20 +1,21 @@
 build:
-    environment:
-        python: 3.10.9
-filter:
-    paths: [src/*, tests/*]
+  environment:
+    python: 3.10.9
+
 dependencies:
   before:
     - pip install -r requirements.txt
 tools:
-    external_code_coverage: true
-    external_code_coverage:
-      runs: 2
-tests:
-  override:
-    - command: 'make test'
-      coverage:
-        file: '.coverage'
-        config_file: '.coveragerc'
-        format: 'py-cc'
+  external_code_coverage: true
+  external_code_coverage:
+    runs: 2
 
+coverage:
+  tests:
+    override:
+      - command: 'make test'
+        coverage:
+          file: '.coverge'
+          config_file: '.coveragerc'
+          # clover, cobertura, jacoco, python-cc, ruby-cc, go-cc, lcov
+          format: 'python-cc'
