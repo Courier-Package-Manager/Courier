@@ -7,6 +7,7 @@ Package manager for Python
 
 [![codecov](https://codecov.io/gh/JoshuaDRose/Courier/branch/stable/graph/badge.svg?token=EX3AAYPPUQ)](https://codecov.io/gh/JoshuaDRose/Courier)
 ![quality](https://img.shields.io/scrutinizer/quality/g/JoshuaDRose/Courier)
+![GitHub tag (latest SemVer pre-release)](https://img.shields.io/github/v/tag/JoshuaDRose/Courier?include_prereleases&label=release&sort=semver)
 ![checks](https://img.shields.io/github/checks-status/JoshuaDRose/Courier/stable)
 
 ## About
