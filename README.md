@@ -22,7 +22,9 @@ to automatically request the latest version as per a schedule or to be called ma
 dependenies comes at little to no time cost with this tool. Courier boasts high docility with effective and efficient code. 
 
 ## Coverage
-![coverage](https://codecov.io/gh/JoshuaDRose/Courier/branch/stable/graphs/sunburst.svg?token=EX3AAYPPUQ)
+![coverage-sunburst](https://codecov.io/gh/JoshuaDRose/Courier/branch/stable/graphs/sunburst.svg?token=EX3AAYPPUQ)
+![coverage-grid](https://codecov.io/gh/JoshuaDRose/Courier/branch/stable/graphs/tree.svg?token=EX3AAYPPUQ)
+![coverage-icicle](https://codecov.io/gh/JoshuaDRose/Courier/branch/stable/graphs/icicle.svg?token=EX3AAYPPUQ)
 
 ## Installation
 Note before installing: the `stable` branch is very unstable and may not work. For a working
