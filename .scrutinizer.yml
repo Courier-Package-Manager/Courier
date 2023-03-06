@@ -1,18 +1,13 @@
 build:
-  environment:
-    python: 3.10.9
-  commands:
-    -
-      command: 'make test'
-      coverage:
-        file: '.coverge'
-        config_file: '.coveragerc'
-        # clover, cobertura, jacoco, python-cc, ruby-cc, go-cc, lcov
-        format: 'py-cc'
-
-  dependencies:
-    before:
-      - pip install -r requirements.txt
+  nodes:
+    coverage:
+      tests:
+        override:
+          - command: 'make test'
+            coverage:
+              file: '.coverage'
+              config_file: '.coveragerc'
+              format: 'py-cc'
 
 
 tools:
