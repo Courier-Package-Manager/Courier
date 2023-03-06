@@ -7,7 +7,7 @@ Package manager for Python
 
 [![Codecov](https://img.shields.io/codecov/c/github/JoshuaDRose/courier?style=for-the-badge&token=EX3AAYPPUQ)](https://codecov.io/gh/JoshuaDRose/Courier)
 ![Quality](https://img.shields.io/scrutinizer/quality/g/JoshuaDRose/Courier?style=for-the-badge)
-![GitHub tag (latest SemVer pre-release)](https://img.shields.io/github/v/tag/JoshuaDRose/Courier?include_prereleases&label=release&sort=semver?style=for-the-badge)
+![GitHub tag (latest SemVer pre-release)](https://img.shields.io/github/v/tag/JoshuaDRose/Courier?include_prereleases&label=release&sort=semver&style=for-the-badge)
 ![checks](https://img.shields.io/github/checks-status/JoshuaDRose/Courier/stable?style=for-the-badge)
 
 ## About
