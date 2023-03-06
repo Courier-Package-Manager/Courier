@@ -19,15 +19,11 @@ all copies or substantial portions of the Software.
 
 import logging
 import colorama
-import sys
 import os
 
 from .util import load_logging_ini
 from .util import loc_package_file
-from .util import run_script
 from .util import last_updated
-
-sys.path.insert(0, os.path.dirname(__file__))
 
 load_logging_ini()
 logger = logging.getLogger()
@@ -63,4 +59,4 @@ def main():
     loc_package_file()
 
 
-run_script(__name__,  main)
+main()

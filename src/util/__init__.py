@@ -1,8 +1,5 @@
 import logging
 
-# TODO import helper, mock, setup & update
-from .mock import run_script
-
 from .update import loc_package_file
 from .update import get_project_folder
 from .update import last_updated
@@ -24,6 +21,5 @@ __locals__ = [
     last_updated,
     scan_dir,
     update_packages,
-    run_script,
     load_logging_ini
 ]
