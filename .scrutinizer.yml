@@ -11,7 +11,6 @@ build:
               config_file: '.coveragerc'
               format: 'py-cc'
 
-
 tools:
   external_code_coverage:
     runs: 2

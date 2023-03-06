@@ -1,6 +1,5 @@
 import os
 import json
-from types import EllipsisType
 from typing import Literal
 from .setup import get_date
 from posix import DirEntry
@@ -37,7 +36,7 @@ def load_logging_ini():
     fileConfig('config.ini')
 
 
-def update_packages() -> EllipsisType:
+def update_packages():
     """ The core function of this entire repo """
     # TODO auto read python files and add dependencies
     return ...
@@ -95,7 +94,7 @@ def get_package_name() -> DirEntry | None:
 
 def loc_package_file(
         name: DirEntry | None = get_package_name(),
-        debug: Literal[True] | Literal[False] = True) -> None:
+        debug:  Literal[True] | Literal[False] = True) -> None:
     """ Locate the package file & create package file if it doesn't exist. """
     if not name:
         logger.info(f"Set {GREEN}{PACKAGE}{RESET} in {MAGENTA}{cwd}{RESET}")
