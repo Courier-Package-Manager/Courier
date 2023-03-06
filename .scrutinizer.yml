@@ -1,12 +1,17 @@
-build:
-  dependencies:
-    before:
-      - pip install -r requirements.txt
-  tests:
-    override:
-      - command: 'make test'
-        coverage:
-          file: '.coverage'
-          config_file: '.coveragerc'
-          format: 'py-cc'
+filter:
+    paths: [src/*, tests/*]
+dependencies:
+  before:
+    - pip install -r requirements.txt
+tools:
+    external_code_coverage: true
+    external_code_coverage:
+      runs: 2
+tests:
+  override:
+    - command: 'make test'
+      coverage:
+        file: '.coverage'
+        config_file: '.coveragerc'
+        format: 'py-cc'
 
