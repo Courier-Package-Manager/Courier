@@ -21,13 +21,14 @@ type model struct {
 }
 
 func initialModel() model {
+    /* We also return the model we made before */
 	wheel := spinner.New()       // Create a new spinner we're calling wheel. 🎡
 	wheel.Spinner = spinner.Dot  // One of the spinner settings is a Dot! 💠
 	wheel.Style = lipgloss.NewStyle().Foreground(lipgloss.Color("205"))
 	return model{spinner: wheel} // We re-use our model from before. 🌴
 }
 
-func main()  {
-    // Prints out useless quote...
-    // fmt.Println(quote.Go())
+func (wheel model) Init() tea.Cmd {
+    /* Our spinner model is now being used with a new wheel object */
+	return wheel.spinner.Tick   // Advance the spinner one frame 🎥
 }
