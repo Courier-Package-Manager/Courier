@@ -1,6 +1,7 @@
 import os
 import json
 from types import EllipsisType
+from typing import Literal
 from .setup import get_date
 from posix import DirEntry
 from datetime import datetime
@@ -17,6 +18,7 @@ RESET = colorama.Fore.RESET
 MAGENTA = colorama.Fore.MAGENTA
 
 cwd = os.getcwd()
+
 
 def last_updated():
     """ last update in datetime format. """
@@ -82,15 +84,19 @@ def create_package():
         json.dump(data, fp)
         fp.close()
 
-def get_package_name():
+
+def get_package_name() -> DirEntry | None:
     """ Get package name / allows for unit tests """
     switch_root()  # Switch root before asking if its in the switched directory
     for file in scan_dir(files=True, folders=False):
         if file.name == PACKAGE:
             return file
 
-def loc_package_file(name=get_package_name(), debug=True):
+
+def loc_package_file(
+        name: DirEntry | None = get_package_name(),
+        debug: Literal[True] | Literal[False] = True) -> None:
     """ Locate the package file & create package file if it doesn't exist. """
     if not name:
-        logger.info(f" 📨 Creating {GREEN}{PACKAGE}{RESET} in {MAGENTA}{cwd}{RESET}")
+        logger.info(f"Set {GREEN}{PACKAGE}{RESET} in {MAGENTA}{cwd}{RESET}")
         return create_package()
