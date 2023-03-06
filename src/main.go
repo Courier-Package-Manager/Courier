@@ -29,6 +29,6 @@ func initialModel() model {
 }
 
 func (wheel model) Init() tea.Cmd {
-    /* Our spinner model is now being used with a new wheel object */
-	return wheel.spinner.Tick   // Advance the spinner one frame 🎥
+    /* Tick one frame forward, advancing the frame animation */
+	return wheel.spinner.Tick  // 🍬 <-- Eye candy
 }
