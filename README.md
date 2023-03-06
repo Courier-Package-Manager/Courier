@@ -21,6 +21,9 @@ having the capability to manually specify requireements, requirements files etc.
 to automatically request the latest version as per a schedule or to be called manually, managing
 dependenies comes at little to no time cost with this tool. Courier boasts high docility with effective and efficient code. 
 
+## Coverage
+![coverage](https://codecov.io/gh/JoshuaDRose/Courier/branch/stable/graphs/sunburst.svg?token=EX3AAYPPUQ)
+
 ## Installation
 Note before installing: the `stable` branch is very unstable and may not work. For a working
 installation, download the last listed release.
