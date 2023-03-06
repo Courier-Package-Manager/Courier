@@ -76,4 +76,3 @@ func main() {
 		fmt.Println(err)
 		os.Exit(1) // exit 'with' an error code. 0 would be without an error code. 1 is the most generic I believe.
 	}
-}
