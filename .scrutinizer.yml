@@ -1,0 +1,14 @@
+build:
+  nodes:
+    coverage:
+      tests:
+        dependencies:
+          before:
+            - pip install -r requirements.txt
+        override:
+          - command: 'make test'
+            coverage:
+              file: '.coverage'
+              config_file: '.coveragerc'
+              format: 'py-cc'
+
