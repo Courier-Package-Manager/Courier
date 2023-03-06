@@ -1,6 +1,12 @@
 package main
 
 import "fmt"
+import "rsc.io/quote"
+import "github.com/charmbracelet/charm/kv"
+
+func generate_random_quote() {
+    return quote.Go()
+}
 
 func hello() {
     // A freindly greeting, some might say!
@@ -9,5 +15,6 @@ func hello() {
 
 func main()  {
     // Main function
-    hello()
+    var quote = generate_random_quote()
+    fmt.Println(quote)
 }
