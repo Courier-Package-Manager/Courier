@@ -6,7 +6,6 @@ dependencies:
   before:
     - pip install -r requirements.txt
 tools:
-  external_code_coverage: true
   external_code_coverage:
     runs: 2
 
