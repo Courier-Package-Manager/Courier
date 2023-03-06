@@ -1,0 +1,19 @@
+name: Coverage
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout latest code
+        uses: actions/checkout@v3
+      - name: Generating from coverage data
+        run: ocular --access-token ${{ secrets.COVERAGE_TOKEN }} --data-file ".coverage" --config-file ".coveragerc"
+      - name: Collect Coverage
+        uses: tangro/actions-coverage@v1.1.15
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_CONTEXT: ${{ toJson(github) }}
