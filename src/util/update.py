@@ -18,7 +18,9 @@ def last_updated():
     """ last update in datetime format. """
     # NOTE this is assuming that the following code has run:
     # >>> if project_folder != 'Courier': os.chdir('..')
-    data = json.load(open(PACKAGE, 'r'))
+    file = open(PACKAGE, 'r')
+    data = json.load(file)
+    file.close()
     timestamp = datetime.fromtimestamp(data['created'])
     date = get_date(timestamp)
     return date

@@ -16,7 +16,9 @@ copies or substantial portions of the Software.
 
 import unittest
 import os
-
+import sys
+import colorama
+import logging
 from src.util import get_project_folder
 from src.util.update import switch_root
 from src.util.update import scan_dir
@@ -27,6 +29,9 @@ from src.util.update import loc_package_file
 
 class TestUtil(unittest.TestCase):
     """ Test util functions """
+    def setUp(self):
+        self.logger = logging.getLogger()
+        self.logger.level = logging.DEBUG
 
     def test_switch_root(self):
         """ Assert that project dir changes """ 
@@ -52,6 +57,16 @@ class TestUtil(unittest.TestCase):
         """ Test locate package file """
         loc_package_file()
 
+    def test_logger_info(self):
+        logger = logging.getLogger()
+        logger.info(colorama.Fore.YELLOW + "[yellow]" + colorama.Fore.RESET)
+        logger.info(colorama.Fore.BLUE + "[blue]" + colorama.Fore.RESET)
+        logger.info(colorama.Fore.MAGENTA + "[magenta]" + colorama.Fore.RESET)
+        logger.info(colorama.Fore.RESET+ "[reset]" + colorama.Fore.RESET)
+        logger.info(colorama.Fore.GREEN  + "[green]" + colorama.Fore.RESET)
+        logger.info(colorama.Fore.RED + "[red]" + colorama.Fore.RESET)
+        logger.info(colorama.Fore.WHITE + "[white]" + colorama.Fore.RESET)
+        logger.info(colorama.Fore.BLACK + "[black]" + colorama.Fore.RESET)
 
 if __name__ == '__main__':
     unittest.main()
