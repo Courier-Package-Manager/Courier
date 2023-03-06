@@ -63,7 +63,7 @@ func (m model) View() string {
 		return m.err.Error() // Return the interface error but also calling Error() from it.
 	}
     // m.spinner.View() (in this case) renders the model's view
-	str := fmt.Sprintf("\n\n   %s Loading forever...press q to quit\n\n", m.spinner.View())
+	str := fmt.Sprintf("\n\n   %s Press Q to exit\n\n", m.spinner.View())
 	if m.quitting {
 		return str + "\n"
 	}
