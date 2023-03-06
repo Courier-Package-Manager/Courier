@@ -1,6 +1,6 @@
 build:
   environment:
-    python: pypy3.9-7.3.11
+    python: pypy3.9
   nodes:
     coverage:
       tests:
