@@ -10,8 +10,6 @@ jobs:
     steps:
       - name: Checkout latest code
         uses: actions/checkout@v3
-      - name: Generating from coverage data
-        run: ocular --access-token ${{ secrets.COVERAGE_TOKEN }} --data-file ".coverage" --config-file ".coveragerc"
       - name: Collect Coverage
         uses: tangro/actions-coverage@v1.1.15
         env:
