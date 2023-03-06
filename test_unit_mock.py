@@ -15,14 +15,15 @@ copies or substantial portions of the Software.
 """
 
 import unittest
-from src.util import run_script
+from src.util.mock import run_script
+
 
 class TestMock(unittest.TestCase):
     """ Test that mock util works """
 
     def test_run_script(self):
         """ Test that run script works """
-
+        run_script() # NOTE there is no physical way to get coverage on a sys.exit call
 
 
 if __name__ == '__main__':

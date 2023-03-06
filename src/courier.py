@@ -63,4 +63,4 @@ def main():
     loc_package_file()
 
 
-run_script(__name__, __doc__, main)
+run_script(__name__,  main)
