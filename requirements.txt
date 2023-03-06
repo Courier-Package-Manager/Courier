@@ -5,3 +5,4 @@ scrutinizer-ocular
 pytest
 pytest-cov
 codecov
+colorama
