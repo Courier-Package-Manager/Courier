@@ -21,9 +21,9 @@ import logging
 import colorama
 import os
 
-from .util import load_logging_ini
-from .util import loc_package_file
-from .util import last_updated
+from util import load_logging_ini
+from util import loc_package_file
+from util import last_updated
 
 load_logging_ini()
 logger = logging.getLogger()
