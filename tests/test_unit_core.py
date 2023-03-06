@@ -18,8 +18,6 @@ import unittest
 import os
 from src.courier import get_file_path, get_package_created
 from src.courier import assert_file_path
-from src.courier import loc_package_file
-from src.courier import last_updated
 from src.courier import main
 
 

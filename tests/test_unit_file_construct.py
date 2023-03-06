@@ -15,9 +15,7 @@ copies or substantial portions of the Software.
 """
 
 import unittest
-import os
 import colorama
-import logging
 
 
 class TestConstructor(unittest.TestCase):
@@ -27,7 +25,6 @@ class TestConstructor(unittest.TestCase):
         """ Test colorama constructor """
         colorama.deinit()
         colorama.init()
-
 
 
 if __name__ == '__main__':

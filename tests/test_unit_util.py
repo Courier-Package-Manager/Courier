@@ -16,26 +16,24 @@ copies or substantial portions of the Software.
 
 import unittest
 import os
-import colorama
 import logging
-from src.util import get_project_folder
 from src.util.update import switch_root
 from src.util.update import scan_dir
 from src.util.update import create_package
 from src.util.update import update_packages
 from src.util.update import loc_package_file
 from src.util.update import PACKAGE
-from src.util.update import GREEN, RESET, MAGENTA
 
 
 class TestUtil(unittest.TestCase):
     """ Test util functions """
     def setUp(self):
+        """ Set up instances & instance variables """
         self.logger = logging.getLogger()
         self.logger.level = logging.DEBUG
 
     def test_switch_root(self):
-        """ Assert that project dir changes """ 
+        """ Assert that project dir changes """
         os.chdir('src')
         self.assertNotEqual(switch_root(), 'Courier')
 
@@ -56,11 +54,12 @@ class TestUtil(unittest.TestCase):
 
     def test_loc_package_file(self):
         """ Test locate package file """
-        loc_package_file(name=False, debug=False)
+        loc_package_file(name=False, debug=False) # pyright: ignore
 
     def test_logger_info(self):
         self.assertIsInstance(os.getcwd(), str)
         self.assertIsInstance(PACKAGE, str)
+
 
 if __name__ == '__main__':
     unittest.main()

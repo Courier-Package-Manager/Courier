@@ -16,19 +16,18 @@ copies or substantial portions of the Software.
 """
 
 import unittest
-import colorama
 from datetime import datetime as dt
 from src.util import setup
+
 
 class TestSetup(unittest.TestCase):
     """ Test constructor file for utils package """
 
     def test_get_date(self):
         """ Test that date is correct """
-        setup.get_date(dt.now(), day=1)
-        setup.get_date(dt.now(), day=2)
-        setup.get_date(dt.now(), day=3)
-
+        setup.get_date(dt.now(), day=str(1))
+        setup.get_date(dt.now(), day=str(2))
+        setup.get_date(dt.now(), day=str(3))
 
 
 if __name__ == '__main__':
