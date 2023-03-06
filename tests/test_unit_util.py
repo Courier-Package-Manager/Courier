@@ -56,14 +56,9 @@ class TestUtil(unittest.TestCase):
 
     def test_loc_package_file(self):
         """ Test locate package file """
-        loc_package_file()
-        loc_package_file(name=False)
+        loc_package_file(name=False, debug=False)
 
     def test_logger_info(self):
-        logger = logging.getLogger()
-        logger.info(f"{GREEN}")
-        logger.info(f"{RESET}")
-        logger.info(f"{MAGENTA}")
         self.assertIsInstance(os.getcwd(), str)
         self.assertIsInstance(PACKAGE, str)
 

@@ -23,6 +23,7 @@ colorama.init()
 # NOTE this is to satisfy flake errors, serves no practical
 # purpose
 __locals__ = [
+    get_project_folder,
     loc_package_file,
     last_updated,
     scan_dir,

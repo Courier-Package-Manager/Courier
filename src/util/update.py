@@ -89,7 +89,7 @@ def get_package_name():
         if file.name == PACKAGE:
             return file
 
-def loc_package_file(name=get_package_name()):
+def loc_package_file(name=get_package_name(), debug=True):
     """ Locate the package file & create package file if it doesn't exist. """
     if not name:
         logger.info(f" 📨 Creating {GREEN}{PACKAGE}{RESET} in {MAGENTA}{cwd}{RESET}")
