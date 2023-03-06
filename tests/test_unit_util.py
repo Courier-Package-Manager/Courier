@@ -16,7 +16,6 @@ copies or substantial portions of the Software.
 
 import unittest
 import os
-import sys
 import colorama
 import logging
 from src.util import get_project_folder
@@ -25,6 +24,8 @@ from src.util.update import scan_dir
 from src.util.update import create_package
 from src.util.update import update_packages
 from src.util.update import loc_package_file
+from src.util.update import PACKAGE
+from src.util.update import GREEN, RESET, MAGENTA
 
 
 class TestUtil(unittest.TestCase):
@@ -56,17 +57,15 @@ class TestUtil(unittest.TestCase):
     def test_loc_package_file(self):
         """ Test locate package file """
         loc_package_file()
+        loc_package_file(name=False)
 
     def test_logger_info(self):
         logger = logging.getLogger()
-        logger.info(colorama.Fore.YELLOW + "[yellow]" + colorama.Fore.RESET)
-        logger.info(colorama.Fore.BLUE + "[blue]" + colorama.Fore.RESET)
-        logger.info(colorama.Fore.MAGENTA + "[magenta]" + colorama.Fore.RESET)
-        logger.info(colorama.Fore.RESET+ "[reset]" + colorama.Fore.RESET)
-        logger.info(colorama.Fore.GREEN  + "[green]" + colorama.Fore.RESET)
-        logger.info(colorama.Fore.RED + "[red]" + colorama.Fore.RESET)
-        logger.info(colorama.Fore.WHITE + "[white]" + colorama.Fore.RESET)
-        logger.info(colorama.Fore.BLACK + "[black]" + colorama.Fore.RESET)
+        logger.info(f"{GREEN}")
+        logger.info(f"{RESET}")
+        logger.info(f"{MAGENTA}")
+        self.assertIsInstance(os.getcwd(), str)
+        self.assertIsInstance(PACKAGE, str)
 
 if __name__ == '__main__':
     unittest.main()

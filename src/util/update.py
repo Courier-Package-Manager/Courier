@@ -12,7 +12,11 @@ from logging.config import fileConfig
 logger = logging.getLogger()
 
 PACKAGE = 'update.json'
+GREEN = colorama.Fore.GREEN
+RESET = colorama.Fore.RESET
+MAGENTA = colorama.Fore.MAGENTA
 
+cwd = os.getcwd()
 
 def last_updated():
     """ last update in datetime format. """
@@ -78,19 +82,15 @@ def create_package():
         json.dump(data, fp)
         fp.close()
 
-
-def loc_package_file():
-    """ Locate the package file & create package file if it doesn't exist. """
+def get_package_name():
+    """ Get package name / allows for unit tests """
     switch_root()  # Switch root before asking if its in the switched directory
     for file in scan_dir(files=True, folders=False):
         if file.name == PACKAGE:
             return file
 
-    logger.info(" 📨 Creating {G}{P}{R} in {M}{C}{R}".format(
-        G=colorama.Fore.GREEN,
-        R=colorama.Fore.RESET,
-        M=colorama.Fore.MAGENTA,
-        C=os.getcwd(),
-        P=PACKAGE))
-
-    create_package()
+def loc_package_file(name=get_package_name()):
+    """ Locate the package file & create package file if it doesn't exist. """
+    if not name:
+        logger.info(f" 📨 Creating {GREEN}{PACKAGE}{RESET} in {MAGENTA}{cwd}{RESET}")
+        return create_package()
