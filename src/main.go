@@ -1,20 +1,11 @@
 package main
 
-import "fmt"
-import "rsc.io/quote"
-import "github.com/charmbracelet/charm/kv"
+import (
+    "fmt"
+    "os"
 
-func generate_random_quote() {
-    return quote.Go()
-}
-
-func hello() {
-    // A freindly greeting, some might say!
-    fmt.Println("Hello, world!")
-}
+    tea "github.com/charmbracelet/bubbletea"
+)
 
 func main()  {
-    // Main function
-    var quote = generate_random_quote()
-    fmt.Println(quote)
 }
