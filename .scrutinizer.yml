@@ -8,7 +8,7 @@ build:
         file: '.coverge'
         config_file: '.coveragerc'
         # clover, cobertura, jacoco, python-cc, ruby-cc, go-cc, lcov
-        format: 'python-cc'
+        format: 'py-cc'
 
   dependencies:
     before:
