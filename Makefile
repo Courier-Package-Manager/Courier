@@ -13,6 +13,6 @@ coverage:
 	coverage report -m
 
 test:
-	@python -m coverage run -m unittest discover -s tests
+	@python -m coverage run -m unittest discover
 	@python -m coverage report 
 	@python -m coverage html

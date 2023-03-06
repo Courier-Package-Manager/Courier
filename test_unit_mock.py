@@ -23,7 +23,11 @@ class TestMock(unittest.TestCase):
 
     def test_run_script(self):
         """ Test that run script works """
-        run_script() # NOTE there is no physical way to get coverage on a sys.exit call
+        def foo():
+            return True
+        self.assertRaises(
+                SystemExit,
+                lambda: run_script('__main__', foo))
 
 
 if __name__ == '__main__':
