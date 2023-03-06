@@ -10,11 +10,7 @@ from .update import scan_dir
 from .update import update_packages
 from .update import load_logging_ini
 
-try:
-    import colorama
-except ImportError:
-    print(" [critical] Install dependencies using makefile.")
-    raise SystemExit
+import colorama
 
 logger = logging.getLogger()
 

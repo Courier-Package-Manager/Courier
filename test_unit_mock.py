@@ -15,18 +15,13 @@ copies or substantial portions of the Software.
 """
 
 import unittest
-import os
-import colorama
-import logging
+from src.util import run_script
 
+class TestMock(unittest.TestCase):
+    """ Test that mock util works """
 
-class TestConstructor(unittest.TestCase):
-    """ Test constructor file for utils package """
-
-    def test_colorama_constructor(self):
-        """ Test colorama constructor """
-        colorama.deinit()
-        colorama.init()
+    def test_run_script(self):
+        """ Test that run script works """
 
 
 

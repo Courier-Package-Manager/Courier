@@ -1,15 +1,14 @@
+import datetime
 import colorama
 
 
-def get_date(ts) -> str:
+def get_date(_date, day=datetime.datetime.now().strftime('%-d')) -> str:
     """
     Return a 🎆 colorized 🎆 version of timestamp
     ts: timestamp (Datetime object)
 
     return: string
     """
-    day = ts.strftime("%-d")
-
     match int(day):
         case 1:
             postfix = 'st'
@@ -29,7 +28,7 @@ def get_date(ts) -> str:
         p=postfix,
 
         D=day,
-        M=ts.strftime("%B"),
-        Y=ts.strftime("%Y"))
+        M=_date.strftime("%B"),
+        Y=_date.strftime("%Y"))
 
     return date

@@ -1,3 +1,4 @@
+
 """
 The MIT License (MIT)
 
@@ -15,18 +16,18 @@ copies or substantial portions of the Software.
 """
 
 import unittest
-import os
 import colorama
-import logging
+from datetime import datetime as dt
+from src.util import setup
 
-
-class TestConstructor(unittest.TestCase):
+class TestSetup(unittest.TestCase):
     """ Test constructor file for utils package """
 
-    def test_colorama_constructor(self):
-        """ Test colorama constructor """
-        colorama.deinit()
-        colorama.init()
+    def test_get_date(self):
+        """ Test that date is correct """
+        setup.get_date(dt.now(), day=1)
+        setup.get_date(dt.now(), day=2)
+        setup.get_date(dt.now(), day=3)
 
 
 
