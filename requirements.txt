@@ -3,3 +3,5 @@ flake8
 coverage
 scrutinizer-ocular
 pytest
+pytest-cov
+codecov
