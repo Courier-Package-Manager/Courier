@@ -162,7 +162,8 @@ def auto_install_package(root_dir):
         subdir_files = os.walk(subdir).__next__()[2]
         if (len(subdir_files) > 0):
             for file in subdir_files:
-                logger.debug(f' Found: {color_path(os.path.join(subdir, file))}')
+                logger.debug(f''' Found: {
+                color_path(os.path.join(subdir, file))}''')
                 files.append(os.path.join(subdir, file))
 
 
@@ -189,7 +190,8 @@ def color_path(path: str = os.getcwd()):
         if color_index > len(colors):
             color_index = 0
 
-        components[index] = colors[color_index - 1] + '/' + component + Fore.RESET
+        components[index] = colors[color_index - 1] + \
+                '/' + component + Fore.RESET
         color_index += 1
 
     print(''.join(components))
