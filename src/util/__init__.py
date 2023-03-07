@@ -1,5 +1,4 @@
 import sys
-import socket
 import logging
 
 import colorama
@@ -9,7 +8,6 @@ from .package import search_for_package  # pyright: ignore
 from .package import request_pypi  # pyright: ignore
 from .package import request_pypi_soup  # pyright: ignore
 from .package import service_online  # pyright: ignore
-from .package import run_quick_test  # pyright: ignore
 from .update import get_project_folder
 from .update import loc_package_file
 from .update import last_updated
@@ -37,5 +35,3 @@ if not service_online():
     sys.exit(1)
 
 # logger.debug(" 🌍 https://pypi.org is up!")
-
-run_quick_test()

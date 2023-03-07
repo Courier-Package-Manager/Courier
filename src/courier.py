@@ -25,6 +25,7 @@ import os
 from util import load_logging_ini
 from util import loc_package_file
 from util import last_updated
+from util import search_for_package
 
 load_logging_ini()
 logger = logging.getLogger()
@@ -39,14 +40,15 @@ def close(file):
 
 def read_docs(file='help.txt') -> list[str]:
     """ Read documentation file from folder """
+
     path = os.getcwd()
     if not assert_file_path():
         os.chdir('..')
+
     data = []
 
     with open(os.path.join('docs', file), 'r') as fp:
         data = fp.read().strip().splitlines()
-        # close(fp)
 
     os.chdir(path)
     return data
@@ -60,6 +62,9 @@ def print_formatted_list(lines: list) -> None:
 
 def proc_args(args: list = sys.argv[1:]):
     """ Get args and process them individually """
+    if not len(args):
+        print_formatted_list(read_docs(file="help.txt"))
+
     for argument in args:
         match argument:
             case '--help' | 'help':
@@ -67,9 +72,13 @@ def proc_args(args: list = sys.argv[1:]):
                 return
             case '--do-nothing':
                 return
-            case _:
-                print_formatted_list(read_docs(file="help.txt"))
-                return
+            case'get':
+                match len(args):
+                    case 1:
+                        print("Syntax: courier get <package>")
+                        return
+                    case 2:
+                        search_for_package(args[len(args) - 1])
 
 
 def get_file_path() -> str:
@@ -81,12 +90,6 @@ def assert_file_path() -> bool:
     """ Assert if file path is correct """
     new_file_path = get_file_path()
     return new_file_path == 'Courier'
-
-
-"""
-if file_path != 'Courier':
-    logger.debug(assert_file_path())
-"""
 
 
 def get_package_created() -> None:
