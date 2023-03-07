@@ -93,7 +93,9 @@ def get_package_name() -> DirEntry | None:
             return file
 
 
-def loc_package_file( name: DirEntry | None = get_package_name()) -> None:
+def loc_package_file(
+        name: DirEntry | None = get_package_name(),
+        debug:  Literal[True] | Literal[False] = True) -> None:
     """ Locate the package file & create package file if it doesn't exist. """
     if not name:
         logger.info(f"Set {GREEN}{PACKAGE}{RESET} in {MAGENTA}{cwd}{RESET}")
