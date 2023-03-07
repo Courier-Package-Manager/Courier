@@ -54,6 +54,14 @@ please see the contributing section below.
 
 
 ## Contributing
+Please clone the 'development' branch if making changes to the code with the intent
+to contribute. Alternatively you can work on 'stable' however that will not be cutting
+edge and you may have to (very likely) remerge 'dev' and possibly overwrite some of the code.
+
+Note: If you do choose to work on the stable branch (not-recommended), it is advised you at
+least change the `level` key in [config.ini](config.ini) for keys `logger_root` and 
+`handler_stream_handler`
+
 When making commits in a forked repository (with the intent of a pr) please ensure that
 you read the [`commits`](commits.md) syntax file. Note that this file also generally applies
 to pull requests as well. There are plans to make a contributing file in the future, however
