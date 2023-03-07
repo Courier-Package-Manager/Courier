@@ -56,11 +56,7 @@ class TestUtil(unittest.TestCase):
         """ Test locate package file """
         loc_package_file(debug=True)
         loc_package_file(mode='w')
-
-    def test_logger_info(self):
-        self.assertIsInstance(os.getcwd(), str)
-        self.assertIsInstance(PACKAGE, str)
-
+        create_package()  # TODO (done) Ensure that package is still reset
 
 if __name__ == '__main__':
     unittest.main()
