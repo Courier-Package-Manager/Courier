@@ -126,7 +126,6 @@ def search_for_package(package: str):
     Package.show_packages()
 
 
-
 def request_pypi(package) -> requests.Response:
     """ Returns pypi request object """
     pypi_request = requests.get(f'https://pypi.org/search/?q={package}')

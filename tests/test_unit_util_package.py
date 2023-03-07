@@ -19,7 +19,7 @@ import unittest
 
 from requests.exceptions import MissingSchema
 
-from util.package import request_pypi_soup
+from util.package import request_pypi_soup, search_for_package
 from util.package import service_online
 
 logger = logging.getLogger()
@@ -38,6 +38,7 @@ class TestUtilPackage(unittest.TestCase):
 
     def test_search_for_package(self):
         """ Test search for package """
+        search_for_package(self.package)
 
     def test_request_pypi_soup(self):
         """ Test request pypi soup """
@@ -45,7 +46,7 @@ class TestUtilPackage(unittest.TestCase):
 
     def test_service_online(self):
         """ Test service online """
-        with self.assertRaises(MissingSchema) as cm:
+        with self.assertRaises(MissingSchema) as _:
             service_online(url='TestRequestException')
 
 
