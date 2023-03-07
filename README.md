@@ -65,11 +65,6 @@ as developing any feature or fixing any bug. This is only recommended, and I'll 
 be accepting any PR's that pass tests, but it's preferred that they have coverage in the 
 PR as well.
 
-## Coverage
-![coverage-sunburst](https://codecov.io/gh/JoshuaDRose/Courier/branch/stable/graphs/sunburst.svg?token=EX3AAYPPUQ)
-![coverage-grid](https://codecov.io/gh/JoshuaDRose/Courier/branch/stable/graphs/tree.svg?token=EX3AAYPPUQ)
-![coverage-icicle](https://codecov.io/gh/JoshuaDRose/Courier/branch/stable/graphs/icicle.svg?token=EX3AAYPPUQ)
-
 ## License
 
 ```
