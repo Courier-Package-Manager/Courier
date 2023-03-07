@@ -69,7 +69,9 @@ def proc_args(args: list):
     if len(args) == 0:
         print_formatted_list(read_docs(file="help.txt"))
 
-    args.remove('courier.py')
+    for i in args:
+        if '.py' in args:
+            args.remove(i)
 
     for argument in args:
         match argument:

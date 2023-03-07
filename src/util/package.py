@@ -172,8 +172,7 @@ def color_path(path: str = os.getcwd()):
         Desc: Stupid function i don't know why I made this
               It just makes pathnames rainbow
     """
-    # Split each '/'
-    # print('color', path)
+
     components = path.split('/', path.count('/'))
     colors = [
             Fore.GREEN,
@@ -187,10 +186,10 @@ def color_path(path: str = os.getcwd()):
             Fore.LIGHTMAGENTA_EX,
             Fore.LIGHTCYAN_EX,
             Fore.LIGHTYELLOW_EX,
-            Fore.LIGHTBLUE_EX
-            ]
+            Fore.LIGHTBLUE_EX]
 
     color_index = 0
+
     for index, component in enumerate(components):
         if color_index > len(colors):
             color_index = 0
