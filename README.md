@@ -54,9 +54,9 @@ please see the contributing section below.
 
 
 ## Contributing
-Please clone the 'development' branch if making changes to the code with the intent
-to contribute. Alternatively you can work on 'stable' however that will not be cutting
-edge and you may have to (very likely) remerge 'dev' and possibly overwrite some of the code.
+Please clone the `development` branch if making changes to the code with the intent
+to contribute. Alternatively you can work on `stable` however that will not be cutting
+edge and you may have to (very likely) remerge `dev` and possibly overwrite some of the code.
 
 Note: If you do choose to work on the stable branch (not-recommended), it is advised you at
 least change the `level` key in [config.ini](config.ini) for keys `logger_root` and 
