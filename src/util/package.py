@@ -10,8 +10,8 @@ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
 
 package.py has functions responsible for the following:
       - Indexing pypi database for release
@@ -35,18 +35,40 @@ class Package(object):
     packages = []
 
     def __init__(self, li, search_term) -> None:
-        self.search_term = search_term # Term to be highlighted differently as it was explicitly searched for
-        self.name           = Fore.CYAN + Package.get_name_from_lxml(li).text.strip()+ Fore.RESET     # pyright: ignore
-        self.version        = Fore.LIGHTCYAN_EX + Package.get_version_from_lxml(li).text.strip()+ Fore.RESET  # pyright: ignore
-        self.description    = Fore.LIGHTBLUE_EX + Package.get_desc_from_lxml(li).text.strip() + Fore.RESET    # pyright: ignore
-        self.date           = Fore.LIGHTWHITE_EX + Package.get_date_from_lxml(li).text.strip()+ Fore.RESET     # pyright: ignore
-        self.link           = f'https://pypi.org/project/{self.name}'
-        self.id: int        = len(Package.packages) + 1                       # pyright: ignore
+        # Term to be highlighted differently as it
+        # was explicitly searched for
+        search_term = search_term 
+        _name = Package.get_name_from_lxml(
+                li).text.strip()  # pyright: ignore
+        version = Package.get_version_from_lxml(
+                li).text.strip()  # pyright: ignore
+        date = Package.get_date_from_lxml(
+                li).text.strip()  # pyright: ignore
+        description = Package.get_desc_from_lxml(
+                li).text.strip()  # pyright: ignore
+        self.name = "{color}{name}{reset}".format(
+                color = Fore.CYAN,
+                name=_name,
+                reset = Fore.RESET)
+        self.version = "{color}{name}{reset}".format(
+                color = Fore.LIGHTCYAN_EX,
+                name=version,
+                reset = Fore.RESET)
+        self.date = "{color}{name}{reset}".format(
+                color = Fore.LIGHTCYAN_EX,
+                name=date,
+                reset = Fore.RESET)
+        self.description = "{color}{name}{reset}".format(
+                color = Fore.BLUE,
+                name=description,
+                reset = Fore.RESET)
+                    
+        self.id: int = len(Package.packages) + 1
 
-        if self.search_term in self.description:
+        if search_term in self.description:
             self.description = self.description.replace(
-                    self.search_term,
-                    Fore.LIGHTMAGENTA_EX + self.search_term + Fore.LIGHTBLUE_EX)
+                    search_term,
+                    Fore.LIGHTMAGENTA_EX + search_term + Fore.LIGHTBLUE_EX)
 
     @staticmethod
     def get_name_from_lxml(lxml: BeautifulSoup):
@@ -69,8 +91,12 @@ class Package(object):
         """ Display packages fetched from pypi with syntax formatting """
         cls.packages.reverse()
         for package in cls.packages:
-            print(f"{package.id} {package.name} {package.version} {package.date}")
-            print(f"\t{package.description}")
+            print("{id} {name} {version} {date}\n\t{description}".format(
+                id=package.id,
+                name=package.name,
+                version=package.version,
+                date=package.date,
+                description=package.description))
 
 
 def format_package_search_results(soup: BeautifulSoup, package):
@@ -119,7 +145,7 @@ def service_online() -> bool:
         pypi_request: object = requests.get('https://pypi.org')
         return pypi_request.status_code == 200
     except requests.RequestException as request_error:
-        logging.critical(f"Ambiguous exception occurred: {str(request_error)}")
+        logging.critical(f"Ambiguous exception occurred: {request_error}")
         sys.exit(1)
 
 
