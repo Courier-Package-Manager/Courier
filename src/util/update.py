@@ -1,5 +1,6 @@
 import os
 import json
+from types import EllipsisType
 from typing import Literal
 from .setup import get_date
 from posix import DirEntry
@@ -31,12 +32,12 @@ def last_updated():
     return date
 
 
-def load_logging_ini():
+def load_logging_ini() -> None:
     """ Load logging ini file """
     fileConfig('config.ini')
 
 
-def update_packages():
+def update_packages() -> EllipsisType:
     """ The core function of this entire repo """
     # TODO auto read python files and add dependencies
     return ...
