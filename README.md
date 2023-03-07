@@ -1,7 +1,5 @@
 <div align="center">
 <h1>Courier </h1>
-Package manager for Python
-<h3></h3>
 </div>
 
 <div align="center">
