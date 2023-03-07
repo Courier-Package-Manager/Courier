@@ -36,7 +36,9 @@ def last_updated():
      >>> if project_folder != 'Courier': os.chdir('..')
     """
     if file_exists(PACKAGE, 'r'):
-        data = json.load(open(PACKAGE, 'r'))
+        _file = open(PACKAGE, 'r')
+        data = json.load(_file)
+        _file.close()
         timestamp = datetime.fromtimestamp(data['created'])
         date = get_date(timestamp)
         return date

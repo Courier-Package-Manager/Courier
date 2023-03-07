@@ -17,12 +17,11 @@ copies or substantial portions of the Software.
 import logging
 import unittest
 
-from src.util.update import get_project_folder
-from src.util.update import loc_package_file
-from src.util.update import last_updated
-from src.util.update import scan_dir
-from src.util.update import update_packages
-from src.util.update import load_logging_ini
+from requests.exceptions import MissingSchema
+
+from util.package import format_package_search_results, request_pypi_soup, search_for_package
+from util.package import service_online
+from util.package import Package
 
 logger = logging.getLogger()
 
@@ -31,8 +30,28 @@ class TestUtilPackage(unittest.TestCase):
     """ Test util package functions """
     def setUp(self):
         """ Set up instances & instance variables """
+        self.package = 'tensorflow'
         self.logger = logging.getLogger()
         self.logger.level = logging.DEBUG
+
+    def test_format_package_search_results(self):
+        """ Test format package search results """
+        for package in Package.packages:
+            format_package_search_results(package, "")
+
+    def test_search_for_package(self):
+        """ Test search for package """
+        search_for_package(self.package)
+        search_for_package(self.package, True)
+
+    def test_request_pypi_soup(self):
+        """ Test request pypi soup """
+        request_pypi_soup(self.package)
+
+    def test_service_online(self):
+        """ Test service online """
+        with self.assertRaises(MissingSchema) as _:
+            service_online(url='TestRequestException')
 
 
 if __name__ == '__main__':

@@ -1,4 +1,3 @@
-
 """
 The MIT License (MIT)
 
@@ -15,27 +14,31 @@ The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 """
 
-import unittest
-from requests.exceptions import MissingSchema, ConnectionError
 import logging
-from util import display_if_online
+import unittest
+
+logger = logging.getLogger()
 
 
-class TestUnitFileConstructor(unittest.TestCase):
-    """ Test unit file constructor """
+class TestUnitPackageClass(unittest.TestCase):
+    """ Test unit package class object """
     def setUp(self):
         """ Set up instances & instance variables """
+        # self.package = Package()
         self.logger = logging.getLogger()
         self.logger.level = logging.DEBUG
 
-    def test_display_if_online(self):
-        """ Test display if online function """
-        with self.assertRaises(MissingSchema):
-            display_if_online('google.com')
-        self.assertTrue(display_if_online('https://google.com'))
-        self.assertFalse(
-                display_if_online('https://not_a_website!/lol.com'))
+    def test_get_name_from_lxml(self):
+        """ Test get name from lxml """
 
+    def test_get_version_from_lxml(self):
+        """ Test get version from lxml """
+
+    def test_get_date_from_lxml(self):
+        """ Test get date from lxml """
+
+    def test_get_desc_from_lxml(self):
+        """ Get get description from lxml """
 
 if __name__ == '__main__':
     unittest.main()

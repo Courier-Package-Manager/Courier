@@ -1,7 +1,9 @@
 import sys
 import logging
+from typing import Type
 
 import colorama
+from requests.models import MissingSchema
 
 from .package import Package  # pyright: ignore
 from .package import search_for_package  # pyright: ignore
@@ -19,8 +21,7 @@ logger = logging.getLogger()
 
 colorama.init()
 
-# NOTE this is to satisfy flake errors, serves no practical
-# purpose
+# NOTE this is to satisfy flake errors, serves no practical purpose
 __locals__ = [
     get_project_folder,
     loc_package_file,
@@ -30,8 +31,22 @@ __locals__ = [
     load_logging_ini,
 ]
 
+
+def display_if_online(url) -> bool | Type[MissingSchema]:
+    """ Display if pypi is online """
+    try:
+        if service_online(url):
+            logger.debug(f" 🌍 {url} is up!")
+            return True
+    except MissingSchema:
+        raise MissingSchema
+    except Exception:
+        return False
+
+"""
 if not service_online():
     logging.critical(" 🌐 https://pypi.org is down")
     sys.exit(1)
-
+"""
 # logger.debug(" 🌍 https://pypi.org is up!")
+
