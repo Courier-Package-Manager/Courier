@@ -43,6 +43,9 @@ class Package(object):
         self.link           = f'https://pypi.org/project/{self.name}'
         self.id: int        = len(Package.packages) + 1                       # pyright: ignore
 
+        if self.search_term in self.description:
+            self.description = self.description.replace(self.search_term, Fore.LIGHTMAGENTA_EX + self.search_term + Fore.LIGHTBLUE_EX)
+
     @staticmethod
     def get_name_from_lxml(lxml: BeautifulSoup):
         return lxml.select_one('.package-snippet__name')
@@ -82,7 +85,7 @@ def search_for_package(package: str):
         Search for package in the pypi database.
         return: latest package version.
     """
-    logging.info(f" 🔎 Searching pypi for {package}")
+    print(f" 🔎 Searching for {package}")
     soup = request_pypi_soup(package)
 
     # logging.info(f"Showing up to {max_results} results")
@@ -119,5 +122,5 @@ def service_online() -> bool:
 
 
 def run_quick_test():
-    logging.info(" 🕺 Getting pypi package details")
+    # logging.info(" 🕺 Getting pypi package details")
     search_for_package('pygame')
