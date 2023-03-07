@@ -37,12 +37,12 @@ class Package(object):
     packages = []
 
     def __init__(self, li) -> None:
-        self.name           = Package.get_name_from_lxml(li).text.strip()
-        self.version        = Package.get_version_from_lxml(li).text.strip()
-        self.description    = Package.get_desc_from_lxml(li).text.strip()
-        self.date           = Package.get_date_from_lxml(li).text.strip()
-        self.link           = Package.get_link_from_lxml(li).text.strip()
-        self.id: int        = len(Package.packages) + 1
+        self.name           = Package.get_name_from_lxml(li).text.strip()     # pyright: ignore
+        self.version        = Package.get_version_from_lxml(li).text.strip()  # pyright: ignore
+        self.description    = Package.get_desc_from_lxml(li).text.strip()     # pyright: ignore
+        self.date           = Package.get_date_from_lxml(li).text.strip()     # pyright: ignore
+        self.link           = Package.get_link_from_lxml(li).text.strip()     # pyright: ignore
+        self.id: int        = len(Package.packages) + 1                       # pyright: ignore
 
     @staticmethod
     def get_name_from_lxml(lxml: BeautifulSoup):
@@ -70,7 +70,6 @@ class Package(object):
         for package in cls.packages:
             print(f"{package.id} {package.name} {package.version} {package.date}")
             print(f"\t{package.description}")
-
 
 
 def format_package_search_results(soup: BeautifulSoup):
