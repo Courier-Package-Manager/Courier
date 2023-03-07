@@ -152,7 +152,7 @@ def auto_install_package(root_dir):
 
     files = []
     # NOTE dirs to ignore
-    ignore = ['.git', '.github']
+    ignore = ['.git', '.github', 'libs']
 
     subdirs = [file[0] for file in os.walk(os.path.abspath(root_dir ))]
     for subdir in subdirs:
@@ -162,8 +162,7 @@ def auto_install_package(root_dir):
         if (len(subdir_files) > 0):
             for file in subdir_files:
                 path = color_path(os.path.join(subdir, file))
-                logger.debug(f''' Found: {path} ''')
-                
+                # logger.debug(f''' Found: {path} ''')
                 files.append(os.path.join(subdir, file))
 
 
