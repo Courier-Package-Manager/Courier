@@ -18,15 +18,17 @@ all copies or substantial portions of the Software.
 """
 
 import logging
-import colorama
-import sys
 import os
+import sys
+
+import colorama
 
 from util import load_logging_ini
 from util import loc_package_file
 from util import last_updated
 from util import search_for_package
-from util.package import auto_install_package, color_path
+from util.package import auto_install_package
+from util.package import color_path
 
 load_logging_ini()
 logger = logging.getLogger()
@@ -44,13 +46,13 @@ def read_docs(file='help.txt') -> list[str]:
     path = os.getcwd()
     logger.debug(path)
     if not assert_file_path():
-        print(os.getcwd())
+        print(color_path(os.getcwd()))
         os.chdir('..')
 
     data = []
 
-    with open(os.path.join('docs', file), 'r') as fp:
-        data = fp.read().strip().splitlines()
+    with open(os.path.join('docs', file), 'r', encoding='utf') as _file:
+        data = _file.read().strip().splitlines()
 
     os.chdir(path)
     return data
@@ -62,10 +64,12 @@ def print_formatted_list(lines: list) -> None:
         print(line)
 
 
-def proc_args(args: list = sys.argv[1:]):
+def proc_args(args: list):
     """ Get args and process them individually """
-    if not len(args):
+    if len(args) == 0:
         print_formatted_list(read_docs(file="help.txt"))
+
+    args.remove('courier.py')
 
     for argument in args:
         match argument:
@@ -97,15 +101,14 @@ def assert_file_path() -> bool:
 def get_package_created() -> None:
     """ Prints the date that update.json was created """
     assert_file_path()
-    logger.debug("Package file {m}update.json{r} was created {d}".format(
-        m=colorama.Fore.GREEN,
-        r=colorama.Fore.RESET,
-        d=last_updated()))
-
+    logger.debug("Package file %s update.json %s was created %s ",
+                 colorama.Fore.GREEN,
+                 colorama.Fore.RESET,
+                 last_updated())
 
 def main():
     """Currently calling functions for testing"""
-    proc_args()
+    proc_args(sys.argv)
     loc_package_file()
 
 
