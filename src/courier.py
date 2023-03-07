@@ -70,7 +70,7 @@ def proc_args(args: list):
         print_formatted_list(read_docs(file="help.txt"))
 
     for i in args:
-        if '.py' in args:
+        if i.endswith('.py'):
             args.remove(i)
 
     for argument in args:

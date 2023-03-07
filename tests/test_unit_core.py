@@ -60,6 +60,7 @@ class TestCourier(unittest.TestCase):
         proc_args(args=['--do-nothing'])
         proc_args(args=['get'])
         proc_args(args=['get', 'requests'])
+        proc_args(args=['file.py', 'requests'])
         proc_args(args=[])
 
     def test_main(self):
