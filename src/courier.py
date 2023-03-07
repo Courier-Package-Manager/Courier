@@ -30,11 +30,14 @@ load_logging_ini()
 logger = logging.getLogger()
 
 
-args = sys.argv
-
-
-def get_args():
+def proc_args(args: list = sys.argv):
     """ Get args and process them individually """
+    if not assert_file_path():
+        os.chdir('..')
+    for argument in args:
+        match argument:
+            case '--help' | 'help':
+                os.popen(f'cat {os.path.join("docs", "help.txt")} | less', mode='r').readlines()
 
 
 def get_file_path() -> str:
@@ -66,6 +69,7 @@ def get_package_created() -> None:
 
 def main():
     """Currently calling functions for testing"""
+    proc_args()
     loc_package_file()
 
 
