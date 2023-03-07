@@ -140,7 +140,7 @@ def request_pypi_soup(package) -> BeautifulSoup:
     return soup
 
 
-def service_online(url='https://pypi.org') -> bool | None:
+def service_online(url='https://pypi.org') -> bool:
     """ Check that pypi is online """
     pypi_request: object = requests.get(url)
     return pypi_request.status_code == 200

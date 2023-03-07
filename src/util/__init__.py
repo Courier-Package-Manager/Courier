@@ -31,6 +31,7 @@ __locals__ = [
     load_logging_ini,
 ]
 
+
 def display_if_online(url) -> bool | Type[MissingSchema]:
     """ Display if pypi is online """
     try:
@@ -41,3 +42,11 @@ def display_if_online(url) -> bool | Type[MissingSchema]:
         raise MissingSchema
     except Exception:
         return False
+
+"""
+if not service_online():
+    logging.critical(" 🌐 https://pypi.org is down")
+    sys.exit(1)
+"""
+# logger.debug(" 🌍 https://pypi.org is up!")
+

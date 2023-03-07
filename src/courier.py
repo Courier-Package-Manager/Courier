@@ -45,7 +45,6 @@ def read_docs(file='help.txt') -> list[str]:
     if not assert_file_path():
         print(os.getcwd())
         os.chdir('..')
-        print(os.getcwd())
 
     data = []
 
