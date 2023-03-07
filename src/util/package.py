@@ -175,14 +175,19 @@ def color_path(path: str = os.getcwd()):
     # Split each '/'
     # print('color', path)
     components = path.split('/', path.count('/'))
-    components.remove('')
     colors = [
             Fore.GREEN,
             Fore.RED,
             Fore.MAGENTA,
             Fore.CYAN,
             Fore.YELLOW,
-            Fore.BLUE
+            Fore.BLUE,
+            Fore.LIGHTGREEN_EX,
+            Fore.LIGHTRED_EX,
+            Fore.LIGHTMAGENTA_EX,
+            Fore.LIGHTCYAN_EX,
+            Fore.LIGHTYELLOW_EX,
+            Fore.LIGHTBLUE_EX
             ]
 
     color_index = 0
@@ -190,8 +195,13 @@ def color_path(path: str = os.getcwd()):
         if color_index > len(colors):
             color_index = 0
 
-        components[index] = colors[color_index - 1] + \
-                '/' + component + Fore.RESET
+        match index:
+            case 0:
+                components[index] = colors[color_index - 1] + \
+                        component + Fore.RESET
+            case _:
+                components[index] = colors[color_index - 1] + \
+                        '/' + component + Fore.RESET
         color_index += 1
 
-    print(''.join(components))
+    return ''.join(components)
