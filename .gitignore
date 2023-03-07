@@ -8,3 +8,6 @@ build/*
 .pyc
 src/__pycache__/
 src/util/__pycache__/
+src/util/__pycache__/setup.*
+src/util/__pycache__/update.*
+src/util/__pycache__/update.pyc
