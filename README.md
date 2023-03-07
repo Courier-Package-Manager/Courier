@@ -25,7 +25,7 @@ dependenies comes at little to no time cost with this tool. Courier boasts high 
 ![coverage-icicle](https://codecov.io/gh/JoshuaDRose/Courier/branch/stable/graphs/icicle.svg?token=EX3AAYPPUQ)
 
 ## Installation
-Note before installing: the `stable` branch is very unstable and may not work. For a working
+Note before installing: the `master` branch is very unstable and may not work. For a working
 installation, download the last listed release.
 
 ```
