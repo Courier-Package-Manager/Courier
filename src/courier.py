@@ -51,10 +51,12 @@ def read_docs(file='help.txt') -> list[str]:
     os.chdir(path)
     return data
 
+
 def print_formatted_list(lines: list) -> None:
     """ Print list as a paragraph / string """
     for line in lines:
         print(line)
+
 
 def proc_args(args: list = sys.argv):
     """ Get args and process them individually """
