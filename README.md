@@ -46,10 +46,16 @@ This project hopes to extend upon that package management system, and develop fu
 features in the hope that it will assist with the local dependency maintenance of future
 projects.
 
-Tox is planning to make an entrance sooner or later in this project once enough code 
+~~Tox is planning to make an entrance sooner or later in this project once enough code 
 is written and enough substantial unit tests are introduced. The process of automating
 testing will also greatly help me test less because everything is being automated. More
-on this to come once unit tests are introduced.
+on this to come once unit tests are introduced.~~
+
+Currently unit testing is in full force, with a decline in coverage since release 0.2.3.
+This is to go on for the foreseable future. There have been several changes to the 
+Actions component of this project, mainly that being un-needed dependencies such as 
+scrutinizer (provided coverage however codecov already provides coverage).
+
 
 ## Contributing
 When making commits in a forked repository (with the intent of a pr) please ensure that
