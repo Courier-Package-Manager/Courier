@@ -11,8 +11,6 @@ Package manager for Python
 </div>
 
 
-
-
 ## About
 Courier is a package manager that automatically detects new dependencies in your project, whilst
 having the capability to manually specify requireements, requirements files etc. With the ability
