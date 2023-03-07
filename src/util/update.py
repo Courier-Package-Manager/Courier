@@ -58,13 +58,13 @@ def scan_dir(files=True, folders=True) -> list[DirEntry]:
     return items
 
 
-def get_project_folder():
+def get_project_folder() -> str:
     """ Dedicate function for testing """
     project_folder = os.path.basename(os.path.normpath(os.getcwd()))
     return project_folder
 
 
-def switch_root():
+def switch_root() -> str:
     """ Auto switch root when not applicable """
     project_folder = get_project_folder()
     if project_folder != 'Courier':
@@ -72,7 +72,7 @@ def switch_root():
     return project_folder
 
 
-def create_package():
+def create_package() -> None:
     """ Create package and dump json to said package """
 
     with open(PACKAGE, 'w', True, 'UTF-8') as fp:
@@ -93,9 +93,7 @@ def get_package_name() -> DirEntry | None:
             return file
 
 
-def loc_package_file(
-        name: DirEntry | None = get_package_name(),
-        debug:  Literal[True] | Literal[False] = True) -> None:
+def loc_package_file( name: DirEntry | None = get_package_name()) -> None:
     """ Locate the package file & create package file if it doesn't exist. """
     if not name:
         logger.info(f"Set {GREEN}{PACKAGE}{RESET} in {MAGENTA}{cwd}{RESET}")
