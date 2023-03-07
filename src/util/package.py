@@ -64,6 +64,7 @@ class Package(object):
 
     @classmethod
     def show_packages(cls):
+        """ Display packages fetched from pypi with syntax formatting """
         cls.packages.reverse()
         for package in cls.packages:
             print(f"{package.id} {package.name} {package.version} {package.date}")
