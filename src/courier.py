@@ -32,8 +32,11 @@ logger = logging.getLogger()
 
 def proc_args(args: list = sys.argv):
     """ Get args and process them individually """
+    logger.debug(assert_file_path())
     if not assert_file_path():
+        logger.debug(os.getcwd())
         os.chdir('..')
+        logger.debug(os.getcwd())
     for argument in args:
         match argument:
             case '--help' | 'help':
