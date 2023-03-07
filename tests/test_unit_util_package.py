@@ -19,7 +19,9 @@ import unittest
 
 from requests.exceptions import MissingSchema
 
-from util.package import format_package_search_results, request_pypi_soup, search_for_package
+from util.package import format_package_search_results
+from util.package import request_pypi_soup
+from util.package import search_for_package
 from util.package import service_online
 from util.package import Package
 
