@@ -30,17 +30,38 @@ load_logging_ini()
 logger = logging.getLogger()
 
 
+def close(file):
+    """ Close file in the case it\'s not closed """
+    if hasattr(file, "closed"):
+        if not file.closed:
+            file.close()
+
+
+def read_docs(file='help.txt') -> list[str]:
+    """ Read documentation file from folder """
+    path = os.getcwd()
+    if not assert_file_path():
+        os.chdir('..')
+    data = []
+
+    with open(os.path.join('docs', file), 'r') as fp:
+        data = fp.read().strip().splitlines()
+        # close(fp)
+
+    os.chdir(path)
+    return data
+
+def print_formatted_list(lines: list) -> None:
+    """ Print list as a paragraph / string """
+    for line in lines:
+        print(line)
+
 def proc_args(args: list = sys.argv):
     """ Get args and process them individually """
-    logger.debug(assert_file_path())
-    if not assert_file_path():
-        logger.debug(os.getcwd())
-        os.chdir('..')
-        logger.debug(os.getcwd())
     for argument in args:
         match argument:
             case '--help' | 'help':
-                os.popen(f'cat {os.path.join("docs", "help.txt")} | less', mode='r').readlines()
+                print_formatted_list(read_docs(file="help.txt"))
 
 
 def get_file_path() -> str:
@@ -51,7 +72,6 @@ def get_file_path() -> str:
 def assert_file_path() -> bool:
     """ Assert if file path is correct """
     new_file_path = get_file_path()
-    logging.debug(new_file_path)
     return new_file_path == 'Courier'
 
 
