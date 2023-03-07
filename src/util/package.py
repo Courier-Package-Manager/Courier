@@ -24,6 +24,8 @@ import sys
 from bs4 import BeautifulSoup
 import requests
 
+from colorama import Fore
+
 logger = logging.getLogger()
 logger.level = logging.INFO
 
@@ -34,10 +36,10 @@ class Package(object):
 
     def __init__(self, li, search_term) -> None:
         self.search_term = search_term # Term to be highlighted differently as it was explicitly searched for
-        self.name           = Package.get_name_from_lxml(li).text.strip()     # pyright: ignore
-        self.version        = Package.get_version_from_lxml(li).text.strip()  # pyright: ignore
-        self.description    = Package.get_desc_from_lxml(li).text.strip()     # pyright: ignore
-        self.date           = Package.get_date_from_lxml(li).text.strip()     # pyright: ignore
+        self.name           = Fore.CYAN + Package.get_name_from_lxml(li).text.strip()+ Fore.RESET     # pyright: ignore
+        self.version        = Fore.LIGHTCYAN_EX + Package.get_version_from_lxml(li).text.strip()+ Fore.RESET  # pyright: ignore
+        self.description    = Fore.LIGHTBLUE_EX + Package.get_desc_from_lxml(li).text.strip() + Fore.RESET    # pyright: ignore
+        self.date           = Fore.LIGHTWHITE_EX + Package.get_date_from_lxml(li).text.strip()+ Fore.RESET     # pyright: ignore
         self.link           = f'https://pypi.org/project/{self.name}'
         self.id: int        = len(Package.packages) + 1                       # pyright: ignore
 
