@@ -49,6 +49,9 @@ This is to go on for the foreseable future. There have been several changes to t
 Actions component of this project, mainly that being un-needed dependencies such as 
 scrutinizer (provided coverage however codecov already provides coverage).
 
+In relation to how these tests are impelemented in contribution or pull requests,
+please see the contributing section below.
+
 
 ## Contributing
 When making commits in a forked repository (with the intent of a pr) please ensure that
