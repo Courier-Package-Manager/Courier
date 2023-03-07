@@ -17,7 +17,7 @@ package.py has functions responsible for the following:
       - Indexing pypi database for release
       - Scanning for outdated packages
 """
-# NOTE more to come soon...
+
 import logging
 import sys
 
@@ -147,8 +147,3 @@ def service_online() -> bool:
     except requests.RequestException as request_error:
         logging.critical(f"Ambiguous exception occurred: {request_error}")
         sys.exit(1)
-
-
-def run_quick_test():
-    # logging.info(" 🕺 Getting pypi package details")
-    search_for_package('pygame')

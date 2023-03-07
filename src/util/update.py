@@ -1,7 +1,7 @@
 import os
 import json
 from types import EllipsisType
-from typing import IO, Any, Literal
+from typing import IO, Any
 from .setup import get_date
 from posix import DirEntry
 from datetime import datetime
