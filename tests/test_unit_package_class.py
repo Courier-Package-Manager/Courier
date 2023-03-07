@@ -17,12 +17,7 @@ copies or substantial portions of the Software.
 import logging
 import unittest
 
-from src.util.update import get_project_folder
-from src.util.update import loc_package_file
-from src.util.update import last_updated
-from src.util.update import scan_dir
-from src.util.update import update_packages
-from src.util.update import load_logging_ini
+from src.util.package import Package
 
 logger = logging.getLogger()
 
@@ -31,6 +26,7 @@ class TestUnitPackageClass(unittest.TestCase):
     """ Test unit package class object """
     def setUp(self):
         """ Set up instances & instance variables """
+        # self.package = Package()
         self.logger = logging.getLogger()
         self.logger.level = logging.DEBUG
 

@@ -22,7 +22,6 @@ from src.util.update import scan_dir
 from src.util.update import create_package
 from src.util.update import update_packages
 from src.util.update import loc_package_file
-from src.util.update import PACKAGE
 
 
 class TestUtil(unittest.TestCase):

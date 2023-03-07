@@ -121,6 +121,7 @@ def search_for_package(package: str):
     if not len(Package.packages):
         logging.critical(f" ❌ No results found for package \'{package}\'")
         sys.exit(0)
+
     logger.debug(f' {len(Package.packages)} packages found')
     Package.show_packages()
 
@@ -139,11 +140,7 @@ def request_pypi_soup(package) -> BeautifulSoup:
     return soup
 
 
-def service_online() -> bool:
+def service_online(url='https://pypi.org') -> bool | None:
     """ Check that pypi is online """
-    try:
-        pypi_request: object = requests.get('https://pypi.org')
-        return pypi_request.status_code == 200
-    except requests.RequestException as request_error:
-        logging.critical(f"Ambiguous exception occurred: {request_error}")
-        sys.exit(1)
+    pypi_request: object = requests.get(url)
+    return pypi_request.status_code == 200
