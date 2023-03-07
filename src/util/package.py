@@ -44,7 +44,9 @@ class Package(object):
         self.id: int        = len(Package.packages) + 1                       # pyright: ignore
 
         if self.search_term in self.description:
-            self.description = self.description.replace(self.search_term, Fore.LIGHTMAGENTA_EX + self.search_term + Fore.LIGHTBLUE_EX)
+            self.description = self.description.replace(
+                    self.search_term,
+                    Fore.LIGHTMAGENTA_EX + self.search_term + Fore.LIGHTBLUE_EX)
 
     @staticmethod
     def get_name_from_lxml(lxml: BeautifulSoup):
