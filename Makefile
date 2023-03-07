@@ -10,6 +10,7 @@ lint:
 	@python -m flake8 src --count --exit-zero --max-complexity=10 --max-line-length=79 --statistics
 
 coverage:
+	curl -X POST --data-binary @codecov.yml https://codecov.io/validate
 	coverage report -m
 
 test:

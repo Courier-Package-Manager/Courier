@@ -30,11 +30,42 @@ load_logging_ini()
 logger = logging.getLogger()
 
 
-args = sys.argv
+def close(file):
+    """ Close file in the case it\'s not closed """
+    if hasattr(file, "closed"):
+        if not file.closed:
+            file.close()
 
 
-def get_args():
+def read_docs(file='help.txt') -> list[str]:
+    """ Read documentation file from folder """
+    path = os.getcwd()
+    if not assert_file_path():
+        os.chdir('..')
+    data = []
+
+    with open(os.path.join('docs', file), 'r') as fp:
+        data = fp.read().strip().splitlines()
+        # close(fp)
+
+    os.chdir(path)
+    return data
+
+
+def print_formatted_list(lines: list) -> None:
+    """ Print list as a paragraph / string """
+    for line in lines:
+        print(line)
+
+
+def proc_args(args: list = sys.argv):
     """ Get args and process them individually """
+    for argument in args:
+        match argument:
+            case '--help' | 'help':
+                print_formatted_list(read_docs(file="help.txt"))
+            case _:
+                print_formatted_list(read_docs(file="help.txt"))
 
 
 def get_file_path() -> str:
@@ -45,7 +76,6 @@ def get_file_path() -> str:
 def assert_file_path() -> bool:
     """ Assert if file path is correct """
     new_file_path = get_file_path()
-    logging.debug(new_file_path)
     return new_file_path == 'Courier'
 
 
@@ -66,6 +96,7 @@ def get_package_created() -> None:
 
 def main():
     """Currently calling functions for testing"""
+    proc_args()
     loc_package_file()
 
 

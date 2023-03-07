@@ -19,16 +19,9 @@ def get_date(_date, day=datetime.datetime.now().strftime('%-d')) -> str:
         case _:
             postfix = 'th'
 
-    date = "{B}{M}{R} {P}{D}{p},{R} {B}{Y}{R}".format(
-        B=colorama.Fore.BLUE,
-        P=colorama.Fore.MAGENTA,
-
-
-        R=colorama.Fore.RESET,
-        p=postfix,
-
-        D=day,
-        M=_date.strftime("%B"),
-        Y=_date.strftime("%Y"))
+    day = colorama.Fore.MAGENTA + day + postfix + ',' + colorama.Fore.RESET
+    month = colorama.Fore.BLUE + _date.strftime("%B") + colorama.Fore.RESET
+    year = colorama.Fore.BLUE + _date.strftime("%Y") + colorama.Fore.RESET
+    date = f"{month} {day} {year}"
 
     return date
