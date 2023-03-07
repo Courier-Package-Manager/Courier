@@ -19,6 +19,7 @@ all copies or substantial portions of the Software.
 
 import logging
 import colorama
+import sys
 import os
 
 from util import load_logging_ini
@@ -29,11 +30,20 @@ load_logging_ini()
 logger = logging.getLogger()
 
 
+args = sys.argv
+
+
+def get_args():
+    """ Get args and process them individually """
+
+
 def get_file_path() -> str:
+    """ Rerurun immediate parent folder of current dir """
     return os.path.basename(os.path.normpath(os.getcwd()))
 
 
 def assert_file_path() -> bool:
+    """ Assert if file path is correct """
     new_file_path = get_file_path()
     logging.debug(new_file_path)
     return new_file_path == 'Courier'
