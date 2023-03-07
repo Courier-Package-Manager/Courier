@@ -19,6 +19,7 @@ logger.level = logging.INFO
 
 class Package(object):
     """ Structure for Package """
+    packages = []
     def __init__(self, li) -> None:
         self.name: Tag | None = Package.get_name_from_lxml(li)
         self.version: Tag | None = Package.get_version_from_lxml(li)
@@ -49,7 +50,7 @@ class Package(object):
 
 def format_package_search_results(soup: BeautifulSoup):
     """ Organize all the results and remove the un-needed stuff """
-    packages = []
+
     package_container = soup.find('ul', class_='unstyled')
     package_list = package_container.find_all('li') # pyright: ignore
 
@@ -58,15 +59,12 @@ def format_package_search_results(soup: BeautifulSoup):
             print(element)
             continue
 
-        # logger.debug(element)
-
         try:
             lxml = BeautifulSoup(element, 'lxml')
         except TypeError:
             continue
 
-        package = Package(lxml)
-        packages.append(package)
+        Package.packages.append(Package(lxml))
 
 
 def search_for_package(package: str, max_results=10):
