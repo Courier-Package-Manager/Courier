@@ -22,10 +22,8 @@ package.py has functions responsible for the following:
 from datetime import datetime
 import logging
 import sys
-from types import NoneType
 
 from bs4 import BeautifulSoup
-from bs4.element import Tag
 import requests
 
 logger = logging.getLogger()
