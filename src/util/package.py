@@ -83,7 +83,7 @@ def format_package_search_results(soup: BeautifulSoup):
         Package.packages.append(Package(element))
 
 
-def search_for_package(package: str, max_results=10):
+def search_for_package(package: str):
     """
         Search for package in the pypi database.
         return: latest package version.
