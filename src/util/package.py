@@ -18,8 +18,6 @@ package.py has functions responsible for the following:
       - Scanning for outdated packages
 """
 # NOTE more to come soon...
-
-from datetime import datetime
 import logging
 import sys
 
@@ -27,19 +25,20 @@ from bs4 import BeautifulSoup
 import requests
 
 logger = logging.getLogger()
-logger.level = logging.DEBUG
+logger.level = logging.INFO
 
 
 class Package(object):
     """ Structure for Package """
     packages = []
 
-    def __init__(self, li) -> None:
+    def __init__(self, li, search_term) -> None:
+        self.search_term = search_term # Term to be highlighted differently as it was explicitly searched for
         self.name           = Package.get_name_from_lxml(li).text.strip()     # pyright: ignore
         self.version        = Package.get_version_from_lxml(li).text.strip()  # pyright: ignore
         self.description    = Package.get_desc_from_lxml(li).text.strip()     # pyright: ignore
         self.date           = Package.get_date_from_lxml(li).text.strip()     # pyright: ignore
-        self.link           = Package.get_link_from_lxml(li).text.strip()     # pyright: ignore
+        self.link           = f'https://pypi.org/project/{self.name}'
         self.id: int        = len(Package.packages) + 1                       # pyright: ignore
 
     @staticmethod
@@ -58,10 +57,6 @@ class Package(object):
     def get_desc_from_lxml(lxml: BeautifulSoup):
         return lxml.select_one('.package-snippet__description')
 
-    @staticmethod
-    def get_link_from_lxml(lxml: BeautifulSoup):
-        return lxml.select_one('a href')
-
     @classmethod
     def show_packages(cls):
         """ Display packages fetched from pypi with syntax formatting """
@@ -71,14 +66,13 @@ class Package(object):
             print(f"\t{package.description}")
 
 
-def format_package_search_results(soup: BeautifulSoup):
+def format_package_search_results(soup: BeautifulSoup, package):
     """ Organize all the results and remove the un-needed stuff """
 
     package_list = soup.select('.package-snippet') # pyright: ignore
-    print(package_list)
 
     for element in package_list:
-        Package.packages.append(Package(element))
+        Package.packages.append(Package(element, package))
 
 
 def search_for_package(package: str):
@@ -90,7 +84,7 @@ def search_for_package(package: str):
     soup = request_pypi_soup(package)
 
     # logging.info(f"Showing up to {max_results} results")
-    format_package_search_results(soup)
+    format_package_search_results(soup, package)
     if not len(Package.packages):
         logging.critical(f" ❌ No results found for package \'{package}\'")
         sys.exit(0)
