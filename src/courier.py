@@ -58,14 +58,18 @@ def print_formatted_list(lines: list) -> None:
         print(line)
 
 
-def proc_args(args: list = sys.argv):
+def proc_args(args: list = sys.argv[1:]):
     """ Get args and process them individually """
     for argument in args:
         match argument:
             case '--help' | 'help':
                 print_formatted_list(read_docs(file="help.txt"))
+                return
+            case '--do-nothing':
+                return
             case _:
                 print_formatted_list(read_docs(file="help.txt"))
+                return
 
 
 def get_file_path() -> str:
