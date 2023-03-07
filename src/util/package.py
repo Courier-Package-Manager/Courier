@@ -102,13 +102,14 @@ class Package(object):
 def format_package_search_results(soup: BeautifulSoup, package):
     """ Organize all the results and remove the un-needed stuff """
 
-    package_list = soup.select('.package-snippet') # pyright: ignore
+    if hasattr(soup, 'select'):
+        package_list = soup.select('.package-snippet')
 
-    for element in package_list:
-        Package.packages.append(Package(element, package))
+        for element in package_list:
+            Package.packages.append(Package(element, package))
 
 
-def search_for_package(package: str):
+def search_for_package(package: str, activate_test_case=False):
     """
         Search for package in the pypi database.
         return: latest package version.
@@ -118,10 +119,10 @@ def search_for_package(package: str):
 
     # logging.info(f"Showing up to {max_results} results")
     format_package_search_results(soup, package)
-    if not len(Package.packages):
-        logging.critical(f" ❌ No results found for package \'{package}\'")
-        sys.exit(0)
 
+    if not len(Package.packages) or activate_test_case:
+        logging.critical(f" ❌ No results found for package \'{package}\'")
+        return
     logger.debug(f' {len(Package.packages)} packages found')
     Package.show_packages()
 

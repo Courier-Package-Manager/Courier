@@ -33,17 +33,19 @@ logger = logging.getLogger()
 
 def close(file):
     """ Close file in the case it\'s not closed """
-    if hasattr(file, "closed"):
-        if not file.closed:
-            file.close()
+    if not file.closed:
+        file.close()
 
 
 def read_docs(file='help.txt') -> list[str]:
     """ Read documentation file from folder """
 
     path = os.getcwd()
+    print(path)
     if not assert_file_path():
+        print(os.getcwd())
         os.chdir('..')
+        print(os.getcwd())
 
     data = []
 
@@ -72,7 +74,7 @@ def proc_args(args: list = sys.argv[1:]):
                 return
             case '--do-nothing':
                 return
-            case'get':
+            case 'get':
                 match len(args):
                     case 1:
                         print("Syntax: courier get <package>")

@@ -22,6 +22,8 @@ from src.util.update import scan_dir
 from src.util.update import create_package
 from src.util.update import update_packages
 from src.util.update import loc_package_file
+from src.util.update import file_exists
+from util import display_if_online
 
 
 class TestUtil(unittest.TestCase):
@@ -30,6 +32,10 @@ class TestUtil(unittest.TestCase):
         """ Set up instances & instance variables """
         self.logger = logging.getLogger()
         self.logger.level = logging.DEBUG
+
+    def test_file_exists(self):
+        """ Test file exists function works """
+        file_exists('non-existent-file', 'r')
 
     def test_switch_root(self):
         """ Assert that project dir changes """

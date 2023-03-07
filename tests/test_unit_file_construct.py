@@ -1,3 +1,4 @@
+
 """
 The MIT License (MIT)
 
@@ -15,16 +16,25 @@ copies or substantial portions of the Software.
 """
 
 import unittest
-import colorama
+from requests.exceptions import MissingSchema, ConnectionError
+import logging
+from util import display_if_online
 
 
-class TestConstructor(unittest.TestCase):
-    """ Test constructor file for utils package """
+class TestUnitFileConstructor(unittest.TestCase):
+    """ Test unit file constructor """
+    def setUp(self):
+        """ Set up instances & instance variables """
+        self.logger = logging.getLogger()
+        self.logger.level = logging.DEBUG
 
-    def test_colorama_constructor(self):
-        """ Test colorama constructor """
-        colorama.deinit()
-        colorama.init()
+    def test_display_if_online(self):
+        """ Test display if online function """
+        with self.assertRaises(MissingSchema):
+            display_if_online('google.com')
+        self.assertTrue(display_if_online('https://google.com'))
+        self.assertFalse(
+                display_if_online('https://not_a_website!/lol.com'))
 
 
 if __name__ == '__main__':

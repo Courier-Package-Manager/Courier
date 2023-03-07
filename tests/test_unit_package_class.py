@@ -17,8 +17,6 @@ copies or substantial portions of the Software.
 import logging
 import unittest
 
-from src.util.package import Package
-
 logger = logging.getLogger()
 
 

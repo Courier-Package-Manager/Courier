@@ -19,8 +19,9 @@ import unittest
 
 from requests.exceptions import MissingSchema
 
-from util.package import request_pypi_soup, search_for_package
+from util.package import format_package_search_results, request_pypi_soup, search_for_package
 from util.package import service_online
+from util.package import Package
 
 logger = logging.getLogger()
 
@@ -35,10 +36,13 @@ class TestUtilPackage(unittest.TestCase):
 
     def test_format_package_search_results(self):
         """ Test format package search results """
+        for package in Package.packages:
+            format_package_search_results(package, "")
 
     def test_search_for_package(self):
         """ Test search for package """
         search_for_package(self.package)
+        search_for_package(self.package, True)
 
     def test_request_pypi_soup(self):
         """ Test request pypi soup """
