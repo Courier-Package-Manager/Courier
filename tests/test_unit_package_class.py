@@ -27,22 +27,24 @@ from src.util.update import load_logging_ini
 logger = logging.getLogger()
 
 
-class TestUtilPackage(unittest.TestCase):
-    """ Test util package functions """
+class TestUnitPackageClass(unittest.TestCase):
+    """ Test unit package class object """
     def setUp(self):
         """ Set up instances & instance variables """
         self.logger = logging.getLogger()
         self.logger.level = logging.DEBUG
 
-    def test_format_package_search_results(self):
-        """ Test format package search results """
+    def test_get_name_from_lxml(self):
+        """ Test get name from lxml """
 
-    def test_search_for_package(self):
-        """ Test search for package """
+    def test_get_version_from_lxml(self):
+        """ Test get version from lxml """
 
-    def test_request_pypi_soup(self):
-        """ Test request pypi soup """
+    def test_get_date_from_lxml(self):
+        """ Test get date from lxml """
 
+    def test_get_desc_from_lxml(self):
+        """ Get get description from lxml """
 
 if __name__ == '__main__':
     unittest.main()
