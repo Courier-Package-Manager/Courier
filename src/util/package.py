@@ -36,12 +36,12 @@ class Package(object):
     """ Structure for Package """
     packages = []
     def __init__(self, li) -> None:
-        self.name: Tag | None = Package.get_name_from_lxml(li).text
-        self.version: Tag | None = Package.get_version_from_lxml(li).text
-        self.description: Tag | None = Package.get_date_from_lxml(li)
-        self.link: Tag | None = Package.get_desc_from_lxml(li)
-        self.date: Tag | None = Package.get_date_from_lxml(li)
-        self.id: int = len(Package.packages)
+        self.name: Tag | None = Package.get_name_from_lxml(li).text.strip()
+        self.version: Tag | None = Package.get_version_from_lxml(li).text.strip()
+        self.description: Tag | None = Package.get_desc_from_lxml(li).text.strip()
+        self.date: Tag | None = Package.get_date_from_lxml(li).text.strip()
+        # self.link: Tag | None = Package.get_link_from_lxml(li).text
+        self.id: int = len(Package.packages) + 1
 
     @staticmethod
     def get_name_from_lxml(lxml: BeautifulSoup):
@@ -53,7 +53,7 @@ class Package(object):
     
     @staticmethod
     def get_date_from_lxml(lxml: BeautifulSoup):
-        return lxml.select_one('.package-snippet__created span time')
+        return lxml.select_one('.package-snippet__created time')
 
     @staticmethod
     def get_desc_from_lxml(lxml: BeautifulSoup):
@@ -67,7 +67,7 @@ class Package(object):
     def show_packages(cls):
         cls.packages.reverse()
         for package in cls.packages:
-            print(f"{package.id} {package.name} {package.version}")
+            print(f"{package.id} {package.name} {package.version} {package.date}")
             print(f"\t{package.description}")
 
 
@@ -75,8 +75,8 @@ class Package(object):
 def format_package_search_results(soup: BeautifulSoup):
     """ Organize all the results and remove the un-needed stuff """
 
-    package_container = soup.find('ul', class_='unstyled')
-    package_list = package_container.find_all('li') # pyright: ignore
+    package_list = soup.select('.package-snippet') # pyright: ignore
+    print(package_list)
 
     for element in package_list:
         Package.packages.append(Package(element))
@@ -90,14 +90,14 @@ def search_for_package(package: str, max_results=10):
     logging.info(f" 🔎 Searching pypi for {package}")
     soup = request_pypi_soup(package)
 
-    logging.info(f"Showing up to {max_results} results")
+    # logging.info(f"Showing up to {max_results} results")
     format_package_search_results(soup)
-    logger.debug(f' {len(Package.packages)} packages found')
-    for package in Package.packages:
-        print(package.name)
     if not len(Package.packages):
         logging.critical(f" ❌ No results found for package \'{package}\'")
         sys.exit(0)
+    logger.debug(f' {len(Package.packages)} packages found')
+    Package.show_packages()
+
 
 
 def request_pypi(package) -> requests.Response:
