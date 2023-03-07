@@ -104,8 +104,8 @@ def get_package_name() -> DirEntry | None:
 
 
 def loc_package_file(
-        name: DirEntry | None = get_package_name(),
-        debug:  Literal[True] | Literal[False] = False,
+        name=get_package_name(),
+        debug=False,
         mode='r') -> IO[Any] | None:
     """ Locate the package file & create package file if it doesn't exist. """
     if not name or debug:

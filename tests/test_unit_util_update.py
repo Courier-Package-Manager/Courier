@@ -54,7 +54,8 @@ class TestUtil(unittest.TestCase):
 
     def test_loc_package_file(self):
         """ Test locate package file """
-        loc_package_file(name=False, debug=False)  # pyright: ignore
+        loc_package_file(debug=True)
+        loc_package_file(mode='w')
 
     def test_logger_info(self):
         self.assertIsInstance(os.getcwd(), str)
