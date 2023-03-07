@@ -20,17 +20,26 @@ MAGENTA = colorama.Fore.MAGENTA
 cwd = os.getcwd()
 
 
+def file_exists(file, mode) -> str | bool:
+    """ Test if file exists (recurring snippet) """
+    try:
+        file = open(file, mode)
+        file.close()
+        return file
+    except FileNotFoundError:
+        return False
+
+
 def last_updated():
     """ last update in datetime format.
      This is assuming that the following code has run:
      >>> if project_folder != 'Courier': os.chdir('..')
     """
-    file = open(PACKAGE, 'r')
-    data = json.load(file)
-    file.close()
-    timestamp = datetime.fromtimestamp(data['created'])
-    date = get_date(timestamp)
-    return date
+    if file_exists(PACKAGE, 'r'):
+        data = json.load(open(PACKAGE, 'r'))
+        timestamp = datetime.fromtimestamp(data['created'])
+        date = get_date(timestamp)
+        return date
 
 
 def load_logging_ini() -> None:
