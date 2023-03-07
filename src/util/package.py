@@ -14,7 +14,7 @@ from bs4.element import Tag
 import requests
 
 logger = logging.getLogger()
-logger.level = logging.DEBUG
+logger.level = logging.INFO
 
 
 class Package(object):
@@ -57,7 +57,8 @@ def format_package_search_results(soup: BeautifulSoup):
         if isinstance(element, NoneType):
             print(element)
             continue
-        logger.debug(element)
+
+        # logger.debug(element)
 
         try:
             lxml = BeautifulSoup(element, 'lxml')
@@ -66,10 +67,6 @@ def format_package_search_results(soup: BeautifulSoup):
 
         package = Package(lxml)
         packages.append(package)
-    # logging.debug(package_list)
-    # list_items = soup.select_one('ul li', class_="unstyled")
-    # logging.debug(list_items)
-    # return list_items
 
 
 def search_for_package(package: str, max_results=10):
