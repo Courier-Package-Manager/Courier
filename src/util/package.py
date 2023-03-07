@@ -17,13 +17,12 @@ package.py has functions responsible for the following:
       - Indexing pypi database for release
       - Scanning for outdated packages
 """
-import os
 import logging
+import os
 
 from bs4 import BeautifulSoup
-import requests
-
 from colorama import Fore
+import requests
 
 logger = logging.getLogger()
 logger.level = logging.INFO
@@ -162,8 +161,9 @@ def auto_install_package(root_dir):
         subdir_files = os.walk(subdir).__next__()[2]
         if (len(subdir_files) > 0):
             for file in subdir_files:
-                logger.debug(f''' Found: {
-                color_path(os.path.join(subdir, file))}''')
+                path = color_path(os.path.join(subdir, file))
+                logger.debug(f''' Found: {path} ''')
+                
                 files.append(os.path.join(subdir, file))
 
 
