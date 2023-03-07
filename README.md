@@ -26,7 +26,7 @@ git clone https://github.com/JoshuaDRose/Courier
 ```
 git checkout stable
 ```
- > Navigate to the stable branch if downloading from a separate branch
+ > Navigate to the `stable` branch if downloading from a separate branch
 ```
 make install
 ```
@@ -58,7 +58,7 @@ Please clone the `development` branch if making changes to the code with the int
 to contribute. Alternatively you can work on `stable` however that will not be cutting
 edge and you may have to (very likely) remerge `dev` and possibly overwrite some of the code.
 
-Note: If you do choose to work on the stable branch (not-recommended), it is advised you at
+Note: If you do choose to work on the `stable` branch (not-recommended), it is advised you at
 least change the `level` key in [config.ini](config.ini) for keys `logger_root` and 
 `handler_stream_handler`
 
