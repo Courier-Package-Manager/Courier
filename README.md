@@ -13,9 +13,9 @@ Package manager for Python
 
 ## About
 Courier is a package manager that automatically detects new dependencies in your project, whilst
-having the capability to manually specify requireements, requirements files etc. With the ability
+having the capability to manually specify requirements, requirements files etc. With the ability
 to automatically request the latest version as per a schedule or to be called manually, managing
-dependenies comes at little to no time cost with this tool. Courier boasts high docility with effective and efficient code. 
+dependencies comes at little to no time cost with this tool. Courier boasts high docility with effective and efficient code. 
 
 ## Coverage
 ![coverage-sunburst](https://codecov.io/gh/JoshuaDRose/Courier/branch/stable/graphs/sunburst.svg?token=EX3AAYPPUQ)
@@ -23,8 +23,8 @@ dependenies comes at little to no time cost with this tool. Courier boasts high 
 ![coverage-icicle](https://codecov.io/gh/JoshuaDRose/Courier/branch/stable/graphs/icicle.svg?token=EX3AAYPPUQ)
 
 ## Installation
-Note before installing: the `master` branch is very unstable and may not work. For a working
-installation, download the last listed release.
+Note before installing: the `dev` branch is very unstable and may not work. For a working
+installation, download the last listed release or install from the `stable` branch.
 
 ```
 git clone https://github.com/JoshuaDRose/Courier
@@ -33,7 +33,7 @@ git clone https://github.com/JoshuaDRose/Courier
 ```
 git checkout stable
 ```
- > Navigate to the stable branch if downloading from a seperate branch
+ > Navigate to the stable branch if downloading from a separate branch
 ```
 make install
 ```
@@ -41,18 +41,19 @@ make install
 
 ## Features
 As seen in [Trakr](https://github.com/JoshuaDRose/Trakr), a package management system
-was introduced which assisted the installation and maintance of Trakr's dependencies.
+was introduced which assisted the installation and maintenance of Trakr's dependencies.
 This project hopes to extend upon that package management system, and develop further
-features in the hope that it will assist with the local dependency maintaince of future
+features in the hope that it will assist with the local dependency maintenance of future
 projects.
 
 Tox is planning to make an entrance sooner or later in this project once enough code 
 is written and enough substantial unit tests are introduced. The process of automating
 testing will also greatly help me test less because everything is being automated. More
 on this to come once unit tests are introduced.
+
 ## Contributing
 When making commits in a forked repository (with the intent of a pr) please ensure that
-you read the [commits](commits.md) syntax file. Note that this file also generally applies
+you read the [`commits`](commits.md) syntax file. Note that this file also generally applies
 to pull requests as well. There are plans to make a contributing file in the future, however
 that is nor needed or relevant right now but will be introduced if there is good reason for 
 doing so. Contributions are always encouraged and appreciated.
