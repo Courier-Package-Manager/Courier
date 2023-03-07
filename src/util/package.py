@@ -17,9 +17,8 @@ package.py has functions responsible for the following:
       - Indexing pypi database for release
       - Scanning for outdated packages
 """
-
+import os
 import logging
-import sys
 
 from bs4 import BeautifulSoup
 import requests
@@ -144,3 +143,53 @@ def service_online(url='https://pypi.org') -> bool:
     """ Check that pypi is online """
     pypi_request: object = requests.get(url)
     return pypi_request.status_code == 200
+
+
+def auto_install_package(root_dir):
+    """
+    1. Look in files to auto-install package
+    2. Prune un-needed files
+    """
+
+    files = []
+    # NOTE dirs to ignore
+    ignore = ['.git', '.github']
+
+    subdirs = [file[0] for file in os.walk(os.path.abspath(root_dir ))]
+    for subdir in subdirs:
+        if os.path.split(subdir)[1] in ignore:
+            continue
+        subdir_files = os.walk(subdir).__next__()[2]
+        if (len(subdir_files) > 0):
+            for file in subdir_files:
+                logger.debug(f' Found: {color_path(os.path.join(subdir, file))}')
+                files.append(os.path.join(subdir, file))
+
+
+def color_path(path: str = os.getcwd()):
+    """
+        Desc: Stupid function i don't know why I made this
+              It just makes pathnames rainbow
+    """
+    # Split each '/'
+    # print('color', path)
+    components = path.split('/', path.count('/'))
+    components.remove('')
+    colors = [
+            Fore.GREEN,
+            Fore.RED,
+            Fore.MAGENTA,
+            Fore.CYAN,
+            Fore.YELLOW,
+            Fore.BLUE
+            ]
+
+    color_index = 0
+    for index, component in enumerate(components):
+        if color_index > len(colors):
+            color_index = 0
+
+        components[index] = colors[color_index - 1] + '/' + component + Fore.RESET
+        color_index += 1
+
+    print(''.join(components))

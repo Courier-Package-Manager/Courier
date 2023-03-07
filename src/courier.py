@@ -26,6 +26,7 @@ from util import load_logging_ini
 from util import loc_package_file
 from util import last_updated
 from util import search_for_package
+from util.package import auto_install_package, color_path
 
 load_logging_ini()
 logger = logging.getLogger()
@@ -41,7 +42,7 @@ def read_docs(file='help.txt') -> list[str]:
     """ Read documentation file from folder """
 
     path = os.getcwd()
-    print(path)
+    logger.debug(path)
     if not assert_file_path():
         print(os.getcwd())
         os.chdir('..')
@@ -108,4 +109,5 @@ def main():
     loc_package_file()
 
 
+auto_install_package('.')
 main()
