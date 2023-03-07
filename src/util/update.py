@@ -1,7 +1,7 @@
 import os
 import json
 from types import EllipsisType
-from typing import Literal
+from typing import IO, Any, Literal
 from .setup import get_date
 from posix import DirEntry
 from datetime import datetime
@@ -21,9 +21,10 @@ cwd = os.getcwd()
 
 
 def last_updated():
-    """ last update in datetime format. """
-    # NOTE this is assuming that the following code has run:
-    # >>> if project_folder != 'Courier': os.chdir('..')
+    """ last update in datetime format.
+     This is assuming that the following code has run:
+     >>> if project_folder != 'Courier': os.chdir('..')
+    """
     file = open(PACKAGE, 'r')
     data = json.load(file)
     file.close()
@@ -95,8 +96,16 @@ def get_package_name() -> DirEntry | None:
 
 def loc_package_file(
         name: DirEntry | None = get_package_name(),
-        debug:  Literal[True] | Literal[False] = True) -> None:
+        debug:  Literal[True] | Literal[False] = False,
+        mode='r') -> IO[Any] | None:
     """ Locate the package file & create package file if it doesn't exist. """
-    if not name:
+    if not name or debug:
         logger.info(f"Set {GREEN}{PACKAGE}{RESET} in {MAGENTA}{cwd}{RESET}")
         return create_package()
+    else:
+        with open(PACKAGE, mode) as fp:
+            try:
+                return fp
+            finally:
+                if 'w' in list(mode):
+                    fp.close()
