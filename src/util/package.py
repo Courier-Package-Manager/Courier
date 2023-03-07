@@ -35,13 +35,14 @@ logger.level = logging.DEBUG
 class Package(object):
     """ Structure for Package """
     packages = []
+
     def __init__(self, li) -> None:
-        self.name: Tag | None = Package.get_name_from_lxml(li).text.strip()
-        self.version: Tag | None = Package.get_version_from_lxml(li).text.strip()
-        self.description: Tag | None = Package.get_desc_from_lxml(li).text.strip()
-        self.date: Tag | None = Package.get_date_from_lxml(li).text.strip()
-        # self.link: Tag | None = Package.get_link_from_lxml(li).text
-        self.id: int = len(Package.packages) + 1
+        self.name           = Package.get_name_from_lxml(li).text.strip()
+        self.version        = Package.get_version_from_lxml(li).text.strip()
+        self.description    = Package.get_desc_from_lxml(li).text.strip()
+        self.date           = Package.get_date_from_lxml(li).text.strip()
+        self.link           = Package.get_link_from_lxml(li).text.strip()
+        self.id: int        = len(Package.packages) + 1
 
     @staticmethod
     def get_name_from_lxml(lxml: BeautifulSoup):

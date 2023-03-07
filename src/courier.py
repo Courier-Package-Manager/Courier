@@ -64,12 +64,12 @@ def proc_args(args: list = sys.argv[1:]):
         match argument:
             case '--help' | 'help':
                 print_formatted_list(read_docs(file="help.txt"))
-                return;
+                return
             case '--do-nothing':
-                return;
+                return
             case _:
                 print_formatted_list(read_docs(file="help.txt"))
-                return;
+                return
 
 
 def get_file_path() -> str:
