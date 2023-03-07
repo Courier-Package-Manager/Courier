@@ -62,6 +62,8 @@ def proc_args(args: list = sys.argv):
         match argument:
             case '--help' | 'help':
                 print_formatted_list(read_docs(file="help.txt"))
+            case _:
+                print_formatted_list(read_docs(file="help.txt"))
 
 
 def get_file_path() -> str:
