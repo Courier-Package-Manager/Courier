@@ -4,6 +4,7 @@ import logging
 
 import colorama
 
+from .package import Package  # pyright: ignore
 from .package import search_for_package  # pyright: ignore
 from .package import service_online  # pyright: ignore
 from .package import request_pypi  # pyright: ignore
