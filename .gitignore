@@ -13,3 +13,7 @@ src/util/__pycache__/
 src/util/__pycache__/setup.*
 src/util/__pycache__/update.*
 src/util/__pycache__/update.pyc
+
+# Should have 'debug' on dev branch
+# and have 'info' on stable branch
+config.ini
