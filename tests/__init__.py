@@ -21,5 +21,10 @@ PROJECT_PATH = os.getcwd()
 SOURCE_PATH = os.path.join(
     PROJECT_PATH, "src"
 )
+UTIL_PATH = os.path.join(
+        SOURCE_PATH, 
+        "util"
+        )
 
 sys.path.append(SOURCE_PATH)
+sys.path.append(UTIL_PATH)
