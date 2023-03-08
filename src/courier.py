@@ -93,6 +93,9 @@ def proc_args(args: list):
                 return
             case '--do-nothing':
                 return
+            case 'codescan':
+                if len(args) == 1:
+                    logger.info("  🔎 Scanning for unmet dependencies ... ")
             case 'install':
                 if len(args) == 1:
                     print("Syntax: courier install <package> [version]")
