@@ -36,22 +36,16 @@ class Package(object):
         # Term to be highlighted differently as it
         # was explicitly searched for
         search_term = search_term 
-        if not li:
-            return
-        if not search_term:
-            return
+        if not li: return
+        if not search_term: return
         lxml_name = Package.get_name_from_lxml(li)
         lxml_date = Package.get_date_from_lxml(li)
         lxml_desc = Package.get_desc_from_lxml(li)
         lxml_ver = Package.get_version_from_lxml(li)
-        if not lxml_name:
-            return;
-        if not lxml_date:
-            return;
-        if not lxml_desc:
-            return;
-        if not lxml_ver:
-            return;
+        if not lxml_name: return
+        if not lxml_date: return
+        if not lxml_desc: return
+        if not lxml_ver: return
 
         _name = lxml_name.text.strip()
         date = lxml_date.text.strip()
@@ -140,16 +134,14 @@ class Package(object):
     @staticmethod
     def install_from_id(id: int | None, unittest=False):
         """ run pip to install package from id """
-        if not id:
-            return # NOTE no package selected
+        if not id: return # NOTE no package selected
         package_count = len(Package.packages)
         if package_count == 0:
             logger.critical("Could not index package list, as no cache has been loaded")
             return
         logger.debug(f'loadeded {package_count} packages.')
         package: None | Package = Package.name_from_id(id)
-        if not package:
-            return;
+        if not package: return;
         if unittest:
             logging.debug("Not doing anything due to unit test mock permissions.")
             return
@@ -166,13 +158,12 @@ class Package(object):
         return 1
 
     @staticmethod
-    def handle_query_input(selected):
+    def handle_query_input(selected, unittest):
         """ Handle given input """
         match selected:
-            case "":
-                return False
+            case "": return False
             case _:
-                Package.install_from_id(int(selected))
+                Package.install_from_id(int(selected), unittest)
                 return True
 
     @staticmethod
@@ -182,7 +173,8 @@ class Package(object):
         while 1:
             try:
                 selected = Package.query_install_input(unittest)
-                Package.handle_query_input(selected)
+                Package.handle_query_input(selected, unittest)
+                return True
             except Exception as error:
                 logging.debug(str(error))
                 return False

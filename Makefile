@@ -20,7 +20,8 @@ coverage:
 
 test:
 	@clear
+	# ============= RUNNING NEW TEST =============== #
 	@python -m coverage run -m unittest discover
-	@clear
+	# ============= REPORT =============== #
 	@python -m coverage report 
 	@python -m coverage html
