@@ -45,7 +45,7 @@ def read_docs(file='help.txt') -> list[str]:
     logger.debug(path)
     # print(path)
     if not assert_file_path():
-        print(Package.color_path(os.getcwd()))
+        logging.debug(Package.color_path(os.getcwd()))
         os.chdir('..')
 
     data = []
@@ -54,6 +54,7 @@ def read_docs(file='help.txt') -> list[str]:
         data = _file.read().strip().splitlines()
 
     os.chdir(path)
+    logging.debug(f" ✈️  Changing dir to {Package.color_path(os.getcwd())}")
     return data
 
 
@@ -119,5 +120,5 @@ def main():
     loc_package_file()
 
 
-Package.auto_install(root_dir='..')
+Package.auto_install()
 main()

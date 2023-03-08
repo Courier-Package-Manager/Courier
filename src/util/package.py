@@ -20,10 +20,13 @@ package.py has functions responsible for the following:
 
 import logging
 import os
-
+import sys
+import pkg_resources
 from bs4 import BeautifulSoup
 from colorama import Fore
 import requests
+import pathlib
+import subprocess
 
 logger = logging.getLogger()
 logger.level = logging.INFO
@@ -235,28 +238,30 @@ class Package(object):
 
 
     @staticmethod
-    def auto_install(root_dir):
+    def auto_install(root='.'):
         """
+        root: root directory
+
         1. Look in files to auto-install package
         2. Prune un-needed files
+
+        todo(feat): writing to config file
         """
 
         files = []
-        # NOTE dirs to ignore
-        # TODO set to actual loadable config dir
-        ignore = ['.git', '.github', 'libs']
+        ignore = ['.git', '.github', 'libs', '.tox', 'venv', 'htmlcov']
 
-        subdirs = [file[0] for file in os.walk(os.path.abspath(root_dir ))]
-        for subdir in subdirs:
-            if os.path.split(subdir)[1] in ignore:
+        path = pathlib.Path(root)
+        for file in path.rglob('*'): # NOTE is recursive
+            files.append(file)
+
+        for file in path.rglob('*.py'):
+            head, _ = os.path.join(file.parent, file.name).split('/', 1)  # pyright: ignore
+            if head in ignore:
+                files.remove(file)
                 continue
-            subdir_files = os.walk(subdir).__next__()[2]
-            if (len(subdir_files) > 0):
-                for file in subdir_files:
-                    path = Package.color_path(os.path.join(subdir, file))
-                    logger.debug(f''' Found: {path} ''')
-                    files.append(os.path.join(subdir, file))
 
+            logger.debug(Package.color_path(str(file)))  # pyright: ignore
 
     @staticmethod
     def color_path(path: str = os.getcwd()):
@@ -295,3 +300,28 @@ class Package(object):
             color_index += 1
 
         return ''.join(components)
+
+    @staticmethod
+    def update_package(package, *version):
+
+        packs = {}
+
+        for i in pkg_resources.working_set:
+            packs[packs[i.key]] = i.parsed_version
+
+        if package in packs.keys():
+            if version != packs[package]:
+
+                print(f"You already have {package} installed, however it is out of date.")
+                print(f"Updating {package} to version {version}")
+
+                subprocess.check_call([
+                    sys.executable,
+                    "-m",
+                    "pip",
+                    "install",
+                    f"{package}=={''.join(version)}"])
+                return
+            else:
+                print(f"You already have the latest version of {package} installed ({version})")
+                return
