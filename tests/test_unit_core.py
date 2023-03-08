@@ -44,7 +44,7 @@ class TestCourier(unittest.TestCase):
 
     def test_read_docs(self):
         """ Test read docuentation files """
-        os.chdir('build')
+        os.chdir('venv')
         self.assertIsInstance(read_docs(), list)
         os.chdir('..')
 
