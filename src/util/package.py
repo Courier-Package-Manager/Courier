@@ -274,8 +274,7 @@ class Package(object):
         color_index = 0
 
         for index, component in enumerate(components):
-            if color_index > len(colors):
-                color_index = 0
+            if color_index > len(colors): color_index = 0
 
             match index:
                 case 0:
