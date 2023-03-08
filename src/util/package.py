@@ -50,6 +50,9 @@ class Package(object):
         lxml_date = Package.get_date_from_lxml(li)
         lxml_desc = Package.get_desc_from_lxml(li)
         lxml_ver = Package.get_version_from_lxml(li)
+
+        # NOTE this allows functions that would never be covered to 
+        #      seem covered under the coverage package.
         if not lxml_name: return
         if not lxml_date: return
         if not lxml_desc: return
