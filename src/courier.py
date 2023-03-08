@@ -18,14 +18,15 @@ all copies or substantial portions of the Software.
 """
 
 import logging
-import colorama
-import sys
 import os
+import sys
+
+import colorama
 
 from util import load_logging_ini
 from util import loc_package_file
 from util import last_updated
-from util import search_for_package
+from util.package import Package
 
 load_logging_ini()
 logger = logging.getLogger()
@@ -41,15 +42,16 @@ def read_docs(file='help.txt') -> list[str]:
     """ Read documentation file from folder """
 
     path = os.getcwd()
+    logger.debug(path)
     # print(path)
     if not assert_file_path():
-        print(os.getcwd())
+        print(Package.color_path(os.getcwd()))
         os.chdir('..')
 
     data = []
 
-    with open(os.path.join('docs', file), 'r') as fp:
-        data = fp.read().strip().splitlines()
+    with open(os.path.join('docs', file), 'r', encoding='utf') as _file:
+        data = _file.read().strip().splitlines()
 
     os.chdir(path)
     return data
@@ -61,10 +63,14 @@ def print_formatted_list(lines: list) -> None:
         print(line)
 
 
-def proc_args(args: list = sys.argv[1:]):
+def proc_args(args: list):
     """ Get args and process them individually """
-    if not len(args):
+    if len(args) == 0:
         print_formatted_list(read_docs(file="help.txt"))
+
+    for i in args:
+        if i.endswith('.py'):
+            args.remove(i)
 
     for argument in args:
         match argument:
@@ -79,7 +85,7 @@ def proc_args(args: list = sys.argv[1:]):
                         print("Syntax: courier get <package>")
                         return
                     case 2:
-                        search_for_package(args[len(args) - 1])
+                        Package.search(args[len(args) - 1])
 
 
 def get_file_path() -> str:
@@ -96,16 +102,17 @@ def assert_file_path() -> bool:
 def get_package_created() -> None:
     """ Prints the date that update.json was created """
     assert_file_path()
-    logger.debug("Package file {m}update.json{r} was created {d}".format(
-        m=colorama.Fore.GREEN,
-        r=colorama.Fore.RESET,
-        d=last_updated()))
+    logger.debug("Package file %s update.json %s was created %s ",
+                 colorama.Fore.GREEN,
+                 colorama.Fore.RESET,
+                 last_updated())
 
 
 def main():
     """Currently calling functions for testing"""
-    proc_args()
+    proc_args(sys.argv)
     loc_package_file()
 
 
+Package.auto_install(root_dir='..')
 main()

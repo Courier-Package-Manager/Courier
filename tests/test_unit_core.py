@@ -16,6 +16,7 @@ copies or substantial portions of the Software.
 
 import unittest
 import os
+
 from src.courier import close, get_file_path, proc_args
 from src.courier import get_package_created
 from src.courier import print_formatted_list
@@ -26,6 +27,7 @@ from src.courier import main
 
 class TestCourier(unittest.TestCase):
     """ Test courier functions """
+
     def test_get_file_path(self):
         """ Ensure file path is accurate """
         expected = os.path.basename(os.path.normpath(os.getcwd()))
@@ -60,6 +62,7 @@ class TestCourier(unittest.TestCase):
         proc_args(args=['--do-nothing'])
         proc_args(args=['get'])
         proc_args(args=['get', 'requests'])
+        proc_args(args=['file.py', 'requests'])
         proc_args(args=[])
 
     def test_main(self):
