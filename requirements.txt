@@ -9,3 +9,4 @@ colorama
 bs4
 spell
 nose
+packaging

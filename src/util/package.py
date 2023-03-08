@@ -20,14 +20,18 @@ package.py has functions responsible for the following:
 
 import logging
 import os
-
+import sys
+from packaging import version
+from packaging.version import Version
+import pkg_resources
 from bs4 import BeautifulSoup
 from colorama import Fore
 import requests
+import pathlib
+import subprocess
 
 logger = logging.getLogger()
 logger.level = logging.INFO
-
 
 class Package(object):
     """ 
@@ -238,28 +242,30 @@ class Package(object):
 
 
     @staticmethod
-    def auto_install(root_dir):
+    def auto_install(root='.'):
         """
+        root: root directory
+
         1. Look in files to auto-install package
         2. Prune un-needed files
+
+        todo(feat): writing to config file
         """
 
         files = []
-        # NOTE dirs to ignore
-        # TODO set to actual loadable config dir
-        ignore = ['.git', '.github', 'libs']
+        ignore = ['.git', '.github', 'libs', '.tox', 'venv', 'htmlcov']
 
-        subdirs = [file[0] for file in os.walk(os.path.abspath(root_dir ))]
-        for subdir in subdirs:
-            if os.path.split(subdir)[1] in ignore:
+        path = pathlib.Path(root)
+        for file in path.rglob('*'): # NOTE is recursive
+            files.append(file)
+
+        for file in path.rglob('*.py'):
+            head, _ = os.path.join(file.parent, file.name).split('/', 1)  # pyright: ignore
+            if head in ignore:
+                files.remove(file)
                 continue
-            subdir_files = os.walk(subdir).__next__()[2]
-            if (len(subdir_files) > 0):
-                for file in subdir_files:
-                    path = Package.color_path(os.path.join(subdir, file))
-                    logger.debug(f''' Found: {path} ''')
-                    files.append(os.path.join(subdir, file))
 
+            logger.debug(Package.color_path(str(file)))  # pyright: ignore
 
     @staticmethod
     def color_path(path: str = os.getcwd()):
@@ -298,3 +304,46 @@ class Package(object):
             color_index += 1
 
         return ''.join(components)
+
+    @staticmethod
+    def update_package(package, _version: str="") -> bool:
+        """ Update package with pip """
+
+        def tuple_to_version(_ver: tuple) -> version.Version:  # pyright: ignore
+            """ Convert tuple to version """
+            _ver_str = ''
+            for num in _ver: _ver_str += num + '.'
+            return Version(_ver_str[:1])
+
+        packs = {}
+
+        _ver = version.parse(_version)
+
+        for i in pkg_resources.working_set:
+            packs[i.key] = i.parsed_version
+
+        if package in packs.keys():
+            if _ver < packs[package]:
+
+                logger.info(f"You already have {package} installed, however it is out of date.")
+                logger.info(f"Updating {package} to version {_ver}")
+
+                if version != "":
+                    subprocess.check_call([
+                        sys.executable,
+                        "-m",
+                        "pip",
+                        "install",
+                        f"{package}=={_ver.__str__()}"])
+                    return True
+                subprocess.check_call([
+                    sys.executable,
+                    "-m",
+                    "pip",
+                    "install",
+                    f"{package}"])
+                return True
+            else:
+                logger.info(f"You already have the latest version of {package} installed ({_ver})")
+                return True
+        return False

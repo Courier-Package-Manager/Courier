@@ -1,5 +1,4 @@
 # Copyright (c) 2023 Joshua Rose
-
 install:
 	# @sh build/scripts/install.sh
 	@clear
