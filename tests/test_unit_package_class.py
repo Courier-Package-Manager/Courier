@@ -93,6 +93,9 @@ class TestUnitPackageClass(unittest.TestCase):
         """ Test query install w/ input """
         self.assertEqual(Package.query_install(True), True)
 
+    def test_update_package(self):
+        """ Test update package with pip """
+
 
 if __name__ == '__main__':
     unittest.main()

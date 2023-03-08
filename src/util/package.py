@@ -302,7 +302,8 @@ class Package(object):
         return ''.join(components)
 
     @staticmethod
-    def update_package(package, *version):
+    def update_package(package, *version) -> bool:
+        """ Update package with pip """
 
         packs = {}
 
@@ -321,7 +322,8 @@ class Package(object):
                     "pip",
                     "install",
                     f"{package}=={''.join(version)}"])
-                return
+                return True
             else:
                 logger.info(f"You already have the latest version of {package} installed ({version})")
-                return
+                return True
+        return False
