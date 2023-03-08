@@ -101,10 +101,12 @@ class Package(object):
         return lxml.select_one('.package-snippet__description')
 
     @classmethod
-    def list(cls):
+    def list(cls, limit=10):
         """ Display packages fetched from pypi with syntax formatting """
         cls.packages.reverse()
-        for package in cls.packages:
+        for index, package in enumerate(cls.packages):
+            if index >= limit:
+                return;
             print("{id} {name} {version} {date}\n\t{description}".format(
                 id=package.id,
                 name=package.name,
