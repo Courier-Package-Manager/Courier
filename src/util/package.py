@@ -137,13 +137,15 @@ class Package(object):
         if not id: return # NOTE no package selected
         package_count = len(Package.packages)
         if package_count == 0:
-            logger.critical("Could not index package list, as no cache has been loaded")
+            logger.critical(\
+""" Could not index package list, as no cache has been loaded""")
             return
         logger.debug(f'loadeded {package_count} packages.')
         package: None | Package = Package.name_from_id(id)
         if not package: return;
         if unittest:
-            logging.debug("Not doing anything due to unit test mock permissions.")
+            logging.debug(\
+""" Not doing anything due to unit test mock permissions.""")
             return
         else:
             os.system(f'python -m pip install {package.name}')
