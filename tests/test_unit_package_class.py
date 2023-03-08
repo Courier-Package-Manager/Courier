@@ -87,12 +87,12 @@ class TestUnitPackageClass(unittest.TestCase):
         Package.is_installed(self.package)
 
     @patch('util.Package.query_install_input', return_value=True)
-    def test_query_install_install(self,  input):
+    def test_query_install_install(self,  _):
         """ Test query install w/ input """
-        Package.query_install()
+        self.assertEqual(Package.query_install(), True)
 
     @patch('util.Package.query_install_input', return_value=False)
-    def test_query_install_none(self,  input):
+    def test_query_install_none(self,  _):
         """ Test query install w/o input """
         self.assertEqual(Package.query_install(), False)
 

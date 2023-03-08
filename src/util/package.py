@@ -19,7 +19,6 @@ package.py has functions responsible for the following:
 """
 import logging
 import os
-import subprocess
 
 from bs4 import BeautifulSoup
 from colorama import Fore
@@ -37,21 +36,35 @@ class Package(object):
         # Term to be highlighted differently as it
         # was explicitly searched for
         search_term = search_term 
-        _name = Package.get_name_from_lxml(
-                li).text.strip()  # pyright: ignore
-        version = Package.get_version_from_lxml(
-                li).text.strip()  # pyright: ignore
-        date = Package.get_date_from_lxml(
-                li).text.strip()  # pyright: ignore
-        description = Package.get_desc_from_lxml(
-                li).text.strip()  # pyright: ignore
+        if not li:
+            return
+        if not search_term:
+            return
+        lxml_name = Package.get_name_from_lxml(li)
+        lxml_date = Package.get_date_from_lxml(li)
+        lxml_desc = Package.get_desc_from_lxml(li)
+        lxml_ver = Package.get_version_from_lxml(li)
+        if not lxml_name:
+            return;
+        if not lxml_date:
+            return;
+        if not lxml_desc:
+            return;
+        if not lxml_ver:
+            return;
+
+        _name = lxml_name.text.strip()
+        date = lxml_date.text.strip()
+        desc = lxml_desc.text.strip()
+        ver = lxml_ver.text.strip()
+
         self.name = "{color}{name}{reset}".format(
                 color = Fore.CYAN,
                 name=_name,
                 reset = Fore.RESET)
         self.version = "{color}{name}{reset}".format(
                 color = Fore.LIGHTCYAN_EX,
-                name=version,
+                name=ver,
                 reset = Fore.RESET)
         self.date = "{color}{name}{reset}".format(
                 color = Fore.LIGHTCYAN_EX,
@@ -59,7 +72,7 @@ class Package(object):
                 reset = Fore.RESET)
         self.description = "{color}{name}{reset}".format(
                 color = Fore.BLUE,
-                name=description,
+                name=desc,
                 reset = Fore.RESET)
                     
         self.id: int = len(Package.packages) + 1
@@ -100,13 +113,13 @@ class Package(object):
     @staticmethod
     def name_from_id(id):
         for package in Package.packages:
-            if package.name == id:
+            if package.id == id:
                 return package
 
     @staticmethod
     def id_from_name(name):
         for package in Package.packages:
-            if package.id == name:
+            if package.name == name:
                 return package
 
 
@@ -121,7 +134,7 @@ class Package(object):
                 Package.packages.append(Package(element, package))
 
     @staticmethod
-    def is_installed(name):
+    def is_installed(_):
         pass
 
     @staticmethod
@@ -129,11 +142,20 @@ class Package(object):
         """ run pip to install package from id """
         if not id:
             return # NOTE no package selected
+        package_count = len(Package.packages)
+        if package_count == 0:
+            logger.critical("Could not index package list, as no cache has been loaded")
+            return
+        logger.debug(f'loadeded {package_count} packages.')
         package: None | Package = Package.name_from_id(id)
+        if not package:
+            return;
         if unittest:
-            logging.debug("Uninstalling due to unit test requirements")
-            subprocess.run(['python', '-m', 'pip', 'uninstall', package.name]) # pyright: ignore
-        subprocess.run(['python', '-m', 'pip', 'install', package.name]) # pyright: ignore
+            logging.debug("Not doing anything due to unit test mock permissions.")
+            return
+        else:
+            os.system(f'python -m pip install {package.name}')
+            return
 
     @staticmethod
     def query_install_input():
@@ -142,21 +164,26 @@ class Package(object):
         return selected
 
     @staticmethod
+    def handle_query_input(selected):
+        """ Handle given input """
+        match selected:
+            case "":
+                return False
+            case _:
+                Package.install_from_id(int(selected))
+                return True
+
+    @staticmethod
     def query_install():
         """ Install package from id """
-        print(" .. Install package ID")
-        print(Fore.LIGHTMAGENTA_EX)
+        # logging.debug(" .. Install package #%s" % Fore.LIGHTMAGENTA_EX)
         while 1:
             try:
                 selected = Package.query_install_input()
-                match selected:
-                    case "":
-                        return False
-                    case _:
-                        Package.install_from_id(int(selected))
-                        return True
-            except:
-                continue
+                Package.handle_query_input(selected)
+            except Exception as error:
+                logging.debug(str(error))
+                return False
 
     @staticmethod
     def search(package: str, activate_test_case=False):
@@ -211,6 +238,7 @@ class Package(object):
 
         files = []
         # NOTE dirs to ignore
+        # TODO set to actual loadable config dir
         ignore = ['.git', '.github', 'libs']
 
         subdirs = [file[0] for file in os.walk(os.path.abspath(root_dir ))]
