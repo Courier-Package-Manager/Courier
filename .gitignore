@@ -19,3 +19,4 @@ src/util/__pycache__/update.pyc
 config.ini
 
 venv/
+update.json
