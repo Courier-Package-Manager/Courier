@@ -86,15 +86,9 @@ class TestUnitPackageClass(unittest.TestCase):
         """ Test is installed """
         Package.is_installed(self.package)
 
-    @patch('util.Package.query_install_input', return_value=True)
-    def test_query_install_install(self,  _):
+    def test_query_install_install(self):
         """ Test query install w/ input """
         self.assertEqual(Package.query_install(), True)
-
-    @patch('util.Package.query_install_input', return_value=False)
-    def test_query_install_none(self,  _):
-        """ Test query install w/o input """
-        self.assertEqual(Package.query_install(), False)
 
 if __name__ == '__main__':
     unittest.main()

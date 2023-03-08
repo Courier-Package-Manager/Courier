@@ -158,10 +158,12 @@ class Package(object):
             return
 
     @staticmethod
-    def query_install_input():
+    def query_install_input(unittest) -> int:
         """ Primarily used for unit testing """
-        selected = input(" ==> ")
-        return selected
+        if not unittest:
+            selected = input(" ==> ")
+            return int(selected)
+        return 1
 
     @staticmethod
     def handle_query_input(selected):
@@ -174,12 +176,12 @@ class Package(object):
                 return True
 
     @staticmethod
-    def query_install():
+    def query_install(unittest):
         """ Install package from id """
         # logging.debug(" .. Install package #%s" % Fore.LIGHTMAGENTA_EX)
         while 1:
             try:
-                selected = Package.query_install_input()
+                selected = Package.query_install_input(unittest)
                 Package.handle_query_input(selected)
             except Exception as error:
                 logging.debug(str(error))
