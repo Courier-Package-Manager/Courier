@@ -43,6 +43,7 @@ def read_docs(file='help.txt') -> list[str]:
 
     path = os.getcwd()
     logger.debug(path)
+    # print(path)
     if not assert_file_path():
         print(Package.color_path(os.getcwd()))
         os.chdir('..')
