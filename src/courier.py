@@ -62,6 +62,7 @@ def print_formatted_list(lines: list) -> None:
     """ Print list as a paragraph / string """
     for line in lines:
         print(line)
+    return
 
 
 def proc_args(args: list):
@@ -120,5 +121,6 @@ def main():
     loc_package_file()
 
 
-Package.auto_install()
+# Package.auto_install()
+Package.update_package("colorama", "0.1.0")
 main()

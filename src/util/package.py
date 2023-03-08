@@ -21,6 +21,8 @@ package.py has functions responsible for the following:
 import logging
 import os
 import sys
+from packaging import version
+from packaging.version import Version
 import pkg_resources
 from bs4 import BeautifulSoup
 from colorama import Fore
@@ -30,7 +32,6 @@ import subprocess
 
 logger = logging.getLogger()
 logger.level = logging.INFO
-
 
 class Package(object):
     """ 
@@ -302,28 +303,36 @@ class Package(object):
         return ''.join(components)
 
     @staticmethod
-    def update_package(package, *version) -> bool:
+    def update_package(package, _version: str) -> bool:
         """ Update package with pip """
 
+        def tuple_to_version(_ver: tuple) -> version.Version:  # pyright: ignore
+            """ Convert tuple to version """
+            _ver_str = ''
+            for num in _ver: _ver_str += num + '.'
+            return Version(_ver_str[:1])
+
         packs = {}
+
+        _ver = version.parse(_version)
 
         for i in pkg_resources.working_set:
             packs[packs[i.key]] = i.parsed_version
 
         if package in packs.keys():
-            if version != packs[package]:
+            if _ver < packs[package]:
 
                 logger.info(f"You already have {package} installed, however it is out of date.")
-                logger.info(f"Updating {package} to version {version}")
+                logger.info(f"Updating {package} to version {_ver}")
 
                 subprocess.check_call([
                     sys.executable,
                     "-m",
                     "pip",
                     "install",
-                    f"{package}=={''.join(version)}"])
+                    f"{package}=={_ver.__str__()}"])
                 return True
             else:
-                logger.info(f"You already have the latest version of {package} installed ({version})")
+                logger.info(f"You already have the latest version of {package} installed ({_ver})")
                 return True
         return False
