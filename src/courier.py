@@ -86,6 +86,10 @@ def proc_args(args: list):
                         return
                     case 2:
                         Package.search(args[len(args) - 1])
+            case _:
+                print_formatted_list(read_docs(file="help.txt"))
+                return
+                
 
 
 def get_file_path() -> str:
