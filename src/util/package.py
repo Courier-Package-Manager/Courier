@@ -317,7 +317,7 @@ class Package(object):
         _ver = version.parse(_version)
 
         for i in pkg_resources.working_set:
-            packs[packs[i.key]] = i.parsed_version
+            packs[i.key] = i.parsed_version
 
         if package in packs.keys():
             if _ver < packs[package]:
@@ -330,7 +330,7 @@ class Package(object):
                     "-m",
                     "pip",
                     "install",
-                    f"{package}=={_ver.__str__()}"])
+                    f"{package}"])
                 return True
             else:
                 logger.info(f"You already have the latest version of {package} installed ({_ver})")
