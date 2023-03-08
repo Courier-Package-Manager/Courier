@@ -17,12 +17,13 @@ copies or substantial portions of the Software.
 import unittest
 import os
 
-from src.courier import close, get_file_path, proc_args
 from src.courier import get_package_created
 from src.courier import print_formatted_list
 from src.courier import assert_file_path
 from src.courier import read_docs
 from src.courier import main
+from src.courier import close
+from src.courier import proc_args
 
 
 class TestCourier(unittest.TestCase):
@@ -30,8 +31,8 @@ class TestCourier(unittest.TestCase):
 
     def test_get_file_path(self):
         """ Ensure file path is accurate """
-        expected = os.path.basename(os.path.normpath(os.getcwd()))
-        self.assertEqual(get_file_path(), expected)
+        expected = os.path.basename(os.path.normpath(os.getcwd())) == 'Courier'
+        self.assertEqual(assert_file_path(), expected)
 
     def test_assert_file_path(self):
         """ Ensure assert file path works """
