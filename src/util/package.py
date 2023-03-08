@@ -19,6 +19,7 @@ package.py has functions responsible for the following:
 """
 import logging
 import os
+import subprocess
 
 from bs4 import BeautifulSoup
 from colorama import Fore
@@ -85,7 +86,7 @@ class Package(object):
         return lxml.select_one('.package-snippet__description')
 
     @classmethod
-    def show_packages(cls):
+    def list(cls):
         """ Display packages fetched from pypi with syntax formatting """
         cls.packages.reverse()
         for package in cls.packages:
@@ -96,110 +97,169 @@ class Package(object):
                 date=package.date,
                 description=package.description))
 
+    @staticmethod
+    def name_from_id(id):
+        for package in Package.packages:
+            if package.name == id:
+                return package
 
-def format_package_search_results(soup: BeautifulSoup, package):
-    """ Organize all the results and remove the un-needed stuff """
-
-    if hasattr(soup, 'select'):
-        package_list = soup.select('.package-snippet')
-
-        for element in package_list:
-            Package.packages.append(Package(element, package))
-
-
-def search_for_package(package: str, activate_test_case=False):
-    """
-        Search for package in the pypi database.
-        return: latest package version.
-    """
-    print(f" 🔎 Searching for {package}")
-    soup = request_pypi_soup(package)
-
-    # logging.info(f"Showing up to {max_results} results")
-    format_package_search_results(soup, package)
-
-    if not len(Package.packages) or activate_test_case:
-        logging.critical(f" ❌ No results found for package \'{package}\'")
-        return
-    logger.debug(f' {len(Package.packages)} packages found')
-    Package.show_packages()
+    @staticmethod
+    def id_from_name(name):
+        for package in Package.packages:
+            if package.id == name:
+                return package
 
 
-def request_pypi(package) -> requests.Response:
-    """ Returns pypi request object """
-    pypi_request = requests.get(f'https://pypi.org/search/?q={package}')
-    return pypi_request
+    @staticmethod
+    def format_results(soup: BeautifulSoup, package):
+        """ Organize all the results and remove the un-needed stuff """
+
+        if hasattr(soup, 'select'):
+            package_list = soup.select('.package-snippet')
+
+            for element in package_list:
+                Package.packages.append(Package(element, package))
+
+    @staticmethod
+    def is_installed(name):
+        pass
+
+    @staticmethod
+    def install_from_id(id: int | None, unittest=False):
+        """ run pip to install package from id """
+        if not id:
+            return # NOTE no package selected
+        package: None | Package = Package.name_from_id(id)
+        if unittest:
+            logging.debug("Uninstalling due to unit test requirements")
+            subprocess.run(['python', '-m', 'pip', 'uninstall', package.name]) # pyright: ignore
+        subprocess.run(['python', '-m', 'pip', 'install', package.name]) # pyright: ignore
+
+    @staticmethod
+    def query_install_input():
+        """ Primarily used for unit testing """
+        selected = input(" ==> ")
+        return selected
+
+    @staticmethod
+    def query_install():
+        """ Install package from id """
+        print(" .. Install package ID")
+        print(Fore.LIGHTMAGENTA_EX)
+        while 1:
+            try:
+                selected = Package.query_install_input()
+                match selected:
+                    case "":
+                        return False
+                    case _:
+                        Package.install_from_id(int(selected))
+                        return True
+            except:
+                continue
+
+    @staticmethod
+    def search(package: str, activate_test_case=False):
+        """
+            Search for package in the pypi database.
+            return: latest package version.
+        """
+        print(f" 🔎 Searching for {package}")
+        soup = Package.request_pypi_soup(package)
+
+        logger.debug("Refreshing package cache")
+        Package.packages.clear()
+
+        # logging.info(f"Showing up to {max_results} results")
+        Package.format_results(soup, package)
+
+        if not len(Package.packages) or activate_test_case:
+            logging.critical(f" ❌ No results found for package \'{package}\'")
+            return
+        logger.debug(f' {len(Package.packages)} packages found')
+        Package.list()
 
 
-def request_pypi_soup(package) -> BeautifulSoup:
-    """ Give me the soup 🍜 """
-    pypi_request = request_pypi(package)
-    soup = BeautifulSoup(pypi_request.content, 'html.parser')
-    return soup
+    @staticmethod
+    def request_pypi(package) -> requests.Response:
+        """ Returns pypi request object """
+        pypi_request = requests.get(f'https://pypi.org/search/?q={package}')
+        return pypi_request
 
 
-def service_online(url='https://pypi.org') -> bool:
-    """ Check that pypi is online """
-    pypi_request: object = requests.get(url)
-    return pypi_request.status_code == 200
+    @staticmethod
+    def request_pypi_soup(package) -> BeautifulSoup:
+        """ Give me the soup 🍜 """
+        pypi_request = Package.request_pypi(package)
+        soup = BeautifulSoup(pypi_request.content, 'html.parser')
+        return soup
 
 
-def auto_install_package(root_dir):
-    """
-    1. Look in files to auto-install package
-    2. Prune un-needed files
-    """
-
-    files = []
-    # NOTE dirs to ignore
-    ignore = ['.git', '.github', 'libs']
-
-    subdirs = [file[0] for file in os.walk(os.path.abspath(root_dir ))]
-    for subdir in subdirs:
-        if os.path.split(subdir)[1] in ignore:
-            continue
-        subdir_files = os.walk(subdir).__next__()[2]
-        if (len(subdir_files) > 0):
-            for file in subdir_files:
-                path = color_path(os.path.join(subdir, file))
-                # logger.debug(f''' Found: {path} ''')
-                files.append(os.path.join(subdir, file))
+    @staticmethod
+    def service_online(url='https://pypi.org') -> bool:
+        """ Check that pypi is online """
+        pypi_request: object = requests.get(url)
+        return pypi_request.status_code == 200
 
 
-def color_path(path: str = os.getcwd()):
-    """
-        Desc: Stupid function i don't know why I made this
-              It just makes pathnames rainbow
-    """
+    @staticmethod
+    def auto_install(root_dir):
+        """
+        1. Look in files to auto-install package
+        2. Prune un-needed files
+        """
 
-    components = path.split('/', path.count('/'))
-    colors = [
-            Fore.GREEN,
-            Fore.RED,
-            Fore.MAGENTA,
-            Fore.CYAN,
-            Fore.YELLOW,
-            Fore.BLUE,
-            Fore.LIGHTGREEN_EX,
-            Fore.LIGHTRED_EX,
-            Fore.LIGHTMAGENTA_EX,
-            Fore.LIGHTCYAN_EX,
-            Fore.LIGHTYELLOW_EX,
-            Fore.LIGHTBLUE_EX]
+        files = []
+        # NOTE dirs to ignore
+        ignore = ['.git', '.github', 'libs']
 
-    color_index = 0
+        subdirs = [file[0] for file in os.walk(os.path.abspath(root_dir ))]
+        for subdir in subdirs:
+            if os.path.split(subdir)[1] in ignore:
+                continue
+            subdir_files = os.walk(subdir).__next__()[2]
+            if (len(subdir_files) > 0):
+                for file in subdir_files:
+                    path = Package.color_path(os.path.join(subdir, file))
+                    logger.debug(f''' Found: {path} ''')
+                    files.append(os.path.join(subdir, file))
 
-    for index, component in enumerate(components):
-        if color_index > len(colors):
-            color_index = 0
 
-        match index:
-            case 0:
-                components[index] = colors[color_index - 1] + \
-                        component + Fore.RESET
-            case _:
-                components[index] = colors[color_index - 1] + \
-                        '/' + component + Fore.RESET
-        color_index += 1
+    @staticmethod
+    def color_path(path: str = os.getcwd()):
+        """
+            Desc: Stupid function i don't know why I made this
+                  It just makes pathnames rainbow
+        """
 
-    return ''.join(components)
+        components = path.split('/', path.count('/'))
+        colors = [
+                Fore.GREEN,
+                Fore.RED,
+                Fore.MAGENTA,
+                Fore.CYAN,
+                Fore.YELLOW,
+                Fore.BLUE,
+                Fore.LIGHTGREEN_EX,
+                Fore.LIGHTRED_EX,
+                Fore.LIGHTMAGENTA_EX,
+                Fore.LIGHTCYAN_EX,
+                Fore.LIGHTYELLOW_EX,
+                Fore.LIGHTBLUE_EX]
+
+        color_index = 0
+
+        for index, component in enumerate(components):
+            if color_index > len(colors):
+                color_index = 0
+
+            match index:
+                case 0:
+                    components[index] = colors[color_index - 1] + \
+                            component + Fore.RESET
+                case _:
+                    components[index] = colors[color_index - 1] + \
+                            '/' + component + Fore.RESET
+            color_index += 1
+
+        return ''.join(components)

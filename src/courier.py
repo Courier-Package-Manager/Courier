@@ -26,9 +26,7 @@ import colorama
 from util import load_logging_ini
 from util import loc_package_file
 from util import last_updated
-from util import search_for_package
-from util.package import auto_install_package
-from util.package import color_path
+from util.package import Package
 
 load_logging_ini()
 logger = logging.getLogger()
@@ -46,7 +44,7 @@ def read_docs(file='help.txt') -> list[str]:
     path = os.getcwd()
     logger.debug(path)
     if not assert_file_path():
-        print(color_path(os.getcwd()))
+        print(Package.color_path(os.getcwd()))
         os.chdir('..')
 
     data = []
@@ -86,7 +84,7 @@ def proc_args(args: list):
                         print("Syntax: courier get <package>")
                         return
                     case 2:
-                        search_for_package(args[len(args) - 1])
+                        Package.search(args[len(args) - 1])
 
 
 def get_file_path() -> str:
@@ -108,11 +106,12 @@ def get_package_created() -> None:
                  colorama.Fore.RESET,
                  last_updated())
 
+
 def main():
     """Currently calling functions for testing"""
     proc_args(sys.argv)
     loc_package_file()
 
 
-auto_install_package('.')
+Package.auto_install(root_dir='..')
 main()

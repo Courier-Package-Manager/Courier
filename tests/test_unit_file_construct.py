@@ -1,4 +1,3 @@
-
 """
 The MIT License (MIT)
 
@@ -16,7 +15,7 @@ copies or substantial portions of the Software.
 """
 
 import unittest
-from requests.exceptions import MissingSchema, ConnectionError
+from requests.exceptions import MissingSchema
 import logging
 from util import display_if_online
 
