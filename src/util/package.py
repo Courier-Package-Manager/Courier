@@ -17,6 +17,7 @@ package.py has functions responsible for the following:
       - Indexing pypi database for release
       - Scanning for outdated packages
 """
+
 import logging
 import os
 
@@ -29,7 +30,14 @@ logger.level = logging.INFO
 
 
 class Package(object):
-    """ Structure for Package """
+    """ 
+        Basic container for both singular and 
+        compound packages. Package regulates
+        global package functions and reades
+        files etc. Packages are often least used
+        in a multi-instance context which is likely
+        noticeable from the amount of staticmethods.
+    """
     packages = []
 
     def __init__(self, li, search_term) -> None:
@@ -193,7 +201,6 @@ class Package(object):
         logger.debug("Refreshing package cache")
         Package.packages.clear()
 
-        # logging.info(f"Showing up to {max_results} results")
         Package.format_results(soup, package)
 
         if not len(Package.packages) or activate_test_case:

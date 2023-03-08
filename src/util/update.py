@@ -36,9 +36,9 @@ def last_updated():
      >>> if project_folder != 'Courier': os.chdir('..')
     """
     if file_exists(PACKAGE, 'r'):
-        _file = open(PACKAGE, 'r')
-        data = json.load(_file)
-        _file.close()
+        with open(PACKAGE, 'r') as _file:
+            data = json.load(_file)
+            _file.close()
         timestamp = datetime.fromtimestamp(data['created'])
         date = get_date(timestamp)
         return date
@@ -79,8 +79,7 @@ def get_project_folder() -> str:
 def switch_root() -> str:
     """ Auto switch root when not applicable """
     project_folder = get_project_folder()
-    if project_folder != 'Courier':
-        os.chdir('..')
+    if project_folder != 'Courier': os.chdir('..')
     return project_folder
 
 
@@ -116,7 +115,8 @@ def loc_package_file(
     else:
         with open(PACKAGE, mode) as fp:
             try:
-                return fp
+                try: return fp
+                finally: fp.close()
             finally:
                 if 'w' in list(mode):
                     fp.close()

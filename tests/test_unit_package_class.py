@@ -25,6 +25,7 @@ logger = logging.getLogger()
 
 class TestUnitPackageClass(unittest.TestCase):
     """ Test unit package class object """
+
     def setUp(self):
         """ Set up instances & instance variables """
         self.soup = Package.request_pypi_soup('test')
@@ -90,6 +91,7 @@ class TestUnitPackageClass(unittest.TestCase):
     def test_query_install_install(self):
         """ Test query install w/ input """
         self.assertEqual(Package.query_install(True), True)
+
 
 if __name__ == '__main__':
     unittest.main()
