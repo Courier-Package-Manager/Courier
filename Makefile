@@ -12,16 +12,6 @@ lint:
 	@python -m flake8 src --count --exit-zero --max-complexity=10 --max-line-length=79 --statistics
 	@python -m pylint src/*.py
 
-coverage:
-	@clear
-	curl -X POST --data-binary @codecov.yml https://codecov.io/validate
-	@clear
-	coverage report -m
-
-test:
-	nosetests
-
-
 cov:
 	@clear
 	# ============= RUNNING NEW TEST =============== #
