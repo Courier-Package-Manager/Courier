@@ -124,6 +124,7 @@ def get_package_created() -> None:
                  colorama.Fore.GREEN,
                  colorama.Fore.RESET,
                  last_updated())
+    return
 
 
 def main():
