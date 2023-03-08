@@ -312,8 +312,8 @@ class Package(object):
         if package in packs.keys():
             if version != packs[package]:
 
-                print(f"You already have {package} installed, however it is out of date.")
-                print(f"Updating {package} to version {version}")
+                logger.info(f"You already have {package} installed, however it is out of date.")
+                logger.info(f"Updating {package} to version {version}")
 
                 subprocess.check_call([
                     sys.executable,
@@ -323,5 +323,5 @@ class Package(object):
                     f"{package}=={''.join(version)}"])
                 return
             else:
-                print(f"You already have the latest version of {package} installed ({version})")
+                logger.info(f"You already have the latest version of {package} installed ({version})")
                 return
