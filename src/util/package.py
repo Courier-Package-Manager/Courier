@@ -303,7 +303,7 @@ class Package(object):
         return ''.join(components)
 
     @staticmethod
-    def update_package(package, _version: str) -> bool:
+    def update_package(package, _version: str="") -> bool:
         """ Update package with pip """
 
         def tuple_to_version(_ver: tuple) -> version.Version:  # pyright: ignore
@@ -325,6 +325,14 @@ class Package(object):
                 logger.info(f"You already have {package} installed, however it is out of date.")
                 logger.info(f"Updating {package} to version {_ver}")
 
+                if version != "":
+                    subprocess.check_call([
+                        sys.executable,
+                        "-m",
+                        "pip",
+                        "install",
+                        f"{package}=={_ver.__str__()}"])
+                    return True
                 subprocess.check_call([
                     sys.executable,
                     "-m",

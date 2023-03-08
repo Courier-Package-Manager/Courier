@@ -1,6 +1,7 @@
 # -*- coding=utf-8 -*-
 # TODO add docstrings to file functions
 # TODO relocate file functions
+
 """
 The MIT License (MIT)
 
@@ -20,13 +21,11 @@ all copies or substantial portions of the Software.
 import logging
 import os
 import sys
-
 import colorama
-
-from util import load_logging_ini
-from util import loc_package_file
-from util import last_updated
-from util.package import Package
+from update import load_logging_ini
+from update import last_updated
+from update import loc_package_file
+from package import Package
 
 load_logging_ini()
 logger = logging.getLogger()
@@ -36,6 +35,16 @@ def close(file):
     """ Close file in the case it\'s not closed """
     if not file.closed:
         file.close()
+
+def get_file_path() -> str:
+    """ Rerurun immediate parent folder of current dir """
+    return os.path.basename(os.path.normpath(os.getcwd()))
+
+
+def assert_file_path() -> bool:
+    """ Assert if file path is correct """
+    new_file_path = get_file_path()
+    return new_file_path == 'Courier'
 
 
 def read_docs(file='help.txt') -> list[str]:
@@ -67,12 +76,15 @@ def print_formatted_list(lines: list) -> None:
 
 def proc_args(args: list):
     """ Get args and process them individually """
-    if len(args) == 0:
-        print_formatted_list(read_docs(file="help.txt"))
 
     for i in args:
         if i.endswith('.py'):
             args.remove(i)
+
+    if len(args) == 0:
+        print_formatted_list(read_docs(file="help.txt"))
+
+    # logger.debug(args)
 
     for argument in args:
         match argument:
@@ -81,6 +93,12 @@ def proc_args(args: list):
                 return
             case '--do-nothing':
                 return
+            case 'install':
+                if len(args) == 1:
+                    print("Syntax: courier install <package> [version]")
+                    return;
+                if len(args) == 2:
+                    Package.update_package(args[args.index('install') + 1])
             case 'get':
                 match len(args):
                     case 1:
@@ -94,16 +112,6 @@ def proc_args(args: list):
                 return
                 
 
-
-def get_file_path() -> str:
-    """ Rerurun immediate parent folder of current dir """
-    return os.path.basename(os.path.normpath(os.getcwd()))
-
-
-def assert_file_path() -> bool:
-    """ Assert if file path is correct """
-    new_file_path = get_file_path()
-    return new_file_path == 'Courier'
 
 
 def get_package_created() -> None:
@@ -122,5 +130,4 @@ def main():
 
 
 # Package.auto_install()
-Package.update_package("colorama", "0.1.0")
 main()
