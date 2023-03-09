@@ -33,29 +33,41 @@ class TestCourier(unittest.TestCase):
         """ Ensure file path is accurate """
         expected = os.path.basename(os.path.normpath(os.getcwd())) == 'Courier'
         self.assertEqual(assert_file_path(), expected)
+        os.system('clear')
+        print(f" 📂 {self.__doc__}")
 
     def test_assert_file_path(self):
         """ Ensure assert file path works """
         self.assertTrue(assert_file_path())
+        os.system('clear')
+        print(f" 📂 {self.__doc__}")
 
     def test_get_package_created(self):
         """ Test creation date of package """
         get_package_created()
+        os.system('clear')
+        print(f" 📅 {self.__doc__}")
 
     def test_read_docs(self):
-        """ Test read docuentation files """
+        """ Test read documentation files """
         os.chdir('.github')
         self.assertIsInstance(read_docs(), list)
         os.chdir('..')
+        os.system('clear')
+        print(f" 📖 {self.__doc__}")
 
     def test_print_formatted_list(self):
         """ Test print formatted list """
         print_formatted_list(read_docs('help.txt'))
+        os.system('clear')
+        print(f" 🎯 {self.__doc__}")
 
     def test_close(self):
         """ Test close file if file not closed """
         file = open('LICENSE', 'r')
         close_file(file)
+        os.system('clear')
+        print(f" 📓 {self.__doc__}")
 
     def test_proc_args(self):
         """ tests cli args are processed """
@@ -65,6 +77,8 @@ class TestCourier(unittest.TestCase):
         proc_args(args=['get', 'requests'])
         proc_args(args=['file.py', 'requests'])
         proc_args(args=[])
+        os.system('clear')
+        print(f" 🐒 {self.__doc__}")
 
     def test_main(self):
         """ Ensure main can be run """
@@ -72,6 +86,5 @@ class TestCourier(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    os.system('clear')
     print(f" 🧪 Testing {os.getcwd()}")
     unittest.main()

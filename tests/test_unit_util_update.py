@@ -21,9 +21,9 @@ import unittest
 from src.util.update import switch_root
 from src.util.update import scan_dir
 from src.util.update import create_package
-from src.util.update import update_packages
 from src.util.update import loc_package_file
 from src.util.update import file_exists
+from util.package import Package
 
 
 class TestUtil(unittest.TestCase):
@@ -59,7 +59,8 @@ class TestUtil(unittest.TestCase):
 
     def test_update_packages(self):
         """ Test update packages equals return ellipses """
-        self.assertEqual(update_packages(), Ellipsis)
+        for package in Package.packages:
+            self.assertIsInstance(Package.update_package(package), bool)
         os.system('clear')
 
     def test_loc_package_file(self):
