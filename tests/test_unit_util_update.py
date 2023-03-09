@@ -1,17 +1,15 @@
 """
-The MIT License (MIT)
+core: Courier.util.update
+test: test_unit_util_update
+~~~~~~~~~~~~~~~~~~~~
 
-Copyright (c) 2023 Joshua Rose
+This modules test Couriers core features as
+a program. This module is also responsibile for
+testing utility functions and the management of aesthetic
+dependencies such as colorama and logging.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+:copyright: (c) 2023 by Joshua Rose.
+:license: MIT, see LICENSE for more details.
 """
 
 import logging
