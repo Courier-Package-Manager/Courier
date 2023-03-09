@@ -16,7 +16,7 @@ import os
 import pathlib
 import subprocess
 import sys
-from typing import Literal, Self, Type
+from typing import Literal, Type
 
 from bs4 import BeautifulSoup
 import colorama
@@ -127,7 +127,7 @@ class Package(object):
         return lxml.select_one('.package-snippet__description')
 
     @classmethod
-    def list(cls: Type[Self], limit=10):
+    def list(cls: Type, limit=10):
         """Display packages fetched from pypi with syntax formatting.
 
         :param limit: The maximum amount of packages to be displayed
