@@ -21,7 +21,6 @@ from .update import get_project_folder
 from .update import loc_package_file
 from .update import last_updated
 from .update import scan_dir
-from .update import update_packages
 from .update import load_logging_ini
 from .update import get_date
 
@@ -54,7 +53,6 @@ __modules__ = [
     Codescan,
     last_updated,
     scan_dir,
-    update_packages,
     load_logging_ini,
 ]
 
