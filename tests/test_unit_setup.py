@@ -26,6 +26,7 @@ class TestSetup(unittest.TestCase):
 
     def test_get_date(self):
         """ Test that date is correct """
+        print(f" 🗓️ {self.__doc__}")
         setup.get_date(dt.now(), day=str(1))
         setup.get_date(dt.now(), day=str(2))
         setup.get_date(dt.now(), day=str(3))
