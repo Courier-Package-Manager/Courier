@@ -151,7 +151,7 @@ class Package(object):
         return True
 
     @staticmethod
-    def name_from_id(id: str) -> str | Literal[False]:
+    def name_from_id(id: int) -> str | Literal[False]:
         """Compare package ID to `id`.
 
         Only returns package name if package `id`
@@ -220,7 +220,7 @@ class Package(object):
         """
 
         # In the case that no package has been selected, simply return as NULL.
-        if id is False:
+        if id == 0:
             return
 
         package_count = len(Package.packages)
@@ -232,10 +232,11 @@ class Package(object):
             return
 
         LOGGER.debug(f'loadeded {package_count} packages.')
-        if isinstance(Package.name_from_id, int):
+        if isinstance(id, int):
             package = Package.name_from_id(id)
         else:
-            raise TypeError
+            LOGGER.error(" ❌ No package specified")
+            return;
 
         if not package:
             return
@@ -243,7 +244,7 @@ class Package(object):
             logging.debug(" 🧪 Not doing anything due to unit test mock permissions")
             return
         else:
-            os.system(f'{sys.executable} -m pip install {package.name}')
+            os.system(f'{sys.executable} -m pip install {package}')
             return
 
     @staticmethod

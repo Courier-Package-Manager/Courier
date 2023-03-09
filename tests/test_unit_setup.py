@@ -10,20 +10,22 @@ are used for formatting and general aethetics.
 :license: MIT, see LICENSE for more details.
 """
 
+import os
 import unittest
-from datetime import datetime as dt
-from src.util import setup
+from util import Codescan
 
 
-class TestSetup(unittest.TestCase):
-    """ Test constructor file for utils package """
+class TestCodescan(unittest.TestCase):
+    """ Test codescan methods """
+    def test_scan(self):
+        Codescan.scan()
 
-    def test_get_date(self):
-        """ Test that date is correct """
-        setup.get_date(dt.now(), day=str(1))
-        setup.get_date(dt.now(), day=str(2))
-        setup.get_date(dt.now(), day=str(3))
+    def test_install_dependencies(self):
+        """ Test install deps from scan """
+        Codescan.install_dependencies()
 
 
 if __name__ == '__main__':
+    os.system('clear')
+    print(f" 🧪 Testing {os.getcwd()}")
     unittest.main()
