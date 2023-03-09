@@ -36,11 +36,13 @@ class TestUtil(unittest.TestCase):
     def test_file_exists(self):
         """ Test file exists function works """
         file_exists('non-existent-file', 'r')
+        os.system('clear')
 
     def test_switch_root(self):
         """ Assert that project dir changes """
         os.chdir('src')
         self.assertNotEqual(switch_root(), 'Courier')
+        os.system('clear')
 
     def test_scan_dir(self):
         """ Assert all files are given """
@@ -48,20 +50,26 @@ class TestUtil(unittest.TestCase):
         scan_dir(files=True)
         scan_dir(folders=True)
         scan_dir(folders=False)
+        os.system('clear')
 
     def test_create_package(self):
         """ Test packages are being created """
         create_package()
+        os.system('clear')
 
     def test_update_packages(self):
         """ Test update packages equals return ellipses """
         self.assertEqual(update_packages(), Ellipsis)
+        os.system('clear')
 
     def test_loc_package_file(self):
         """ Test locate package file """
         loc_package_file(debug=True)
         loc_package_file(mode='w')
         create_package()  # TODO (done) Ensure that package is still reset
+        os.system('clear')
 
 if __name__ == '__main__':
+    os.system('clear')
+    print(f" 🧪 Testing {os.getcwd()}")
     unittest.main()
