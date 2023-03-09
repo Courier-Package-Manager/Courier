@@ -1,5 +1,6 @@
 <div align="center">
-<h1>Courier </h1>
+<a href="https://github.com/JoshuaDRose/Courier/"><img alt="github-header-image" src="https://user-images.githubusercontent.com/101031214/223869242-ac1234cf-1450-426e-baa9-69955ccc28ca.png"></a>
+<br>
 </div>
 
 <div align="center">
