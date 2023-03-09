@@ -3,9 +3,9 @@
 </div>
 
 <div align="center">
-<a href="https://codecov.io/gh/JoshuaDRose/Courier"><img src="https://img.shields.io/codecov/c/github/JoshuaDRose/courier?style=for-the-badge&token=EX3AAYPPUQ" alt="Coverage"></img></a>
-<a href="https://github.com/JoshuaDRose/Courier/releases/latest"><img src="https://img.shields.io/github/v/tag/JoshuaDRose/Courier?include_prereleases&label=release&sort=semver&style=for-the-badge" alt="Version"></img></a>
-<a href="https://github.com/JoshuaDRose/Courier/actions"><img src="https://img.shields.io/github/checks-status/JoshuaDRose/Courier/stable?style=for-the-badge" alt="Checks"></img></a>
+<a href="https://codecov.io/gh/JoshuaDRose/Courier" > <img src="https://codecov.io/gh/JoshuaDRose/Courier/branch/stable/graph/badge.svg?token=EX3AAYPPUQ"/> </a>
+<a href="https://github.com/JoshuaDRose/Courier/actions/workflows/flake.yml"><img src="https://github.com/JoshuaDRose/Courier/actions/workflows/flake.yml/badge.svg?branch=stable"></a>
+<img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/JoshuaDRose/Courier?color=teal&display_name=tag&include_prereleases&logo=github">
 </div>
 
 
