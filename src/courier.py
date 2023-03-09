@@ -27,7 +27,6 @@ from typing import Literal
 
 import colorama
 
-from util import Codescan
 from util.package import Package
 from util.update import load_logging_ini
 from util.update import last_updated

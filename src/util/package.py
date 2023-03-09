@@ -353,29 +353,38 @@ class Package(object):
         return ''.join(components)
 
     @staticmethod
-    def update_package(package, _version: str="") -> bool:
+    def update_package(package, _version: bool | str = False) -> bool:
         """ Update package with pip """
 
+        '''
         def tuple_to_version(_ver: tuple) -> version.Version:  # pyright: ignore
             """ Convert tuple to version """
             _ver_str = ''
             for num in _ver: _ver_str += num + '.'
             return Version(_ver_str[:1])
+        '''
 
         packs = {}
 
-        _ver = version.parse(_version)
+        if _version:
+            _ver = version.parse(str(_version))
 
         for i in pkg_resources.working_set:
             packs[i.key] = i.parsed_version
 
+        """
+        exists = True
+        try:
+            LOGGER.debug(_ver.__str__)
+            exists = False
+        except NameError:
+        """
+
         if package in packs.keys():
-            if _ver < packs[package]:
-
-                LOGGER.info(f" 📦 You already have {package} installed, however it is out of date.")
-                LOGGER.info(f" ⏫ Updating {package} to version {_ver}")
-
-                if version != "":
+            if isinstance(_version, str):
+                if _ver < packs[package]:
+                    LOGGER.info(f" 📦 You already have {package} installed, however it is out of date.")
+                    LOGGER.info(f" ⏫ Updating {package} to version {_ver}")
                     subprocess.check_call([
                         sys.executable,
                         "-m",

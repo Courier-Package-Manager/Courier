@@ -66,7 +66,5 @@ def display_if_online(url) -> bool:
 # TODO figure out why this is displayed AFTER Codescan() logs
 display_if_online('https://pypi.org') 
 
-logger.debug(" 👔 Sorting files ")
-Codescan.scan()  # TODO Return if changes made
+Codescan.install_dependencies()
 print(colorama.Fore.GREEN)
-logger.debug(" ✅ scan done"+colorama.Fore.RESET)
