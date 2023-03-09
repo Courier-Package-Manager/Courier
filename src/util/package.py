@@ -21,8 +21,8 @@ package.py has functions responsible for the following:
 import logging
 import os
 import sys
+import colorama
 from packaging import version
-from packaging.version import Version
 import pkg_resources
 from bs4 import BeautifulSoup
 from colorama import Fore
@@ -30,8 +30,10 @@ import requests
 import pathlib
 import subprocess
 
-logger = logging.getLogger()
-logger.level = logging.INFO
+from .update import load_logging_ini
+
+load_logging_ini()
+LOGGER = logging.getLogger()
 
 class Package(object):
     """ 
@@ -154,15 +156,15 @@ class Package(object):
         if not id: return # NOTE no package selected
         package_count = len(Package.packages)
         if package_count == 0:
-            logger.critical(\
-""" Could not index package list, as no cache has been loaded""")
+            LOGGER.critical(\
+""" ❌ Could not index package list, as no cache has been loaded""")
             return
-        logger.debug(f'loadeded {package_count} packages.')
+        LOGGER.debug(f'loadeded {package_count} packages.')
         package: None | Package = Package.name_from_id(id)
         if not package: return;
         if unittest:
             logging.debug(\
-""" Not doing anything due to unit test mock permissions.""")
+""" 🧪 Not doing anything due to unit test mock permissions.""")
             return
         else:
             os.system(f'python -m pip install {package.name}')
@@ -207,7 +209,7 @@ class Package(object):
         print(f" 🔎 Searching for {package}")
         soup = Package.request_pypi_soup(package)
 
-        logger.debug("Refreshing package cache")
+        LOGGER.debug(" 📦 Refreshing package cache")
         Package.packages.clear()
 
         Package.format_results(soup, package)
@@ -215,7 +217,7 @@ class Package(object):
         if not len(Package.packages) or activate_test_case:
             logging.critical(f" ❌ No results found for package \'{package}\'")
             return
-        logger.debug(f' {len(Package.packages)} packages found')
+        LOGGER.debug(f' 🔎 {len(Package.packages)} packages found')
         Package.list()
 
 
@@ -256,22 +258,65 @@ class Package(object):
         ignore = ['.git', '.github', 'libs', '.tox', 'venv', 'htmlcov']
 
         path = pathlib.Path(root)
-        for file in path.rglob('*'): # NOTE is recursive
+
+        sizes = {
+                "small": {
+                    "color": colorama.Fore.BLUE,
+                    "icon": '📘',
+                    "min": 0,
+                    "max": 999,
+                    },
+                "medium": {
+                    "color": colorama.Fore.RED,
+                    "icon": '📕',
+                    "min": 1000,
+                    "max": 9999,
+                    },
+                "large": {
+                    "color": colorama.Fore.GREEN,
+                    "icon": '📗',
+                    "min": 10000,
+                    "max": 99999,
+                    },
+                "chunky": {
+                    "color": colorama.Fore.YELLOW,
+                    "icon": '📙',
+                    "min": 100000,
+                    "max": 999999
+                    },
+                }
+
+        LOGGER.debug(" 🔎 Recursively scanning for unmet dependencies")
+        LOGGER.debug(f"""\n
+                📘 = small | 📕 = medium | 📗 = large | 📙 = chunky \n""")
+        for file in path.rglob('*.py'):
+            head, base = os.path.join(file.parent, file.name).split('/', 1)  # pyright: ignore
+            if head in ignore:
+                continue
             files.append(file)
 
-        for file in path.rglob('*.py'):
-            head, _ = os.path.join(file.parent, file.name).split('/', 1)  # pyright: ignore
-            if head in ignore:
-                files.remove(file)
-                continue
+        for file in path.rglob('*'):
+            head, base = os.path.join(file.parent, file.name).split('/', 1)  # pyright: ignore
+            if head in ignore: continue
+            if os.path.isdir(file): files.append(file)
 
-            logger.debug(Package.color_path(str(file)))  # pyright: ignore
+        files = sorted(files, key=os.path.getsize, reverse=True)
+
+        for file in files:
+            filesize = os.path.getsize(file)
+            for size in sizes:
+                if filesize in range(sizes[size]["min"], sizes[size]["max"]):
+                    icon = sizes[size]["icon"]
+                    color = sizes[size]["color"]
+                    null = colorama.Fore.RESET
+                    LOGGER.debug(f"{color} {icon} {str(file)}{null}")  # pyright: ignore
+        return files
 
     @staticmethod
     def color_path(path: str = os.getcwd()):
         """
             Desc: Stupid function i don't know why I made this
-                  It just makes pathnames rainbow
+                  It just makes path names rainbow
         """
 
         components = path.split('/', path.count('/'))
@@ -306,35 +351,44 @@ class Package(object):
         return ''.join(components)
 
     @staticmethod
-    def update_package(package, _version: str="") -> bool:
+    def update_package(package, _version: bool | str = False) -> bool:
         """ Update package with pip """
 
+        '''
         def tuple_to_version(_ver: tuple) -> version.Version:  # pyright: ignore
             """ Convert tuple to version """
             _ver_str = ''
             for num in _ver: _ver_str += num + '.'
             return Version(_ver_str[:1])
+        '''
 
         packs = {}
 
-        _ver = version.parse(_version)
+        if _version:
+            _ver = version.parse(str(_version))
 
         for i in pkg_resources.working_set:
             packs[i.key] = i.parsed_version
 
+        """
+        exists = True
+        try:
+            LOGGER.debug(_ver.__str__)
+            exists = False
+        except NameError:
+        """
+
         if package in packs.keys():
-            if _ver < packs[package]:
-
-                logger.info(f"You already have {package} installed, however it is out of date.")
-                logger.info(f"Updating {package} to version {_ver}")
-
-                if version != "":
+            if _version != False:
+                if _ver < packs[package]: # pyright: ignore
+                    LOGGER.info(f" 📦 You already have {package} installed, however it is out of date.") # pyright: ignore
+                    LOGGER.info(f" ⏫ Updating {package} to version {_ver}") # pyright: ignore
                     subprocess.check_call([
                         sys.executable,
                         "-m",
                         "pip",
                         "install",
-                        f"{package}=={_ver.__str__()}"])
+                        f"{package}=={_ver.__str__()}"]) # pyright: ignore
                     return True
                 subprocess.check_call([
                     sys.executable,
@@ -344,6 +398,6 @@ class Package(object):
                     f"{package}"])
                 return True
             else:
-                logger.info(f"You already have the latest version of {package} installed ({_ver})")
+                LOGGER.info(f" ✅ You already have the latest version of {package}")
                 return True
         return False

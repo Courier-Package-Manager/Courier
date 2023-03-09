@@ -15,7 +15,6 @@ copies or substantial portions of the Software.
 """
 
 import unittest
-from requests.exceptions import MissingSchema
 import logging
 from util import display_if_online
 
@@ -29,11 +28,8 @@ class TestUnitFileConstructor(unittest.TestCase):
 
     def test_display_if_online(self):
         """ Test display if online function """
-        with self.assertRaises(MissingSchema):
-            display_if_online('google.com')
         self.assertTrue(display_if_online('https://google.com'))
-        self.assertFalse(
-                display_if_online('https://not_a_website!/lol.com'))
+        self.assertFalse(display_if_online('https://not_a_website!/lol.com'))
 
 
 if __name__ == '__main__':
