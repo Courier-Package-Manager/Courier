@@ -207,7 +207,7 @@ class Package(object):
         print(f" 🔎 Searching for {package}")
         soup = Package.request_pypi_soup(package)
 
-        logger.debug("Refreshing package cache")
+        logger.debug(" 📦 Refreshing package cache")
         Package.packages.clear()
 
         Package.format_results(soup, package)
@@ -215,7 +215,7 @@ class Package(object):
         if not len(Package.packages) or activate_test_case:
             logging.critical(f" ❌ No results found for package \'{package}\'")
             return
-        logger.debug(f' {len(Package.packages)} packages found')
+        logger.debug(f' 🔎 {len(Package.packages)} packages found')
         Package.list()
 
 
@@ -264,8 +264,24 @@ class Package(object):
             if head in ignore:
                 files.remove(file)
                 continue
+            
+            sizes = {
+                    "small": {"icon": '📘', "min": 0, "max": 999},
+                    "medium": {"icon": '📕', "min": 1000, "max": 9999},
+                    "large": {"icon": '📗', "min": 10000, "max": 99999},
+                    "mrs wright": {"icon": '📙', "min": 100000, "max": 999999},
+                }
 
-            logger.debug(Package.color_path(str(file)))  # pyright: ignore
+
+            filesize = os.path.getsize(file)
+            for size in sizes:
+                if filesize in range(sizes[size]["min"], sizes[size]["max"]):
+                    icon = sizes[size]["icon"]
+
+            if os.path.getsize(file) in range(0, 100):
+                logger.debug(f" {icon} {Package.color_path(str(file))}")  # pyright: ignore
+
+        return files
 
     @staticmethod
     def color_path(path: str = os.getcwd()):
@@ -325,8 +341,8 @@ class Package(object):
         if package in packs.keys():
             if _ver < packs[package]:
 
-                logger.info(f"You already have {package} installed, however it is out of date.")
-                logger.info(f"Updating {package} to version {_ver}")
+                logger.info(f" 📦 You already have {package} installed, however it is out of date.")
+                logger.info(f" ⏫ Updating {package} to version {_ver}")
 
                 if version != "":
                     subprocess.check_call([
@@ -344,6 +360,6 @@ class Package(object):
                     f"{package}"])
                 return True
             else:
-                logger.info(f"You already have the latest version of {package} installed ({_ver})")
+                logger.info(f" 📦 You already have the latest version of {package} installed ({_ver})")
                 return True
         return False
