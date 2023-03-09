@@ -1,9 +1,14 @@
 # Copyright (c) 2023 Joshua Rose
-install:
-	# @sh build/scripts/install.sh
+.ONESHELL:
+
+all:
 	@clear
 	@python -m pip install -r requirements.txt
-	@python -m pip install git+https://github.com/psf/black
+	@clear
+	echo "Installation finished."
+	echo "Please ensure you execute from inside ./src"
+
+
 
 lint:
 	@clear
