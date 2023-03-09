@@ -56,10 +56,6 @@ please see the contributing section below.
 
 
 ## Contributing
-~Please clone the `development` branch if making changes to the code with the intent
-to contribute. Alternatively you can work on `stable` however that will not be cutting
-edge and you may have to (very likely) remerge `dev` and possibly overwrite some of the code.~
-
 To contribute to a feature or bug, please clone the relative branch. If you want to lodge a
 bug report or feature report, please create an issue. 
 
