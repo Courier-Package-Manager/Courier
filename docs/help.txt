@@ -13,17 +13,3 @@ courier <update>                         Update courier to it's latest version
 courier <install> <package> [version]    Install a specific dependency and (optionally) version
 courier <help> [command | menu]          Show command information or a specific help menu
 courier <help> [--list | -l]             List available help menus
-
-Testing
--------
-Commands that are currently under development or being introduced
-
-    - name -                                  - description -
-courier codescan [--config <file>] .. Auto install unmet dependencies from files
-
-Development
------------
-Commands used specifically for development purposes
-
-    - name -                                  - description -
-courier --do-nothing                    Run courier executable without any commands
