@@ -31,6 +31,7 @@ from util.package import Package
 from util.update import load_logging_ini
 from util.update import last_updated
 from util.update import loc_package_file
+from util.codescan import Codescan
 
 load_logging_ini()
 logger = logging.getLogger()
@@ -105,6 +106,8 @@ def proc_args(args: list):
                         case 'install':
                             print_formatted_list(read_docs(file="install.txt"))
                             return;
+                        case 'codescan':
+                            print_formatted_list(read_docs(file="codescan.txt"))
                         case _:
                             print(f"Optional argument \'{args[1]}\' not found")
                             print("Run courier for a list of commands.")
@@ -113,7 +116,8 @@ def proc_args(args: list):
                 return
             case 'codescan':
                 if len(args) == 1:
-                    logger.info(" 🔎 Scanning for unmet dependencies ... ")
+                    # logger.info(" 🔎 Scanning for unmet dependencies ... ")
+                    Codescan.install_dependencies()
                     return;
             case 'install':
                 if len(args) == 1:
