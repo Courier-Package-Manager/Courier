@@ -66,4 +66,4 @@ def display_if_online(url) -> bool:
 # TODO figure out why this is displayed AFTER Codescan() logs
 display_if_online('https://pypi.org') 
 
-Codescan()
+Codescan.scan()

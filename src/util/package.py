@@ -255,38 +255,36 @@ class Package(object):
         """
 
         files = []
+        _sorted = []
         ignore = ['.git', '.github', 'libs', '.tox', 'venv', 'htmlcov']
 
         path = pathlib.Path(root)
 
-
-        for file in path.rglob('*'): # NOTE is recursive
-            files.append(file)
+        sizes = {
+                "small": {"icon":      '📘', "min": 0, "max": 999},
+                "medium": {"icon":     '📕', "min": 1000, "max": 9999},
+                "large": {"icon":      '📗', "min": 10000, "max": 99999},
+                "chunky": {"icon": '📙', "min": 100000, "max": 999999},
+            }
 
         LOGGER.debug(" 🔎 Recursively scanning for unmet dependencies")
+        LOGGER.debug(f"""\n
+                📘 = small | 📕 = medium | 📗 = large | 📙 = chunky \n""")
         for file in path.rglob('*.py'):
-            head, _ = os.path.join(file.parent, file.name).split('/', 1)  # pyright: ignore
+            head, base = os.path.join(file.parent, file.name).split('/', 1)  # pyright: ignore
             if head in ignore:
-                files.remove(file)
                 continue
-            
-            sizes = {
-                    "small": {"icon":      '📘', "min": 0, "max": 999},
-                    "medium": {"icon":     '📕', "min": 1000, "max": 9999},
-                    "large": {"icon":      '📗', "min": 10000, "max": 99999},
-                    "mrs wright": {"icon": '📙', "min": 100000, "max": 999999},
-                }
+            files.append(file)
 
+        files = sorted(files, key=os.path.getsize, reverse=True)
 
+        for file in files:
             filesize = os.path.getsize(file)
             for size in sizes:
                 if filesize in range(sizes[size]["min"], sizes[size]["max"]):
                     icon = sizes[size]["icon"]
-
-            if os.path.getsize(file) in range(0, 100):
-                LOGGER.debug(f" {icon} {Package.color_path(str(file))}")  # pyright: ignore
-
-        return files
+                    LOGGER.debug(f" {icon} {Package.color_path(str(file))}")  # pyright: ignore
+        return _sorted
 
     @staticmethod
     def color_path(path: str = os.getcwd()):
