@@ -12,8 +12,6 @@ dependencies comes at little to no time cost with this tool. Courier boasts high
 Please see the wiki for extensively documented details and instructions.
 
 ## Installation
-~Note before installing: the `dev` branch is very unstable and may not work. For a working
-installation, download the last listed release or install from the `stable` branch.~
 The stable branch is now the main branch, if it's not a critical error (meaning it stops the functionality of a program)
 then it will be worked on in `stable`. If it is _critical_, then an `issue` will be created with the
 appropriate labels and a branch will be created from that issue.
