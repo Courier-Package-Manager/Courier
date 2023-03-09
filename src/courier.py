@@ -63,7 +63,7 @@ def read_docs(file='help.txt') -> list[str]:
         data = _file.read().strip().splitlines()
 
     os.chdir(path)
-    logging.debug(f" ✈️  Changing dir to {Package.color_path(os.getcwd())}")
+    logging.info(f" ✈️  Moving to {Package.color_path(os.getcwd())}")
     return data
 
 
