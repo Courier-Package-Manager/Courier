@@ -58,8 +58,7 @@ def read_docs(file='help.txt') -> list[str]:
     """ Read documentation file from folder """
 
     path = os.getcwd()
-    # logger.debug(path)
-    # print(path)
+
     if not assert_file_path():
         logging.debug(Package.color_path(os.getcwd()))
         os.chdir('..')
