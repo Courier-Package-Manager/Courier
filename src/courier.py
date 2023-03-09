@@ -18,7 +18,6 @@ The above copyright notice and this permission notice shall be included in
 all copies or substantial portions of the Software.
 """
 
-import io
 import logging
 import os
 import pathlib
@@ -196,7 +195,7 @@ def add_bashrc_alias():
     
 
 if exists:
-    logger.debug(f"Found bashrc in {Package.color_path(str(bashrc_path))}")
+    logger.debug(f" 🔎 Found bashrc in {Package.color_path(str(bashrc_path))}")
     add_bashrc_alias()
 else:
     logger.warning("Could not find bashrc file. Courier may behave unexpectedly.")
