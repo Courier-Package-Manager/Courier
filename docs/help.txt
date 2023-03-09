@@ -11,5 +11,6 @@ A list of general commands that are more commonly used.
 courier <get> <package>                  Index pypy for a given package
 courier <update>                         Update courier to it's latest version
 courier <install> <package> [version]    Install a specific dependency and (optionally) version
-courier <help> [command | menu]          Show command information or a specific help menu
+courier <help> [command]                 Show help regarding a specific command
 courier <help> [--list | -l]             List available help menus
+courier <help> [--menu | -m] <menu>      Display specific menu. | Options: see prev command for list
