@@ -382,7 +382,8 @@ class Package(object):
         if package in packs.keys():
             if _version != False:
                 if _ver < packs[package]: # pyright: ignore
-                    LOGGER.info(f" 📦 You already have {package} installed, however it is out of date.") # pyright: ignore
+                    LOGGER.info(f"""
+ 📦 You already have {package} installed, however it is out of date.""") # pyright: ignore
                     LOGGER.info(f" ⏫ Updating {package} to version {_ver}") # pyright: ignore
                     subprocess.check_call([
                         sys.executable,
