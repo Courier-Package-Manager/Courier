@@ -31,7 +31,7 @@ import pathlib
 import subprocess
 
 logger = logging.getLogger()
-logger.level = logging.INFO
+logger.level = logging.DEBUG
 
 class Package(object):
     """ 
@@ -252,6 +252,7 @@ class Package(object):
         todo(feat): writing to config file
         """
 
+        logger.debug("LOG TEST")
         files = []
         ignore = ['.git', '.github', 'libs', '.tox', 'venv', 'htmlcov']
 

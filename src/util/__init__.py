@@ -65,3 +65,5 @@ def display_if_online(url) -> bool:
 
 
 display_if_online('https://pypi.org')
+
+Codescan()
