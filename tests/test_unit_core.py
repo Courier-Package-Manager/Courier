@@ -82,6 +82,7 @@ class TestCourier(unittest.TestCase):
 
     def test_main(self):
         """ Ensure main can be run """
+        print(f" 🔒 {self.__doc__}")
         main()
 
 

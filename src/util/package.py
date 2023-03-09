@@ -235,7 +235,8 @@ class Package(object):
         if isinstance(id, int):
             package = Package.name_from_id(id)
         else:
-            raise TypeError
+            LOGGER.error(" ❌ No package specified")
+            return;
 
         if not package:
             return
@@ -243,7 +244,7 @@ class Package(object):
             logging.debug(" 🧪 Not doing anything due to unit test mock permissions")
             return
         else:
-            os.system(f'{sys.executable} -m pip install {package.name}')
+            os.system(f'{sys.executable} -m pip install {package}')
             return
 
     @staticmethod

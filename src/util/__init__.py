@@ -25,7 +25,7 @@ from .update import load_logging_ini
 from .update import get_date
 
 
-def display_if_online(url):
+def display_if_online(url: str) -> bool:
     """Queries url for response code
 
     :param url: String supporting a utf-8 url format.
@@ -42,7 +42,6 @@ def display_if_online(url):
             logger.debug(f" 🌍 {url} is up!")
         else:
             logging.critical(f" 🌐 {url} is down")
-            sys.exit(1)
         return up
 
 
