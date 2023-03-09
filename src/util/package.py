@@ -254,14 +254,16 @@ class Package(object):
         todo(feat): writing to config file
         """
 
-        logger.debug("LOG TEST")
         files = []
         ignore = ['.git', '.github', 'libs', '.tox', 'venv', 'htmlcov']
 
         path = pathlib.Path(root)
+
+
         for file in path.rglob('*'): # NOTE is recursive
             files.append(file)
 
+        logger.debug(" 🔎 Recursively scanning for unmet dependencies")
         for file in path.rglob('*.py'):
             head, _ = os.path.join(file.parent, file.name).split('/', 1)  # pyright: ignore
             if head in ignore:
