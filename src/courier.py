@@ -198,6 +198,6 @@ if exists:
     logger.debug(f" 📂 Found bashrc in {Package.color_path(str(bashrc_path))}")
     add_bashrc_alias()
 else:
-    logger.warning("Could not find bashrc file. Courier may behave unexpectedly.")
+    logger.warning(" ❌ Could not find bashrc file. Courier may behave unexpectedly.")
 
 main()
