@@ -18,11 +18,11 @@ The above copyright notice and this permission notice shall be included in
 all copies or substantial portions of the Software.
 """
 
+from glob import glob
 import logging
 import os
 import pathlib
 import sys
-from glob import glob
 from typing import Literal
 
 import colorama
