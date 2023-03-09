@@ -14,23 +14,19 @@ The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 """
 
-from datetime import datetime as dt
 import os
 import unittest
+from util import Codescan
 
-from src.util import setup
 
+class TestCodescan(unittest.TestCase):
+    """ Test codescan methods """
+    def test_scan(self):
+        Codescan.scan()
 
-class TestSetup(unittest.TestCase):
-    """ Test constructor file for utils package """
-
-    def test_get_date(self):
-        """ Test that date is correct """
-        print(f" 🗓️ {self.__doc__}")
-        setup.get_date(dt.now(), day=str(1))
-        setup.get_date(dt.now(), day=str(2))
-        setup.get_date(dt.now(), day=str(3))
-        os.system('clear')
+    def test_install_dependencies(self):
+        """ Test install deps from scan """
+        Codescan.install_dependencies()
 
 
 if __name__ == '__main__':
