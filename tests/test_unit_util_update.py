@@ -14,16 +14,16 @@ The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 """
 
-import unittest
-import os
 import logging
+import os
+import unittest
+
 from src.util.update import switch_root
 from src.util.update import scan_dir
 from src.util.update import create_package
 from src.util.update import update_packages
 from src.util.update import loc_package_file
 from src.util.update import file_exists
-from util import display_if_online
 
 
 class TestUtil(unittest.TestCase):

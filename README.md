@@ -4,9 +4,9 @@
 </div>
 
 <div align="center">
-<a href="https://codecov.io/gh/JoshuaDRose/Courier"><img src="https://img.shields.io/codecov/c/github/JoshuaDRose/courier?style=for-the-badge&token=EX3AAYPPUQ" alt="Coverage"></img></a>
-<a href="https://github.com/JoshuaDRose/Courier/releases/latest"><img src="https://img.shields.io/github/v/tag/JoshuaDRose/Courier?include_prereleases&label=release&sort=semver&style=for-the-badge" alt="Version"></img></a>
-<a href="https://github.com/JoshuaDRose/Courier/actions"><img src="https://img.shields.io/github/checks-status/JoshuaDRose/Courier/stable?style=for-the-badge" alt="Checks"></img></a>
+<a href="https://codecov.io/gh/JoshuaDRose/Courier" > <img src="https://codecov.io/gh/JoshuaDRose/Courier/branch/stable/graph/badge.svg?token=EX3AAYPPUQ"/> </a>
+<a href="https://github.com/JoshuaDRose/Courier/actions/workflows/flake.yml"><img src="https://github.com/JoshuaDRose/Courier/actions/workflows/flake.yml/badge.svg?branch=stable"></a>
+<img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/JoshuaDRose/Courier?color=teal&display_name=tag&include_prereleases&logo=github">
 </div>
 
 
@@ -39,11 +39,6 @@ was introduced which assisted the installation and maintenance of Trakr's depend
 This project hopes to extend upon that package management system, and develop further
 features in the hope that it will assist with the local dependency maintenance of future
 projects.
-
-~~Tox is planning to make an entrance sooner or later in this project once enough code 
-is written and enough substantial unit tests are introduced. The process of automating
-testing will also greatly help me test less because everything is being automated. More
-on this to come once unit tests are introduced.~~
 
 Currently unit testing is in full force, with a decline in coverage since release `0.2.3`.
 This is to go on for the foreseable future. There have been several changes to the 
@@ -78,7 +73,7 @@ PR as well.
 <!-- License + Copyright -->
 <p  align="center">
   <i>© <a href="https://github.com/JoshuaDRose">Joshua Rose</a> 2023 - 2023</i><br>
-  <i>Licensed under <a href="https://raw.githubusercontent.com/segmentio/snippet/master/LICENSE">MIT</a></i><br>
+  <i>Licensed under <a href="https://github.com/JoshuaDRose/Courier/blob/stable/LICENSE">MIT</a></i><br>
   <a href="https://github.com/JoshuaDRose"><img src="https://i.ibb.co/4KtpYxb/octocat-clean-mini.png" /></a><br>
   <sup>Thanks for visiting :)</sup>
 </p>

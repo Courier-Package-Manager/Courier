@@ -13,6 +13,7 @@ furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 """
+
 import logging
 import unittest
 
@@ -25,6 +26,7 @@ logger = logging.getLogger()
 
 class TestUnitPackageClass(unittest.TestCase):
     """ Test unit package class object """
+
     def setUp(self):
         """ Set up instances & instance variables """
         self.soup = Package.request_pypi_soup('test')
@@ -90,6 +92,10 @@ class TestUnitPackageClass(unittest.TestCase):
     def test_query_install_install(self):
         """ Test query install w/ input """
         self.assertEqual(Package.query_install(True), True)
+
+    def test_update_package(self):
+        """ Test update package with pip """
+
 
 if __name__ == '__main__':
     unittest.main()

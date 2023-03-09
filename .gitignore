@@ -17,3 +17,6 @@ src/util/__pycache__/update.pyc
 # Should have 'debug' on dev branch
 # and have 'info' on stable branch
 config.ini
+
+venv/
+update.json
