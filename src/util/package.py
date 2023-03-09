@@ -33,7 +33,7 @@ import subprocess
 from .update import load_logging_ini
 
 load_logging_ini()
-logger = logging.getLogger()
+LOGGER = logging.getLogger()
 
 class Package(object):
     """ 
@@ -156,10 +156,10 @@ class Package(object):
         if not id: return # NOTE no package selected
         package_count = len(Package.packages)
         if package_count == 0:
-            logger.critical(\
+            LOGGER.critical(\
 """ Could not index package list, as no cache has been loaded""")
             return
-        logger.debug(f'loadeded {package_count} packages.')
+        LOGGER.debug(f'loadeded {package_count} packages.')
         package: None | Package = Package.name_from_id(id)
         if not package: return;
         if unittest:
@@ -209,7 +209,7 @@ class Package(object):
         print(f" 🔎 Searching for {package}")
         soup = Package.request_pypi_soup(package)
 
-        logger.debug(" 📦 Refreshing package cache")
+        LOGGER.debug(" 📦 Refreshing package cache")
         Package.packages.clear()
 
         Package.format_results(soup, package)
@@ -217,7 +217,7 @@ class Package(object):
         if not len(Package.packages) or activate_test_case:
             logging.critical(f" ❌ No results found for package \'{package}\'")
             return
-        logger.debug(f' 🔎 {len(Package.packages)} packages found')
+        LOGGER.debug(f' 🔎 {len(Package.packages)} packages found')
         Package.list()
 
 
@@ -263,7 +263,7 @@ class Package(object):
         for file in path.rglob('*'): # NOTE is recursive
             files.append(file)
 
-        logger.debug(" 🔎 Recursively scanning for unmet dependencies")
+        LOGGER.debug(" 🔎 Recursively scanning for unmet dependencies")
         for file in path.rglob('*.py'):
             head, _ = os.path.join(file.parent, file.name).split('/', 1)  # pyright: ignore
             if head in ignore:
@@ -284,7 +284,7 @@ class Package(object):
                     icon = sizes[size]["icon"]
 
             if os.path.getsize(file) in range(0, 100):
-                logger.debug(f" {icon} {Package.color_path(str(file))}")  # pyright: ignore
+                LOGGER.debug(f" {icon} {Package.color_path(str(file))}")  # pyright: ignore
 
         return files
 
@@ -346,8 +346,8 @@ class Package(object):
         if package in packs.keys():
             if _ver < packs[package]:
 
-                logger.info(f" 📦 You already have {package} installed, however it is out of date.")
-                logger.info(f" ⏫ Updating {package} to version {_ver}")
+                LOGGER.info(f" 📦 You already have {package} installed, however it is out of date.")
+                LOGGER.info(f" ⏫ Updating {package} to version {_ver}")
 
                 if version != "":
                     subprocess.check_call([
@@ -365,6 +365,6 @@ class Package(object):
                     f"{package}"])
                 return True
             else:
-                logger.info(f" 📦 You already have the latest version of {package} installed ({_ver})")
+                LOGGER.info(f" 📦 You already have the latest version of {package} installed ({_ver})")
                 return True
         return False
