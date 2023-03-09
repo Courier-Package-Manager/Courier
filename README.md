@@ -4,15 +4,9 @@
 </div>
 
 <div align="center">
-<<<<<<< HEAD
 <a href="https://codecov.io/gh/JoshuaDRose/Courier" > <img src="https://codecov.io/gh/JoshuaDRose/Courier/branch/stable/graph/badge.svg?token=EX3AAYPPUQ"/> </a>
 <a href="https://github.com/JoshuaDRose/Courier/actions/workflows/flake.yml"><img src="https://github.com/JoshuaDRose/Courier/actions/workflows/flake.yml/badge.svg?branch=stable"></a>
 <img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/JoshuaDRose/Courier?color=teal&display_name=tag&include_prereleases&logo=github">
-=======
-<a href="https://codecov.io/gh/JoshuaDRose/Courier"><img src="https://codecov.io/gh/JoshuaDRose/courier/branch/stable/graph/badge.svg?precision=2"></img></a>
-<a href="https://github.com/JoshuaDRose/Courier/releases/latest"><img src="https://img.shields.io/github/v/tag/JoshuaDRose/Courier?include_prereleases&label=release&sort=semver" alt="Version"></img></a>
-<a href="https://github.com/JoshuaDRose/Courier/actions/workflows/scrutinizer-coverage.yml"><img href="https://github.com/JoshuaDRose/Courier/actions/workflows/scrutinizer-coverage.yml/badge.svg?branch=stable&event=push"></img></a>
->>>>>>> 3537c3d (📝 docs: badge test)
 </div>
 
 
