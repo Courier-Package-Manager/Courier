@@ -29,7 +29,7 @@ logger.level = logging.DEBUG
 
 class Codescan(object):
     """ Scan for unmet dependencies """
-    logger.debug("Searching for compatable files")
+    logger.debug(" 🔎 Searching for compatable files")
 
     @classmethod
     def scan(cls):
