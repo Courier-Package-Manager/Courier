@@ -22,10 +22,10 @@ import logging
 import os
 import sys
 import colorama
-from update import load_logging_ini
-from update import last_updated
-from update import loc_package_file
-from package import Package
+from util.update import load_logging_ini   # pyright: ignore
+from util.update import last_updated       # pyright: ignore
+from util.update import loc_package_file   # pyright: ignore
+from util.package import Package           # pyright: ignore
 
 load_logging_ini()
 logger = logging.getLogger()

@@ -15,9 +15,12 @@ copies or substantial portions of the Software.
 
 Codescan [verb] (my definition): To scan code for unmet dependencies.
 Codescan [noun] (my definition): A report of unmet dependencies.
+
+TODO: codescan configuration file
 """
 
 from dataclasses import dataclass
+from package import Package
 import logging
 
 logger = logging.getLogger()
@@ -27,4 +30,6 @@ logger.level = logging.INFO
 @dataclass
 class Codescan(object):
     """ Scan for unmet dependencies """
-
+    def __init__(self):
+        logger.debug("Searching for compatable files")
+        Package.auto_install()
