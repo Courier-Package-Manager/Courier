@@ -3,12 +3,6 @@
 <br>
 </div>
 
-<div align="center">
-<a href="https://codecov.io/gh/JoshuaDRose/Courier" > <img src="https://codecov.io/gh/JoshuaDRose/Courier/branch/stable/graph/badge.svg?token=EX3AAYPPUQ"/> </a>
-<a href="https://github.com/JoshuaDRose/Courier/actions/workflows/flake.yml"><img src="https://github.com/JoshuaDRose/Courier/actions/workflows/flake.yml/badge.svg?branch=stable"></a>
-<img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/JoshuaDRose/Courier?color=teal&display_name=tag&include_prereleases&logo=github">
-</div>
-
 
 ## About
 Courier is a package manager that automatically detects new dependencies in your project, whilst
