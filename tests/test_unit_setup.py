@@ -27,7 +27,10 @@ class TestSetup(unittest.TestCase):
         setup.get_date(dt.now(), day=str(1))
         setup.get_date(dt.now(), day=str(2))
         setup.get_date(dt.now(), day=str(3))
+        os.system('clear')
 
 
 if __name__ == '__main__':
+    os.system('clear')
+    print(f" 🧪 Testing {os.getcwd()}")
     unittest.main()

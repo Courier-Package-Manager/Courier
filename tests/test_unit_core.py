@@ -72,4 +72,6 @@ class TestCourier(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    os.system('clear')
+    print(f" 🧪 Testing {os.getcwd()}")
     unittest.main()
