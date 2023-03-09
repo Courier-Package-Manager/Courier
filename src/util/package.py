@@ -271,9 +271,9 @@ class Package(object):
                 continue
             
             sizes = {
-                    "small": {"icon": '📘', "min": 0, "max": 999},
-                    "medium": {"icon": '📕', "min": 1000, "max": 9999},
-                    "large": {"icon": '📗', "min": 10000, "max": 99999},
+                    "small": {"icon":      '📘', "min": 0, "max": 999},
+                    "medium": {"icon":     '📕', "min": 1000, "max": 9999},
+                    "large": {"icon":      '📗', "min": 10000, "max": 99999},
                     "mrs wright": {"icon": '📙', "min": 100000, "max": 999999},
                 }
 
