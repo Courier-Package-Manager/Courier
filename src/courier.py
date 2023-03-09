@@ -26,6 +26,7 @@ from util.update import load_logging_ini   # pyright: ignore
 from util.update import last_updated       # pyright: ignore
 from util.update import loc_package_file   # pyright: ignore
 from util.package import Package           # pyright: ignore
+from util import Codescan
 
 load_logging_ini()
 logger = logging.getLogger()
@@ -88,14 +89,31 @@ def proc_args(args: list):
 
     for argument in args:
         match argument:
-            case '--help' | 'help':
-                print_formatted_list(read_docs(file="help.txt"))
-                return
+            case 'help':
+                if len(args) == 1:
+                    print_formatted_list(read_docs(file="help.txt"))
+                    return
+                elif len(args) == 2:
+                    match args[1]:
+                        case '--list' | '-l':
+                            print_formatted_list(read_docs(file="menus.txt"))
+                            return;
+                        case 'get':
+                            print_formatted_list(read_docs(file="get.txt"))
+                            return;
+                        case 'install':
+                            print_formatted_list(read_docs(file="install.txt"))
+                            return;
+                        case _:
+                            print(f"Optional argument \'{args[1]}\' not found")
+                            print("Run courier for a list of commands.")
+                            return;
             case '--do-nothing':
                 return
             case 'codescan':
                 if len(args) == 1:
-                    logger.info("  🔎 Scanning for unmet dependencies ... ")
+                    logger.info(" 🔎 Scanning for unmet dependencies ... ")
+                    return;
             case 'install':
                 if len(args) == 1:
                     print("Syntax: courier install <package> [version]")
@@ -113,8 +131,6 @@ def proc_args(args: list):
             case _:
                 print_formatted_list(read_docs(file="help.txt"))
                 return
-                
-
 
 
 def get_package_created() -> None:

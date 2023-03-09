@@ -20,7 +20,7 @@ TODO: codescan configuration file
 """
 
 from dataclasses import dataclass
-from package import Package
+from .package import Package
 import logging
 
 logger = logging.getLogger()
