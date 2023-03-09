@@ -115,7 +115,7 @@ class Package(object):
         cls.packages.reverse()
         for index, package in enumerate(cls.packages):
             if index >= limit:
-                return;
+                return
             print("{id} {name} {version} {date}\n\t{description}".format(
                 id=package.id,
                 name=package.name,
@@ -161,7 +161,8 @@ class Package(object):
             return
         LOGGER.debug(f'loadeded {package_count} packages.')
         package: None | Package = Package.name_from_id(id)
-        if not package: return;
+        if not package:
+            return
         if unittest:
             logging.debug(\
 """ 🧪 Not doing anything due to unit test mock permissions.""")
