@@ -157,14 +157,14 @@ class Package(object):
         package_count = len(Package.packages)
         if package_count == 0:
             LOGGER.critical(\
-""" Could not index package list, as no cache has been loaded""")
+""" ❌ Could not index package list, as no cache has been loaded""")
             return
         LOGGER.debug(f'loadeded {package_count} packages.')
         package: None | Package = Package.name_from_id(id)
         if not package: return;
         if unittest:
             logging.debug(\
-""" Not doing anything due to unit test mock permissions.""")
+""" 🧪 Not doing anything due to unit test mock permissions.""")
             return
         else:
             os.system(f'python -m pip install {package.name}')
