@@ -1,45 +1,38 @@
 """
-The MIT License (MIT)
+Courier.util.update
+~~~~~~~~~~~~~~~~~~~~
 
-Copyright (c) 2023 Joshua Rose
+This modules is reponsible for updating Courier as
+a program. This module is also responsibile for
+utility functions and the management of aesthetic
+dependencies such as colorama and logging.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-Description: Reponsible for updating Courier as a program as well as individual libraries
+:copyright: (c) 2023 by Joshua Rose.
+:license: MIT, see LICENSE for more details.
 """
 
-import os
-import json
-from types import EllipsisType
-from typing import IO, Any
-from .setup import get_date
-from posix import DirEntry
 from datetime import datetime
+import json
 import logging
+from logging.config import fileConfig
+import os
+from posix import DirEntry
+from typing import Any, IO, Literal
+
 import colorama
 
-from logging.config import fileConfig
-
-logger = logging.getLogger()
-
-PACKAGE = 'update.json'
-GREEN = colorama.Fore.GREEN
-RESET = colorama.Fore.RESET
-MAGENTA = colorama.Fore.MAGENTA
-
-cwd = os.getcwd()
+from .setup import get_date
 
 
 def file_exists(file, mode) -> str | bool:
-    """ Test if file exists (recurring snippet) """
+    """Test if file exists in the current working directory
+
+    :param file: Filename as a string
+    :param mode: Given filemode eg: read, write, append (as char)
+    :return: False if file is not present or TextIOWrapper if present
+    :rtype: False | TextIOWrapper
+    """
+
     try:
         file = open(file, mode)
         file.close()
@@ -48,11 +41,18 @@ def file_exists(file, mode) -> str | bool:
         return False
 
 
-def last_updated():
-    """ last update in datetime format.
-     This is assuming that the following code has run:
-     >>> if project_folder != 'Courier': os.chdir('..')
+def last_updated() -> str | Literal[False]:
+    """last update in datetime format
+
+    This is assuming that
+         >>> if project_folder != 'Courier': os.chdir('..')
+    has run as this function is dependant on the current
+    working directory containing the `PACKAGE` file.
+
+    :return: Current date as a timestamp
+    :rtype: string
     """
+
     if file_exists(PACKAGE, 'r'):
         with open(PACKAGE, 'r') as _file:
             data = json.load(_file)
@@ -60,62 +60,90 @@ def last_updated():
         timestamp = datetime.fromtimestamp(data['created'])
         date = get_date(timestamp)
         return date
+    else:
+        return False
 
 
 def load_logging_ini() -> None:
-    """ Load logging ini file """
+    """Load logging configuration file"""
+
     fileConfig('config.ini')
 
 
-def update_packages() -> EllipsisType:
-    """ The core function of this entire repo """
-    # TODO auto read python files and add dependencies
-    return ...
-
-
 def scan_dir(files=True, folders=True) -> list[DirEntry]:
+    """A better version of the os.scandir function, as it takes multiple args.
+
+    :param files: (optional) List files in current directory
+    :param folders: (optional) List folders in current directory
+    :return: A list of current files and folders found
+    :rtype: list[DirEntry]
     """
-    A better version of the os.scandir function,
-    as it takes multiple args.
-    """
+
     items = []
+
     for item in os.scandir(os.getcwd()):
         items.append(item)
     if not files:
         [items.remove(item) for item in items if os.path.isfile(item)]
     if not folders:
         [items.remove(item) for item in items if os.path.isdir(item)]
+
     return items
 
 
 def get_project_folder() -> str:
-    """ Dedicate function for testing """
+    """Dedicated function for testing
+
+    :return: The current project folder name.
+    :rtype: str
+    """
+
     project_folder = os.path.basename(os.path.normpath(os.getcwd()))
     return project_folder
 
 
 def switch_root() -> str:
-    """ Auto switch root when not applicable """
+    """Auto switch root when not applicable
+
+    :return: Full current project path as a String
+    :rtype: string
+    """
+
     project_folder = get_project_folder()
-    if project_folder != 'Courier': os.chdir('..')
+    if project_folder != 'Courier':
+        os.chdir('..')
     return project_folder
 
 
 def create_package() -> None:
-    """ Create package and dump json to said package """
+    """Dump json object to `PACKAGE`
+    raises permissions error if user
+    does not have write permissions to current
+    working directory.
+    """
 
-    with open(PACKAGE, 'w', True, 'UTF-8') as fp:
-        ts = datetime.now().timestamp()
-        data = {
-            "created": ts,
-            "dependencies": {}
-        }
-        json.dump(data, fp)
-        fp.close()
+    try:
+        with open(PACKAGE, 'w', True, 'UTF-8') as fp:
+            ts = datetime.now().timestamp()
+            data = {
+                "created": ts,
+                "dependencies": {}
+            }
+            json.dump(data, fp)
+            fp.close()
+    except PermissionError:
+        raise PermissionError
 
 
 def get_package_name() -> DirEntry | None:
-    """ Get package name / allows for unit tests """
+    """Get package name.
+
+    Note that this function also allows for unit tests.
+
+    :return: A directory entry of the current file.
+    :rtype: DirEntry | None
+    """
+
     switch_root()  # Switch root before asking if its in the switched directory
     for file in scan_dir(files=True, folders=False):
         if file.name == PACKAGE:
@@ -126,15 +154,38 @@ def loc_package_file(
         name=get_package_name(),
         debug=False,
         mode='r') -> IO[Any] | None:
-    """ Locate the package file & create package file if it doesn't exist. """
+    """Locate the package file & create package file 
+
+    If the file does not exist it will be created in the current
+    working directory of wherever `courier.py` was called from.
+
+    :param name: DirEntry of current package name as file
+    :param debug: If a unit test is to be conducted allow for artifically invoked edge cases.
+    :param mode: Edit mode of file to be called as read, write or append.
+    :return: File object if package has been opened or None
+    :rtype: FileIOWrapper | None
+    """
+
     if not name or debug:
         logger.info(f"Set {GREEN}{PACKAGE}{RESET} in {MAGENTA}{cwd}{RESET}")
         return create_package()
     else:
         with open(PACKAGE, mode) as fp:
             try:
-                try: return fp
-                finally: fp.close()
+                try:
+                    return fp
+                finally:
+                    fp.close()
             finally:
                 if 'w' in list(mode):
                     fp.close()
+
+
+logger = logging.getLogger()
+
+PACKAGE = 'update.json'
+GREEN = colorama.Fore.GREEN
+RESET = colorama.Fore.RESET
+MAGENTA = colorama.Fore.MAGENTA
+
+cwd = os.getcwd()

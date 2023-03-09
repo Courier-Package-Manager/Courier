@@ -1,32 +1,29 @@
 """
-The MIT License (MIT)
+Courier.util.setup
+~~~~~~~~~~~~~~~~~~~~
 
-Copyright (c) 2023 Joshua Rose
+This module contains utility function(s) that
+are used for formatting and general aethetics.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-Description: Extra utility functions that are used for formatting
+:copyright: (c) 2023 by Joshua Rose.
+:license: MIT, see LICENSE for more details.
 """
 
 import datetime
+
 import colorama
 
 
-def get_date(_date, day=datetime.datetime.now().strftime('%-d')) -> str:
-    """
-    Return a 🎆 colorized 🎆 version of timestamp
-    ts: timestamp (Datetime object)
+def get_date(date: datetime.datetime, day=datetime.datetime.now().strftime('%-d')) -> str:
+    """ Return a ❇️ colorized ❇️ version of timestamp
 
-    return: string
+    :param date: timestamp as a `datetime.datetime` instance
+    :param day: (optional) String of current day without x0 format
+
+    :return: Formatted string of the current date
+    :rtype: string
     """
+
     match int(day):
         case 1:
             postfix = 'st'
@@ -38,8 +35,8 @@ def get_date(_date, day=datetime.datetime.now().strftime('%-d')) -> str:
             postfix = 'th'
 
     day = colorama.Fore.MAGENTA + day + postfix + ',' + colorama.Fore.RESET
-    month = colorama.Fore.BLUE + _date.strftime("%B") + colorama.Fore.RESET
-    year = colorama.Fore.BLUE + _date.strftime("%Y") + colorama.Fore.RESET
-    date = f"{month} {day} {year}"
+    month = colorama.Fore.BLUE + date.strftime("%B") + colorama.Fore.RESET
+    year = colorama.Fore.BLUE + date.strftime("%Y") + colorama.Fore.RESET
+    _date = f"{month} {day} {year}"
 
-    return date
+    return _date

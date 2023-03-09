@@ -1,21 +1,11 @@
-# -*- coding=utf-8 -*-
-# TODO add docstrings to file functions
-# TODO relocate file functions
-
 """
-The MIT License (MIT)
+Courier.courier
+~~~~~~~~~~~~~~~
 
-Copyright (c) 2023 Joshua Rose
+This module handles user input.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+:copyright: (c) 2023 by Joshua Rose.
+:license: MIT, see LICENSE for more details.
 """
 
 from glob import glob
@@ -27,34 +17,49 @@ from typing import Literal
 
 import colorama
 
+from util.codescan import Codescan
 from util.package import Package
 from util.update import load_logging_ini
 from util.update import last_updated
 from util.update import loc_package_file
-from util.codescan import Codescan
-
-load_logging_ini()
-logger = logging.getLogger()
 
 
-def close(file):
-    """ Close file in the case it\'s not closed """
+def close_file(file):
+    """Closes a file for unit testing.
+
+    :param file: TextIOWrapper
+    """
+
     if not file.closed:
         file.close()
 
-def get_file_path() -> str:
-    """ Rerurun immediate parent folder of current dir """
+
+def get_file_path():
+    """Fetch immediate parent folder of current directory.
+
+    :return: String 
+    """
+
     return os.path.basename(os.path.normpath(os.getcwd()))
 
 
 def assert_file_path() -> bool:
-    """ Assert if file path is correct """
+    """Assert if file path is set to the root directory name.
+
+    :return: Boolean the root directory has been set.
+    """
+
     new_file_path = get_file_path()
     return new_file_path == 'Courier'
 
 
-def read_docs(file='help.txt') -> list[str]:
-    """ Read documentation file from folder """
+def read_docs(file='help.txt'):
+    """Read documentation file from folder.
+
+    :param file: (optional) file from /docs as reference.
+    :return: file contents excluding escape characters.
+    :rtype: list[str]
+    """
 
     path = os.getcwd()
 
@@ -64,23 +69,32 @@ def read_docs(file='help.txt') -> list[str]:
 
     data = []
 
+    # By using 'with' I can ensure that file is closed; thus avoiding
+    # leaving open resources where there need not be any.
     with open(os.path.join('docs', file), 'r', encoding='utf') as _file:
         data = _file.read().strip().splitlines()
+        close_file(_file)
 
     os.chdir(path)
     logging.debug(f" ✈️  Moving to {Package.color_path(os.getcwd())}")
     return data
 
 
-def print_formatted_list(lines: list) -> None:
-    """ Print list as a paragraph / string """
+def print_formatted_list(lines):
+    """Print list as a paragraph.
+
+    :param lines: List of strings removed of escape characters.
+    """
+
     for line in lines:
         print(line)
-    return
 
 
-def proc_args(args: list):
-    """ Get args and process them individually """
+def proc_args(args):
+    """Process given command line arguments when Courier is called.
+
+    :param args: List of CLI arguments, called through sys.argv()
+    """
 
     for i in args:
         if i.endswith('.py'):
@@ -138,8 +152,9 @@ def proc_args(args: list):
                 return
 
 
-def get_package_created() -> None:
-    """ Prints the date that update.json was created """
+def get_package_created():
+    """Format return value of the previous timestamp of update.json"""
+
     assert_file_path()
     logger.debug("Package file %s update.json %s was created %s ",
                  colorama.Fore.GREEN,
@@ -150,12 +165,23 @@ def get_package_created() -> None:
 
 def main():
     """Currently calling functions for testing"""
+
     proc_args(sys.argv)
     loc_package_file()
 
 
 def bashrc_exists() -> pathlib.Path | Literal[False]:
-    """ tests bashrc exists in ~/bashrc | ~/.bashrc | ~/dotfiles/* """ 
+    """Locate (if present) the user bash configuration file.
+
+    This function tests under the following directories:
+        home/<user>/
+        home/<user>/dotfiles/
+
+    :return:
+        :class:`pathlib.Path <Path>` object
+        :class:`Literal <False>` boolean
+    """
+
     for file in glob(os.path.join(str(pathlib.Path.home()), '*')):
         if 'bashrc' in file:
             return pathlib.Path(file)
@@ -166,11 +192,18 @@ def bashrc_exists() -> pathlib.Path | Literal[False]:
                 return pathlib.Path(file)
     return False
 
-bashrc_path = bashrc_exists()
-exists = bool(bashrc_path) != False
 
 def add_bashrc_alias():
-    """ Adds alias so that python courier.py is shortened to courier """
+    """Eliminates need for 'python' prefix before file
+
+    This function also removes the need for a '.py' suffix
+    when calling courier.py. This alias references the src 
+    directory such that 'src' is the working directory upon
+    runtime. Courier will not work without this as multiple
+    path locations and tests are configured around 'src'
+    being the working runtime directory.
+    """
+
     if exists:
         contents = []
         with open(bashrc_path, 'r') as file:
@@ -178,7 +211,9 @@ def add_bashrc_alias():
             file.close()
 
         file = os.path.join(os.getcwd(), "courier.py")
-        alias = f'alias courier=python {file}'  # BUG: cant be called globally for some reason?
+
+        # BUG can't be called globally for some reason?
+        alias = f'alias courier={sys.executable} {file}'  
 
         if alias in contents:
             return
@@ -189,8 +224,13 @@ def add_bashrc_alias():
             file.close()
 
         logger.debug(f" 👀 Added alias to {Package.color_path(str(bashrc_path))}")
-        return
-    
+
+
+load_logging_ini()
+logger = logging.getLogger()
+
+bashrc_path = bashrc_exists()
+exists = bool(bashrc_path) != False
 
 if exists:
     logger.debug(f" 📂 Found bashrc in {Package.color_path(str(bashrc_path))}")

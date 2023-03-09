@@ -22,7 +22,7 @@ from src.courier import print_formatted_list
 from src.courier import assert_file_path
 from src.courier import read_docs
 from src.courier import main
-from src.courier import close
+from src.courier import close_file
 from src.courier import proc_args
 
 
@@ -55,7 +55,7 @@ class TestCourier(unittest.TestCase):
     def test_close(self):
         """ Test close file if file not closed """
         file = open('LICENSE', 'r')
-        close(file)
+        close_file(file)
 
     def test_proc_args(self):
         """ tests cli args are processed """
