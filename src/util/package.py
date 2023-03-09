@@ -21,6 +21,8 @@ package.py has functions responsible for the following:
 import logging
 import os
 import sys
+import colorama
+from colorama.initialise import colorama_text
 from packaging import version
 from packaging.version import Version
 import pkg_resources
@@ -261,11 +263,31 @@ class Package(object):
         path = pathlib.Path(root)
 
         sizes = {
-                "small": {"icon":      '📘', "min": 0, "max": 999},
-                "medium": {"icon":     '📕', "min": 1000, "max": 9999},
-                "large": {"icon":      '📗', "min": 10000, "max": 99999},
-                "chunky": {"icon": '📙', "min": 100000, "max": 999999},
-            }
+                "small": {
+                    "color": colorama.Fore.BLUE,
+                    "icon": '📘',
+                    "min": 0,
+                    "max": 999,
+                    },
+                "medium": {
+                    "color": colorama.Fore.RED,
+                    "icon": '📕',
+                    "min": 1000,
+                    "max": 9999,
+                    },
+                "large": {
+                    "color": colorama.Fore.GREEN,
+                    "icon": '📗',
+                    "min": 10000,
+                    "max": 99999,
+                    },
+                "chunky": {
+                    "color": colorama.Fore.YELLOW,
+                    "icon": '📙',
+                    "min": 100000,
+                    "max": 999999
+                    },
+                }
 
         LOGGER.debug(" 🔎 Recursively scanning for unmet dependencies")
         LOGGER.debug(f"""\n
@@ -283,14 +305,16 @@ class Package(object):
             for size in sizes:
                 if filesize in range(sizes[size]["min"], sizes[size]["max"]):
                     icon = sizes[size]["icon"]
-                    LOGGER.debug(f" {icon} {Package.color_path(str(file))}")  # pyright: ignore
+                    color = sizes[size]["color"]
+                    null = colorama.Fore.RESET
+                    LOGGER.debug(f"{color} {icon} {str(file)}{null}")  # pyright: ignore
         return _sorted
 
     @staticmethod
     def color_path(path: str = os.getcwd()):
         """
             Desc: Stupid function i don't know why I made this
-                  It just makes pathnames rainbow
+                  It just makes path names rainbow
         """
 
         components = path.split('/', path.count('/'))

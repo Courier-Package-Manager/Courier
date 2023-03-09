@@ -31,8 +31,8 @@ from .update import load_logging_ini
 from .update import get_date
 from .codescan import Codescan
 
+load_logging_ini()
 logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
 
 colorama.init()
 
@@ -66,4 +66,7 @@ def display_if_online(url) -> bool:
 # TODO figure out why this is displayed AFTER Codescan() logs
 display_if_online('https://pypi.org') 
 
-Codescan.scan()
+logger.debug(" 👔 Sorting files ")
+Codescan.scan()  # TODO Return if changes made
+print(colorama.Fore.GREEN)
+logger.debug(" ✅ scan done"+colorama.Fore.RESET)
