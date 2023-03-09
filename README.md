@@ -3,7 +3,7 @@
 </div>
 
 <div align="center">
-<a href="https://codecov.io/gh/JoshuaDRose/Courier"><img src="https://codecov.io/gh/JoshuaDRose/Courier/branch/stable/graph/badge.svg?precision=2" alt="Version"></img></a>
+<a href="https://app.codecov.io/gh/JoshuaDRose/Courier"><img src="https://codecov.io/gh/JoshuaDRose/Courier/branch/stable/graph/badge.svg?precision=2" alt="Version"></img></a>
 <a href="https://github.com/JoshuaDRose/Courier/actions"><img src="https://github.com/JoshuaDRose/Courier/actions/workflows/scrutinizer-coverage.yml/badge.svg" alt="Tests status" /></a>
 <a href="https://codecov.io/gh/JoshuaDRose/Courier" ><img src="https://codecov.io/gh/JoshuaDRose/Courier/branch/main/graph/badge.svg?precision=2" alt="Code coverage" /></a>
 </div>
