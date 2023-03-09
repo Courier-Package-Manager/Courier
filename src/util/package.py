@@ -529,12 +529,6 @@ class Package(object):
             pass
 
         if package in packs.keys():
-<<<<<<< HEAD
-            if _version != False:
-                if _ver < packs[package]: # pyright: ignore
-                    LOGGER.info(f"""
- 📦 You already have {package} installed, however it is out of date.""") # pyright: ignore
-=======
             if _version != False and exists:
 
                 # pyright gives an error that _ver is 
@@ -543,7 +537,6 @@ class Package(object):
                 # and is stored as an `exists` boolean
                 if _ver < packs[package]:  # pyright: ignore
                     LOGGER.info(f" 📦 You already have {package} installed, however it is out of date.") # pyright: ignore
->>>>>>> 5d9b1993 (📝 Add extensive documentation strings based off of requests documentation)
                     LOGGER.info(f" ⏫ Updating {package} to version {_ver}") # pyright: ignore
                     subprocess.check_call([
                         sys.executable, "-m", "pip", "install", f"{package}=={_ver.__str__()}"]) # pyright: ignore
