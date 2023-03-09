@@ -89,8 +89,6 @@ def proc_args(args: list):
     if len(args) == 0:
         print_formatted_list(read_docs(file="help.txt"))
 
-    # logger.debug(args)
-
     for argument in args:
         match argument:
             case 'help':
@@ -153,10 +151,6 @@ def main():
     loc_package_file()
 
 
-# Package.auto_install()
-# Ensure that courier is a command in bashrc
-
-
 def bashrc_exists() -> pathlib.Path | Literal[False]:
     """ tests bashrc exists in ~/bashrc | ~/.bashrc | ~/dotfiles/* """ 
     for file in glob(os.path.join(str(pathlib.Path.home()), '*')):
@@ -180,7 +174,8 @@ def add_bashrc_alias():
             contents = file.read().strip()
             file.close()
 
-        alias = r'alias courier="python courier.py"' 
+        file = os.path.join(os.getcwd(), "courier.py")
+        alias = f'alias courier=python {file}'  # BUG: cant be called globally for some reason?
 
         if alias in contents:
             return;

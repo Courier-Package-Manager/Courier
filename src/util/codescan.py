@@ -18,13 +18,15 @@ Codescan [noun] (my definition): A report of unmet dependencies.
 
 TODO: codescan configuration file
 """
+
+from pathlib import PosixPath
 from .update import load_logging_ini
 from .package import Package
 import logging
+import os
 
 load_logging_ini()
 logger = logging.getLogger()
-logger.level = logging.DEBUG
 
 
 class Codescan(object):
@@ -34,11 +36,40 @@ class Codescan(object):
     @classmethod
     def scan(cls):
         """ Scan for imports in collected files """
-        py_files = Package.auto_install()
+
+        py_files: list[PosixPath] = Package.auto_install()
+        dependencies = []
+        folders = []
+        keywords = ['src', 'util']
+
         for file in py_files:
-            with open(file, 'r') as f:
-                for line in f.read().strip():
-                    if 'import' in f:
-                        logger.debug(line)
+            if os.path.isdir(file): folders.append(file); continue
+            with open(str(file.resolve()), 'r') as f:
+                for line in f.readlines():
+                    if line.startswith('#'): continue
+                    if ('import' or ('import' and 'from')) in line:
+                        if 'from' not in line:
+                            if line.split(' ')[1] not in folders:
+                                dependencies.append(line.split(' ')[1])
+                                continue
+                        dependency = line.split(' ')[1]
+                        if dependency.startswith('.'): folders.append(dependency.split('.')[1])
+                        if dependency in folders: continue
+                        if '.' in dependency:
+                            if dependency.split('.')[0] in keywords: continue
+                            dependencies.append(dependency.split('.')[0])
+                            continue
+                        dependencies.append(dependency)
                 f.close()
-        return;
+        """
+        for dependency in dependencies:
+            logger.debug(dependency)
+        """
+        return dependencies
+    
+    @classmethod
+    def install_dependencies(cls):
+        """ Install previous dependencies collected from scan. Scan is run within method. """
+        dependencies = cls.scan()
+        for dependency in dependencies:
+            Package.update_package(dependency)

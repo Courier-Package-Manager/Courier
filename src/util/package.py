@@ -257,7 +257,6 @@ class Package(object):
         """
 
         files = []
-        _sorted = []
         ignore = ['.git', '.github', 'libs', '.tox', 'venv', 'htmlcov']
 
         path = pathlib.Path(root)
@@ -298,6 +297,11 @@ class Package(object):
                 continue
             files.append(file)
 
+        for file in path.rglob('*'):
+            head, base = os.path.join(file.parent, file.name).split('/', 1)  # pyright: ignore
+            if head in ignore: continue
+            if os.path.isdir(file): files.append(file)
+
         files = sorted(files, key=os.path.getsize, reverse=True)
 
         for file in files:
@@ -308,7 +312,7 @@ class Package(object):
                     color = sizes[size]["color"]
                     null = colorama.Fore.RESET
                     LOGGER.debug(f"{color} {icon} {str(file)}{null}")  # pyright: ignore
-        return _sorted
+        return files
 
     @staticmethod
     def color_path(path: str = os.getcwd()):
