@@ -17,11 +17,9 @@ Description: Initializes anything it can before importing utils such as colors
 and testing whatever utils will need, in this case network.
 """
 
+import sys
 import logging
-from typing import Type
-
 import colorama
-from requests.models import MissingSchema
 
 from .package import Package  # pyright: ignore
 from .update import get_project_folder
@@ -34,6 +32,7 @@ from .update import get_date
 from .codescan import Codescan
 
 logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
 
 colorama.init()
 
@@ -56,16 +55,13 @@ def display_if_online(url) -> bool:
     try:
         if Package.service_online(url):
             up = True
-    except MissingSchema:
-        raise MissingSchema
-    except Exception:
-        return False
     finally:
         if up:
             logger.debug(f" 🌍 {url} is up!")
         else:
-            logging.critical(" 🌐 https://pypi.org is down")
+            logging.critical(f" 🌐 {url} is down")
+            sys.exit(1)
         return up
 
 
-Package.service_online()
+display_if_online('https://pypi.org')
