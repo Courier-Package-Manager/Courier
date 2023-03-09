@@ -9,6 +9,7 @@ Courier is a package manager that automatically detects new dependencies in your
 having the capability to manually specify requirements, requirements files etc. With the ability
 to automatically request the latest version as per a schedule or to be called manually, managing
 dependencies comes at little to no time cost with this tool. Courier boasts high docility with effective and efficient code. 
+Please see the wiki for extensively documented details and instructions.
 
 ## Installation
 ~Note before installing: the `dev` branch is very unstable and may not work. For a working
