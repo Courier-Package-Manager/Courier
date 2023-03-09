@@ -70,6 +70,6 @@ class Codescan(object):
     @classmethod
     def install_dependencies(cls):
         """ Install previous dependencies collected from scan. Scan is run within method. """
-        dependencies = cls.scan()
+        dependencies = list(set(cls.scan()))
         for dependency in dependencies:
             Package.update_package(dependency)

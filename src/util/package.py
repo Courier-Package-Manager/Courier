@@ -22,9 +22,7 @@ import logging
 import os
 import sys
 import colorama
-from colorama.initialise import colorama_text
 from packaging import version
-from packaging.version import Version
 import pkg_resources
 from bs4 import BeautifulSoup
 from colorama import Fore
@@ -381,16 +379,16 @@ class Package(object):
         """
 
         if package in packs.keys():
-            if isinstance(_version, str):
-                if _ver < packs[package]:
-                    LOGGER.info(f" 📦 You already have {package} installed, however it is out of date.")
-                    LOGGER.info(f" ⏫ Updating {package} to version {_ver}")
+            if _version != False:
+                if _ver < packs[package]: # pyright: ignore
+                    LOGGER.info(f" 📦 You already have {package} installed, however it is out of date.") # pyright: ignore
+                    LOGGER.info(f" ⏫ Updating {package} to version {_ver}") # pyright: ignore
                     subprocess.check_call([
                         sys.executable,
                         "-m",
                         "pip",
                         "install",
-                        f"{package}=={_ver.__str__()}"])
+                        f"{package}=={_ver.__str__()}"]) # pyright: ignore
                     return True
                 subprocess.check_call([
                     sys.executable,
@@ -400,6 +398,6 @@ class Package(object):
                     f"{package}"])
                 return True
             else:
-                LOGGER.info(f" 📦 You already have the latest version of {package} installed ({_ver})")
+                LOGGER.info(f" ✅ You already have the latest version of {package}")
                 return True
         return False
