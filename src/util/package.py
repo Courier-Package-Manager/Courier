@@ -30,8 +30,10 @@ import requests
 import pathlib
 import subprocess
 
+from .update import load_logging_ini
+
+load_logging_ini()
 logger = logging.getLogger()
-logger.level = logging.DEBUG
 
 class Package(object):
     """ 
