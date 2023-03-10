@@ -34,7 +34,7 @@ class Package(object):
        in a multi-instance context which is likely noticeable from the amount of staticmethods.
     """
 
-    packages = []
+    packages: list[Package] = []
 
     def __init__(self, li, search_term) -> None:
         # Term to be highlighted differently as it
@@ -44,6 +44,7 @@ class Package(object):
             return
         if not search_term:
             return
+
         lxml_name = Package.get_name_from_lxml(li)
         lxml_date = Package.get_date_from_lxml(li)
         lxml_desc = Package.get_desc_from_lxml(li)
@@ -58,14 +59,14 @@ class Package(object):
         if not lxml_ver:
             return
 
-        _name = lxml_name.text.strip()
+        name = lxml_name.text.strip()
         date = lxml_date.text.strip()
         desc = lxml_desc.text.strip()
         ver = lxml_ver.text.strip()
 
         self.name = "{color}{name}{reset}".format(
                 color = Fore.CYAN,
-                name=_name,
+                name=name,
                 reset = Fore.RESET)
         self.version = "{color}{name}{reset}".format(
                 color = Fore.LIGHTCYAN_EX,
@@ -75,16 +76,97 @@ class Package(object):
                 color = Fore.LIGHTCYAN_EX,
                 name=date,
                 reset = Fore.RESET)
-        self.description = "{color}{name}{reset}".format(
+        self.description: str = "{color}{name}{reset}".format(
                 color = Fore.BLUE,
                 name=desc,
                 reset = Fore.RESET)
                     
         self.id = len(Package.packages) + 1
+        self.cache_limit = 20
 
         if search_term in self.description:
-            self.description = self.description.replace(
+            self._description = self.description.replace(
                     search_term, Fore.LIGHTMAGENTA_EX + search_term + Fore.LIGHTBLUE_EX)
+    @property
+    def cache_limit(self) -> int:
+        """The amount of packages that are allowed to be stored in cache at any given time.
+
+        :return: cache limit
+        :rtype: int
+        """
+
+        return self._cache_limit
+
+    @cache_limit.setter
+    def cache_limit(self, value):
+        """Set property dunder value to :value:
+
+        :value: int
+        """
+
+        self._cache_limit = value
+
+    @property
+    def name(self) -> str:
+        """Package name as received through pypi
+
+        :return: name
+        :rtype: str
+        """
+
+        return self._name
+
+    @name.setter
+    def name(self, value):
+        """Set property dunder value to :value:
+
+        :value: str
+        """
+        
+        self._name = value
+
+    @property
+    def version(self):
+        """Package version as received through pypi
+
+
+        """
+        return self._version
+
+    @version.setter
+    def version(self, value):
+        """ Set property dunder value to :value: """
+        self._version = value
+
+    @property
+    def description(self) -> str:
+        """ Package description as received through pypi """
+        return self._description
+
+    @description.setter
+    def description(self, value):
+        """ Set property dunder value to :value: """
+        self._description = value
+
+    @property
+    def date(self) -> str:
+        """ Package date (created) as received through pypi """
+        return self._date
+
+    @date.setter
+    def date(self, value):
+        """ Set property dunder value to :value: """
+        self._date = value
+
+    @property
+    def id(self) -> int:
+        """ ID of package, determined by amount of packages in cache """
+        return self._id
+
+    @id.setter
+    def id(self, value):
+        """ Set property dunder value to :value: """
+        self._id = value
 
     @staticmethod
     def get_name_from_lxml(lxml: BeautifulSoup):
@@ -127,10 +209,10 @@ class Package(object):
         return lxml.select_one('.package-snippet__description')
 
     @classmethod
-    def list(cls: Type, limit=10):
+    def list(cls, limit=10):
         """Display packages fetched from pypi with syntax formatting.
 
-        :param limit: The maximum amount of packages to be displayed
+        :param limit: The maximum amount as an Integer of packages to be displayed
         :return: The success state of the function
         :rtype: bool
         """
@@ -223,12 +305,18 @@ class Package(object):
                     logging.warning("Cannot search by ID: no cache present from previous search.")
                     return;
                 else:
-                    package = Package.packages[Package.packages.index(Package.name_from_id(int(selector)))]
+                    package = Package.packages[Package.packages.index(
+                        Package.name_from_id(int(selector)))]
             case _:
-                logging.warning(f"Datatype {type(selector)} is not supported as an indexer to a package.")
+                logging.warning(
+                        f"Datatype {type(selector)} is not supported as an indexer to a package.")
                 return
 
-        print("Package: {package_name} Date: {package_date} Version: {package_version} Description: {package_description}".format(
+        print("""
+              Package: {package_name}
+              Date: {package_date}
+              Version: {package_version}
+              Description: {package_description}""".format(
             package_name=package.name,
             package_date=package.date,
             package_version=package.version,
@@ -397,11 +485,12 @@ class Package(object):
     def service_online(url='https://pypi.org'):
         """This function checks if the specified URL is online.
 
+        :param url: URL String to be used as a request object.
         :return: Status code of request matches online status code (200)
         :rtype: bool
         """
 
-        pypi_request: object = requests.get(url)
+        pypi_request = requests.get(url)
         return pypi_request.status_code == 200
 
     @staticmethod
@@ -563,11 +652,12 @@ class Package(object):
                 # possibly unbound, however this cannot
                 # ever happen as this is checked before hand
                 # and is stored as an `exists` boolean
-                if _ver < packs[package]:  # pyright: ignore
-                    LOGGER.info(f" 📦 You already have {package} installed, however it is out of date.") # pyright: ignore
-                    LOGGER.info(f" ⏫ Updating {package} to version {_ver}") # pyright: ignore
+                if _ver < packs[package]:
+                    LOGGER.info(f"""
+📦 You already have {package} installed, however it is out of date.""")
+                    LOGGER.info(f" ⏫ Updating {package} to version {_ver}")
                     subprocess.check_call([
-                        sys.executable, "-m", "pip", "install", f"{package}=={_ver.__str__()}"]) # pyright: ignore
+                        sys.executable, "-m", "pip", "install", f"{package}=={_ver.__str__()}"])
                     return True
                 else:
                     subprocess.check_call([
@@ -578,6 +668,9 @@ class Package(object):
                 return True
         else:
             return False
+
+    def funcname(parameter_list):
+        pass
 
 
 load_logging_ini()
