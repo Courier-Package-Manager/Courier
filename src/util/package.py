@@ -16,7 +16,7 @@ import os
 import pathlib
 import subprocess
 import sys
-from typing import Literal, Type
+from typing import Literal, Type, List
 
 from bs4 import BeautifulSoup
 import colorama
@@ -30,16 +30,16 @@ from .update import load_logging_ini
 
 class Package(object):
     """Basic container for both singular and compound packages. Package regulates
-       global package functions and reades files etc. Packages are often least used
-       in a multi-instance context which is likely noticeable from the amount of staticmethods.
+    global package functions and reades files etc. Packages are often least used
+    in a multi-instance context which is likely noticeable from the amount of staticmethods.
     """
 
-    packages = []
 
     def __init__(self, li, search_term) -> None:
         # Term to be highlighted differently as it
         # was explicitly searched for
-        search_term = search_term 
+        Package.packages: List = []
+        search_term = search_term
         if not li:
             return
         if not search_term:
@@ -64,27 +64,24 @@ class Package(object):
         ver = lxml_ver.text.strip()
 
         self.name = "{color}{name}{reset}".format(
-                color = Fore.CYAN,
-                name=_name,
-                reset = Fore.RESET)
+                color=Fore.CYAN, name=_name, reset=Fore.RESET
+                )
         self.version = "{color}{name}{reset}".format(
-                color = Fore.LIGHTCYAN_EX,
-                name=ver,
-                reset = Fore.RESET)
+                color=Fore.LIGHTCYAN_EX, name=ver, reset=Fore.RESET
+                )
         self.date = "{color}{name}{reset}".format(
-                color = Fore.LIGHTCYAN_EX,
-                name=date,
-                reset = Fore.RESET)
+                color=Fore.LIGHTCYAN_EX, name=date, reset=Fore.RESET
+                )
         self.description = "{color}{name}{reset}".format(
-                color = Fore.BLUE,
-                name=desc,
-                reset = Fore.RESET)
-                    
+                color=Fore.BLUE, name=desc, reset=Fore.RESET
+                )
+
         self.id = len(Package.packages) + 1
 
         if search_term in self.description:
             self.description = self.description.replace(
-                    search_term, Fore.LIGHTMAGENTA_EX + search_term + Fore.LIGHTBLUE_EX)
+                    search_term, Fore.LIGHTMAGENTA_EX + search_term + Fore.LIGHTBLUE_EX
+                    )
 
     @staticmethod
     def get_name_from_lxml(lxml: BeautifulSoup):
@@ -94,7 +91,7 @@ class Package(object):
         :return: BeautifulSoup tag that is part of a parse tree
         """
 
-        return lxml.select_one('.package-snippet__name')
+        return lxml.select_one(".package-snippet__name")
 
     @staticmethod
     def get_version_from_lxml(lxml: BeautifulSoup):
@@ -104,8 +101,8 @@ class Package(object):
         :return: BeautifulSoup tag that is part of a parse tree
         """
 
-        return lxml.select_one('.package-snippet__version')
-    
+        return lxml.select_one(".package-snippet__version")
+
     @staticmethod
     def get_date_from_lxml(lxml: BeautifulSoup):
         """Returns mutable BeautifulSoup object from a specified HTML class.
@@ -114,7 +111,7 @@ class Package(object):
         :return: BeautifulSoup tag that is part of a parse tree
         """
 
-        return lxml.select_one('.package-snippet__created time')
+        return lxml.select_one(".package-snippet__created time")
 
     @staticmethod
     def get_desc_from_lxml(lxml: BeautifulSoup):
@@ -124,7 +121,7 @@ class Package(object):
         :return: BeautifulSoup tag that is part of a parse tree
         """
 
-        return lxml.select_one('.package-snippet__description')
+        return lxml.select_one(".package-snippet__description")
 
     @classmethod
     def list(cls: Type, limit=10):
@@ -141,12 +138,15 @@ class Package(object):
             if index >= limit:
                 return False
 
-            print("{id} {name} {version} {date}\n\t{description}".format(
-                id=package.id,
-                name=package.name,
-                version=package.version,
-                date=package.date,
-                description=package.description))
+            print(
+                    "{id} {name} {version} {date}\n\t{description}".format(
+                        id=package.id,
+                        name=package.name,
+                        version=package.version,
+                        date=package.date,
+                        description=package.description,
+                        )
+                    )
 
         return True
 
@@ -197,8 +197,8 @@ class Package(object):
         :rtype: bool
         """
 
-        if hasattr(soup, 'select'):
-            package_list = soup.select('.package-snippet')
+        if hasattr(soup, "select"):
+            package_list = soup.select(".package-snippet")
             for element in package_list:
                 Package.packages.append(Package(element, package))
                 continue
@@ -224,27 +224,26 @@ class Package(object):
             return
 
         package_count = len(Package.packages)
-        
+
         # If not_package_count is cleaner to me and shorter
         # than doing the more common but verbose 'if package == ...'
         if not package_count:
             LOGGER.critical(" ❌ Could not index package list; no cache loaded")
             return
 
-        LOGGER.debug(f'loadeded {package_count} packages.')
+        LOGGER.debug(f"loadeded {package_count} packages.")
         if isinstance(id, int):
             package = Package.name_from_id(id)
         else:
             LOGGER.error(" ❌ No package specified")
-            return;
+            return
 
         if not package:
             return
         elif unittest:
-            logging.debug(" 🧪 Not doing anything due to unit test mock permissions")
-            return
+            logging.debug(""" 🧪 Not doing anything due to unit test mock permissions""")
         else:
-            os.system(f'{sys.executable} -m pip install {package}')
+            os.system(f"{sys.executable} -m pip install {package}")
             return
 
     @staticmethod
@@ -287,10 +286,9 @@ class Package(object):
     def query_install(unittest: bool):
         """Query the install ID of a given package.
 
-        Once packages have been listed and stored in 
         the package.Packages.packages (list) variable,
         the user may query an associated (int) ID to install
-        a package which is converted to a string in a 
+        a package which is converted to a string in ai
         `Package` class method.
 
         :param unittest: Boolean value used as coverage
@@ -325,12 +323,12 @@ class Package(object):
         Package.format_results(soup, package)
 
         if not len(Package.packages) or activate_test_case:
-            logging.critical(f" ❌ No results found for package \'{package}\'")
+            logging.critical(f" ❌ No results found for package '{package}'")
             return False
 
         # NOTE log removed as it won't be seen most of the time as searching packages
-        # often turns up with more results that the size of the screen making the 
-        # log pointless as it would not be visible 90% of the time one searches for 
+        # often turns up with more results that the size of the screen making the
+        # log pointless as it would not be visible 90% of the time one searches for
         # any given package. (NOTE response quantity varies by package quantity obv)
         # LOGGER.debug(f' 🔎 {len(Package.packages)} packages found')
 
@@ -339,15 +337,15 @@ class Package(object):
 
     @staticmethod
     def request_pypi(package: str):
-        """Request an HTTP response for `package` 
+        """Request an HTTP response for `package`
 
         :param package: A URL of a python package, typically matching
-            that of a pypi package url. 
+            that of a pypi package url.
         :return: Server response to requested URL `package`
         :rtype: requests.Response
         """
 
-        pypi_request = requests.get(f'https://pypi.org/search/?q={package}')
+        pypi_request = requests.get(f"https://pypi.org/search/?q={package}")
 
         return pypi_request
 
@@ -356,28 +354,28 @@ class Package(object):
         """Requests a soup object from a pypy package URL.
 
         :param package: A URL of a python package, typically matching
-            that of a pypi package url. 
+            that of a pypi package url.
         :return: BeautifulSoup data structure representing an html element.
         :rtype: bs4.BeautifulSoup
         """
 
         pypi_request = Package.request_pypi(package)
-        soup = BeautifulSoup(pypi_request.content, 'html.parser')
+        soup = BeautifulSoup(pypi_request.content, "html.parser")
         return soup
 
     @staticmethod
-    def service_online(url='https://pypi.org'):
+    def service_online(url="https://pypi.org"):
         """This function checks if the specified URL is online.
 
         :return: Status code of request matches online status code (200)
         :rtype: bool
         """
 
-        pypi_request: object = requests.get(url)
+        pypi_request = requests.get(url)
         return pypi_request.status_code == 200
 
     @staticmethod
-    def auto_install(root='.'):
+    def auto_install(root="."):
         """Read all non-local imports `root` recursively.
 
         This function reads all files recursively while excluding
@@ -389,49 +387,51 @@ class Package(object):
         """
 
         files = []
-        ignore = ['.git', '.github', 'libs', '.tox', 'venv', 'htmlcov']
+        ignore = [".git", ".github", "libs", ".tox", "venv", "htmlcov"]
 
         path = pathlib.Path(root)
 
         sizes = {
                 "small": {
                     "color": colorama.Fore.BLUE,
-                    "icon": '📘',
+                    "icon": "📘",
                     "min": 0,
                     "max": 999,
                     },
                 "medium": {
                     "color": colorama.Fore.RED,
-                    "icon": '📕',
+                    "icon": "📕",
                     "min": 1000,
                     "max": 9999,
                     },
                 "large": {
                     "color": colorama.Fore.GREEN,
-                    "icon": '📗',
+                    "icon": "📗",
                     "min": 10000,
                     "max": 99999,
                     },
                 "chunky": {
                     "color": colorama.Fore.YELLOW,
-                    "icon": '📙',
+                    "icon": "📙",
                     "min": 100000,
-                    "max": 999999
+                    "max": 999999,
                     },
                 }
 
         # LOGGER.debug(" 🔎 Recursively scanning for unmet dependencies")
-        LOGGER.debug(f"""\n
-                📘 = small | 📕 = medium | 📗 = large | 📙 = chunky \n""")
+        LOGGER.debug(
+                """\n
+                📘 = small | 📕 = medium | 📗 = large | 📙 = chunky \n"""
+                )
 
-        for file in path.rglob('*.py'):
-            head, _ = os.path.join(file.parent, file.name).split('/', 1)
+        for file in path.rglob("*.py"):
+            head, _ = os.path.join(file.parent, file.name).split("/", 1)
             if head in ignore:
                 continue
             files.append(file)
 
-        for file in path.rglob('*'):
-            head, _ = os.path.join(file.parent, file.name).split('/', 1)
+        for file in path.rglob("*"):
+            head, _ = os.path.join(file.parent, file.name).split("/", 1)
             if head in ignore:
                 continue
             if os.path.isdir(file):
@@ -440,18 +440,16 @@ class Package(object):
         files = sorted(files, key=os.path.getsize, reverse=True)
 
         for file in files:
-
             filesize = os.path.getsize(file)
 
             for size in sizes:
                 if filesize in range(sizes[size]["min"], sizes[size]["max"]):
-
-                    icon  = sizes[size]["icon"]
+                    icon = sizes[size]["icon"]
                     color = sizes[size]["color"]
 
-                    null  = colorama.Fore.RESET
+                    null = colorama.Fore.RESET
 
-                    LOGGER.debug(f"{color} {icon} {str(file)}{null}")  # pyright: ignore
+                    LOGGER.debug(f"{color} {icon} {str(file)}{null}")
         return files
 
     @staticmethod
@@ -463,7 +461,7 @@ class Package(object):
         :rtype: String
         """
 
-        components = path.split('/', path.count('/'))
+        components = path.split("/", path.count("/"))
         colors = [
                 Fore.GREEN,
                 Fore.RED,
@@ -476,7 +474,8 @@ class Package(object):
                 Fore.LIGHTMAGENTA_EX,
                 Fore.LIGHTCYAN_EX,
                 Fore.LIGHTYELLOW_EX,
-                Fore.LIGHTBLUE_EX]
+                Fore.LIGHTBLUE_EX,
+                ]
 
         color_index = 0
 
@@ -489,17 +488,17 @@ class Package(object):
 
             match index:
                 case 0:
-                    components[index] = colors[color_index - 1] + \
-                            component + Fore.RESET
+                    components[index] = colors[color_index - 1] + component + Fore.RESET
                 case _:
-                    components[index] = colors[color_index - 1] + \
-                            '/' + component + Fore.RESET
+                    components[index] = (
+                            colors[color_index - 1] + "/" + component + Fore.RESET
+                            )
 
             # Incrementing color index then switches
             # to the next color in list `colors`.
             color_index += 1
 
-        return ''.join(components)
+        return "".join(components)
 
     @staticmethod
     def update_package(package: str, _version: bool | str = False):
@@ -524,27 +523,38 @@ class Package(object):
             packs[i.key] = i.parsed_version
 
         try:
-            LOGGER.debug(_ver.__str__)  # pyright: ignore
+            LOGGER.debug(_ver.__str__)
             exists = False
         except NameError:
             pass
 
         if package in packs.keys():
-            if _version != False and exists:
-
-                # pyright gives an error that _ver is 
+            if _version is not False and exists:
+                # pyright gives an error that _ver is
                 # possibly unbound, however this cannot
                 # ever happen as this is checked before hand
                 # and is stored as an `exists` boolean
-                if _ver < packs[package]:  # pyright: ignore
-                    LOGGER.info(f" 📦 You already have {package} installed, however it is out of date.") # pyright: ignore
-                    LOGGER.info(f" ⏫ Updating {package} to version {_ver}") # pyright: ignore
-                    subprocess.check_call([
-                        sys.executable, "-m", "pip", "install", f"{package}=={_ver.__str__()}"]) # pyright: ignore
+                if _ver < packs[package]:
+                    LOGGER.info(
+                            f" 📦 You already have {package} installed, however it is out of date."
+                            )
+                    LOGGER.info(
+                            f" ⏫ Updating {package} to version {_ver}"
+                            )
+                    subprocess.check_call(
+                            [
+                                sys.executable,
+                                "-m",
+                                "pip",
+                                "install",
+                                f"{package}=={_ver.__str__()}",
+                                ]
+                            )
                     return True
                 else:
-                    subprocess.check_call([
-                        sys.executable, "-m", "pip", "install", f"{package}"])
+                    subprocess.check_call(
+                            [sys.executable, "-m", "pip", "install", f"{package}"]
+                            )
                     return True
             else:
                 LOGGER.info(f" ✅ You already have the latest version of {package}")
@@ -554,4 +564,5 @@ class Package(object):
 
 
 load_logging_ini()
+LOGGER = logging.getLogger()
 LOGGER = logging.getLogger()
