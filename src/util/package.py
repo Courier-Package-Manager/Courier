@@ -207,6 +207,34 @@ class Package(object):
             return False
 
     @staticmethod
+    def package_info(selector: str | int):
+        """Get package info from pypi.
+
+        :param selector: If string then get the package name, if int then get the id of
+        the last cached search. Note that str is mandatory if previous cache has been 
+        cleared.
+        """
+
+        match str(type(selector)):
+            case str(str()):
+                package = Package.packages[Package.packages.index(selector)]
+            case str(int()):
+                if len(Package.packages) == 0:
+                    logging.warning("Cannot search by ID: no cache present from previous search.")
+                    return;
+                else:
+                    package = Package.packages[Package.packages.index(Package.name_from_id(int(selector)))]
+            case _:
+                logging.warning(f"Datatype {type(selector)} is not supported as an indexer to a package.")
+                return
+
+        print("Package: {package_name} Date: {package_date} Version: {package_version} Description: {package_description}".format(
+            package_name=package.name,
+            package_date=package.date,
+            package_version=package.version,
+            package_description=package.description))
+
+    @staticmethod
     def install_from_id(id: int | None, unittest=False):
         """Install a package from given list.
 
@@ -420,7 +448,6 @@ class Package(object):
                     },
                 }
 
-        # LOGGER.debug(" 🔎 Recursively scanning for unmet dependencies")
         LOGGER.debug(f"""\n
                 📘 = small | 📕 = medium | 📗 = large | 📙 = chunky \n""")
 
