@@ -1,12 +1,9 @@
 requests
 flake8
 coverage
-scrutinizer-ocular
 pytest
 pytest-cov
 codecov
 colorama
 bs4
-spell
-nose
 packaging
