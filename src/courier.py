@@ -25,6 +25,24 @@ from util.update import loc_package_file
 
 
 class Courier(object):
+    """Handles user input and file IO."""
+
+    def __init__(self):
+        load_logging_ini()
+        self.logger = logging.getLogger()
+
+        self.bashrc_path = Courier.bashrc_exists()
+        self.exists = bool(self.bashrc_path) != False
+
+        if self.exists:
+            self.logger.debug(f" 📂 Found bashrc in {Package.color_path(str(self.bashrc_path))}")
+            Courier.add_bashrc_alias()
+        else:
+            self.logger.warning(" ❌ Could not find bashrc file. Courier may behave unexpectedly.")
+
+        Courier.proc_args(sys.argv)
+        loc_package_file()
+
     @staticmethod
     def close_file(file):
         """Closes a file for unit testing.
@@ -35,7 +53,6 @@ class Courier(object):
         if not file.closed:
             file.close()
 
-
     @staticmethod
     def get_file_path():
         """Fetch immediate parent folder of current directory.
@@ -44,7 +61,6 @@ class Courier(object):
         """
 
         return os.path.basename(os.path.normpath(os.getcwd()))
-
 
     @staticmethod
     def assert_file_path() -> bool:
@@ -55,7 +71,6 @@ class Courier(object):
 
         new_file_path = Courier.get_file_path()
         return new_file_path == 'Courier'
-
 
     @staticmethod
     def read_docs(file='help.txt'):
@@ -71,7 +86,7 @@ class Courier(object):
 
         path = os.getcwd()
 
-        if not assert_file_path():
+        if assert_file_path() is not True:
             logging.debug(Package.color_path(os.getcwd()))
             os.chdir('..')
 
@@ -87,7 +102,6 @@ class Courier(object):
         logging.debug(f" ✈️  Moving to {Package.color_path(os.getcwd())}")
         return data
 
-
     @staticmethod
     def print_formatted_list(lines):
         """Print list as a paragraph.
@@ -97,7 +111,6 @@ class Courier(object):
 
         for line in lines:
             print(line)
-
 
     @staticmethod
     def proc_args(args):
@@ -161,18 +174,16 @@ class Courier(object):
                     print_formatted_list(read_docs(file="help.txt"))
                     return
 
-
     @staticmethod
     def get_package_created():
         """Format return value of the previous timestamp of update.json"""
 
         assert_file_path()
-        logger.debug("Package file %s update.json %s was created %s ",
+        self.logger.debug("Package file %s update.json %s was created %s ",
                      colorama.Fore.GREEN,
                      colorama.Fore.RESET,
                      last_updated())
         return
-
 
     @staticmethod
     def bashrc_exists() -> pathlib.Path | Literal[False]:
@@ -196,7 +207,6 @@ class Courier(object):
                 if 'bashrc' in file:
                     return pathlib.Path(file)
         return False
-
 
     @staticmethod
     def add_bashrc_alias():
@@ -229,27 +239,4 @@ class Courier(object):
                 file.write(f'{alias}\n')
                 file.close()
 
-            logger.debug(f" 👀 Added alias to {Package.color_path(str(bashrc_path))}")
-
-
-def main():
-    """Currently calling functions for testing"""
-
-    proc_args(sys.argv)
-    loc_package_file()
-
-load_logging_ini()
-logger = logging.getLogger()
-
-bashrc_path = Courier.bashrc_exists()
-exists = bool(bashrc_path) != False
-
-if exists:
-    logger.debug(f" 📂 Found bashrc in {Package.color_path(str(bashrc_path))}")
-    Courier.add_bashrc_alias()
-else:
-    logger.warning(" ❌ Could not find bashrc file. Courier may behave unexpectedly.")
-
-main()
-
-
+            self.logger.debug(f" 👀 Added alias to {Package.color_path(str(bashrc_path))}")
