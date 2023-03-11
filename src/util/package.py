@@ -372,8 +372,8 @@ class Package(object):
             return False
 
         Package.list()  # Display fetched packages with special formatting.
-        id = Package.query_install_input(activate_test_case)
-        Package.install_from_id(id, activate_test_case)
+        id = Package.query_install_input(False)
+        Package.install_from_id(id)
 
     @staticmethod
     def request_pypi(package: str):

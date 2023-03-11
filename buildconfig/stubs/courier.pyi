@@ -2,7 +2,6 @@ from io import TextIOWrapper
 import pathlib
 from typing import Literal
 
-
 class Courier(object):
 
     def __init__(self) -> None: ...

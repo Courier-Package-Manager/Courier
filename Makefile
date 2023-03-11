@@ -5,6 +5,7 @@ all:
 	@clear
 	@python -m pip install -r requirements.txt
 	@clear
+	@sh buildconfig/exports.sh
 	echo "Installation finished."
 	echo "Please ensure you execute from inside ./src"
 
