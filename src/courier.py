@@ -31,16 +31,16 @@ class Courier(object):
         load_logging_ini()
         self.logger = logging.getLogger()
 
-        self.bashrc_path = Courier.bashrc_exists()
+        self.bashrc_path = self.bashrc_exists()
         self.exists = bool(self.bashrc_path) != False
 
         if self.exists:
             self.logger.debug(f" 📂 Found bashrc in {Package.color_path(str(self.bashrc_path))}")
-            Courier.add_bashrc_alias()
+            self.add_bashrc_alias()
         else:
             self.logger.warning(" ❌ Could not find bashrc file. Courier may behave unexpectedly.")
 
-        Courier.proc_args(sys.argv)
+        self.proc_args(sys.argv)
         loc_package_file()
 
     @staticmethod
@@ -86,7 +86,7 @@ class Courier(object):
 
         path = os.getcwd()
 
-        if assert_file_path() is not True:
+        if Courier.assert_file_path() is not True:
             logging.debug(Package.color_path(os.getcwd()))
             os.chdir('..')
 
@@ -96,7 +96,7 @@ class Courier(object):
         # leaving open resources where there need not be any.
         with open(os.path.join('docs', file), 'r', encoding='utf') as _file:
             data = _file.read().strip().splitlines()
-            close_file(_file)
+            Courier.close_file(_file)
 
         os.chdir(path)
         logging.debug(f" ✈️  Moving to {Package.color_path(os.getcwd())}")
@@ -124,27 +124,27 @@ class Courier(object):
                 args.remove(i)
 
         if len(args) == 0:
-            print_formatted_list(read_docs(file="help.txt"))
+            Courier.print_formatted_list(Courier.read_docs(file="help.txt"))
 
         for argument in args:
             match argument:
                 case 'help':
                     if len(args) == 1:
-                        print_formatted_list(read_docs(file="help.txt"))
+                        Courier.print_formatted_list(Courier.read_docs(file="help.txt"))
                         return
                     elif len(args) == 2:
                         match args[1]:
                             case '--list' | '-l':
-                                print_formatted_list(read_docs(file="menus.txt"))
+                                Courier.print_formatted_list(Courier.read_docs(file="menus.txt"))
                                 return
                             case 'get':
-                                print_formatted_list(read_docs(file="get.txt"))
+                                Courier.print_formatted_list(Courier.read_docs(file="get.txt"))
                                 return
                             case 'install':
-                                print_formatted_list(read_docs(file="install.txt"))
+                                Courier.print_formatted_list(Courier.read_docs(file="install.txt"))
                                 return
                             case 'codescan':
-                                print_formatted_list(read_docs(file="codescan.txt"))
+                                Courier.print_formatted_list(Courier.read_docs(file="codescan.txt"))
                             case _:
                                 print(f"Optional argument \'{args[1]}\' not found")
                                 print("Run courier for a list of commands.")
@@ -171,15 +171,15 @@ class Courier(object):
                             Package.search(args[len(args) - 1])
                             return
                 case _:
-                    print_formatted_list(read_docs(file="help.txt"))
+                    Courier.print_formatted_list(Courier.read_docs(file="help.txt"))
                     return
 
     @staticmethod
     def get_package_created():
         """Format return value of the previous timestamp of update.json"""
 
-        assert_file_path()
-        self.logger.debug("Package file %s update.json %s was created %s ",
+        Courier.assert_file_path()
+        Courier.logger.debug("Package file %s update.json %s was created %s ",
                      colorama.Fore.GREEN,
                      colorama.Fore.RESET,
                      last_updated())
@@ -208,8 +208,7 @@ class Courier(object):
                     return pathlib.Path(file)
         return False
 
-    @staticmethod
-    def add_bashrc_alias():
+    def add_bashrc_alias(self):
         """Eliminates need for 'python' prefix before file
 
         This function also removes the need for a '.py' suffix
@@ -220,9 +219,9 @@ class Courier(object):
         being the working runtime directory.
         """
 
-        if exists:
+        if self.exists:
             contents = []
-            with open(bashrc_path, 'r') as file:
+            with open(self.bashrc_path, 'r') as file:
                 contents = file.read().strip()
                 file.close()
 
@@ -234,9 +233,11 @@ class Courier(object):
             if alias in contents:
                 return
 
-            with open(bashrc_path, 'a') as file:
+            with open(self.bashrc_path, 'a') as file:
                 file.write('\n# Generated by Courier\n')
                 file.write(f'{alias}\n')
                 file.close()
 
-            self.logger.debug(f" 👀 Added alias to {Package.color_path(str(bashrc_path))}")
+            self.logger.debug(f" 👀 Added alias to {Package.color_path(str(self.bashrc_path))}")
+
+courier = Courier()
