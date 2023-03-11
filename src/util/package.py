@@ -644,10 +644,10 @@ class Package(object):
                 # and is stored as an `exists` boolean
 
                 if _ver < packs[package]:  # pyright: ignore
-                    LOGGER.info(f" 📦 You already have {colorama.Fore.LIGHTMAGENTA_EX + str(package)_ + colorama.Fore.RESET} installed, however it is out of date.") # pyright: ignore
+                    LOGGER.info(f" 📦 You already have {colorama.Fore.LIGHTMAGENTA_EX + str(package) + colorama.Fore.RESET} installed, however it is out of date.") # pyright: ignore
                     LOGGER.info(f" ⏫ Updating {colorama.Fore.LIGHTMAGENTA_EX + package + colorama.Fore.RESET} to version {_ver}") # pyright: ignore
                     subprocess.check_call([
-                        sys.executable, "-m", "pip", "install", f"{colorama.Fore. + package}=={_ver.__str__()}"]) # pyright: ignore
+                        sys.executable, "-m", "pip", "install", f"{colorama.Fore.LIGHTMAGENTA_EX + package}=={_ver.__str__()}"]) # pyright: ignore
 
 
 load_logging_ini()

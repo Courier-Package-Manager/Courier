@@ -41,7 +41,8 @@ def file_exists(file: str, mode: str) -> None | bool:
         finally:
             _file.close()
     except FileNotFoundError:
-        return False
+        print( "file not found")
+        return;
 
 
 def last_updated() -> str | Literal[False]:
