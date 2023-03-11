@@ -16,7 +16,7 @@ import os
 import unittest
 
 from src.util import display_if_online
-from src.util.package import load_logging_ini
+from src.util.update import load_logging_ini
 
 
 class TestUnitFileConstructor(unittest.TestCase):

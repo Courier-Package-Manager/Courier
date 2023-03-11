@@ -15,14 +15,12 @@ dependencies such as colorama and logging.
 import logging
 import os
 import unittest
-import pytest
 
+from src.util import update
 from src.util.update import switch_root
-from src.util.update import scan_dir
 from src.util.update import create_package
 from src.util.update import loc_package_file
 from src.util.update import file_exists
-from src.util.package import Package
 
 
 class TestUtil(unittest.TestCase):
@@ -49,16 +47,16 @@ class TestUtil(unittest.TestCase):
         """Assert all files are given"""
 
         print(f" 🐈 {self.test_scan_dir.__doc__}")
-        scan_dir(files=False)
+        update.scan_dir(files=False)
 
         print(f" 🐈 {self.test_scan_dir.__doc__}")
-        scan_dir(files=True)
+        update.scan_dir(files=True)
 
         print(f" 🐈 {self.test_scan_dir.__doc__}")
-        scan_dir(folders=True)
+        update.scan_dir(folders=True)
 
         print(f" 🐈 {self.test_scan_dir.__doc__}")
-        scan_dir(folders=False)
+        update.scan_dir(folders=False)
 
     def test_create_package(self):
         """Test packages are being created"""

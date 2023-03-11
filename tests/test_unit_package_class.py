@@ -15,7 +15,6 @@ and core methods.
 import logging
 import unittest
 
-import pytest
 from src.util.package import Package
 
 logger = logging.getLogger()

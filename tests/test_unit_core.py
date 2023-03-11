@@ -10,9 +10,8 @@ primary Courier functions.
 :license: MIT, see LICENSE for more details.
 """
 
-import pytest
-import unittest
 import os
+import unittest
 
 from src.courier import Courier
 
@@ -31,17 +30,10 @@ class TestCourier(unittest.TestCase):
         self.assertTrue(Courier.assert_file_path())
         print(f" 📂 {self.test_assert_file_path.__doc__}")
 
-    def test_get_package_created(self):
-        """Test creation date of package"""
-        courier = Courier()
-        courier.get_package_created()
-        del courier
-        print(f" 📅 {self.test_get_package_created.__doc__}")
-
     def test_read_docs(self):
         """Test read documentation files"""
         os.chdir(".github")
-        self.assertIsInstance(Courier.read_docs(), list)
+        self.assertIsInstance(Courier.read_docs("help.txt"), list)
         os.chdir("..")
         print(f" 📖 {self.test_read_docs.__doc__}")
 

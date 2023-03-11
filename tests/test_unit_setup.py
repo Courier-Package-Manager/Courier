@@ -10,21 +10,20 @@ are used for formatting and general aethetics.
 :license: MIT, see LICENSE for more details.
 """
 
-import pytest
 import os
 import unittest
-from src.util import Codescan
+from src.util import codescan
 
 
 class TestCodescan(unittest.TestCase):
     """Test codescan methods"""
 
     def test_scan(self):
-        Codescan.scan()
+        codescan.Codescan.scan()
 
     def test_install_dependencies(self):
         """Test install deps from scan"""
-        Codescan.install_dependencies()
+        codescan.Codescan.install_dependencies()
 
 
 if __name__ == "__main__":
