@@ -333,11 +333,11 @@ class Package(object):
         # If not_package_count is cleaner to me and shorter
         # than doing the more common but verbose 'if package == ...'
         if not package_count:
-            LOGGER.critical(" ❌ Could not index package list; no cache loaded")
+            LOGGER.critical(colorama.Fore.RED+" ❌ Could not index package list; no cache loaded"+colorama.Fore.RESET)
             return
 
-        LOGGER.debug(f'loadeded {package_count} packages.')
-        if isinstance(id, int):
+        LOGGER.debug(f' loaded {colorama.Fore.GREEN + str(package_count) + colorama.Fore.RESET} packages.')
+        if isinstance(Package.name_from_id, int):
             package = Package.name_from_id(id)
         else:
             LOGGER.error(" ❌ No package specified")
@@ -421,10 +421,10 @@ class Package(object):
         :rtype: bool
         """
 
-        print(f" 🔎 Searching for {package}")
+        print(f" 🔎 {colorama.Fore.LIGHTCYAN_EX}Searching for {package} + {colorama.Fore.RESET}")
         soup = Package.request_pypi_soup(package)
 
-        LOGGER.debug(" 📦 Refreshing package cache")
+        LOGGER.debug(f" 📦 {colorama.Fore.LIGHTWHITE_EX} Refreshing package cache {colorama.Fore.RESET}")
         Package.packages.clear()
 
         Package.format_results(soup, package)
@@ -527,7 +527,10 @@ class Package(object):
                 }
 
         LOGGER.debug(f"""\n
-                📘 = small | 📕 = medium | 📗 = large | 📙 = chunky \n""")
+                📘 = {colorama.Fore.LIGHTCYAN_EX}small{colorama.Fore.RESET}
+                📕 = {colorama.Fore.RESET}medium{colorama.Fore.RESET}
+                📗 = {colorama.Fore.GREEN}large{colorama.Fore.RESET}
+                📙 = {colorama.Fore.YELLOW}chunky{colorama.Fore.RESET} \n""")
 
         for file in path.rglob('*.py'):
             head, _ = os.path.join(file.parent, file.name).split('/', 1)
@@ -588,6 +591,7 @@ class Package(object):
         # If the color list is reached then end then
         # return to the start of the list as to not
         # run into an `IndexError`.
+
         for index, component in enumerate(components):
             if color_index > len(colors):
                 color_index = 0
@@ -643,19 +647,20 @@ class Package(object):
                 # possibly unbound, however this cannot
                 # ever happen as this is checked before hand
                 # and is stored as an `exists` boolean
-                if _ver < packs[package]:
-                    LOGGER.info(f"""
-📦 You already have {package} installed, however it is out of date.""")
-                    LOGGER.info(f" ⏫ Updating {package} to version {_ver}")
+
+                if _ver < packs[package]:  # pyright: ignore
+                    LOGGER.info(f" 📦 You already have {colorama.Fore.LIGHTMAGENTA_EX + str(package)_ + colorama.Fore.RESET} installed, however it is out of date.") # pyright: ignore
+                    LOGGER.info(f" ⏫ Updating {colorama.Fore.LIGHTMAGENTA_EX + package + colorama.Fore.RESET} to version {_ver}") # pyright: ignore
                     subprocess.check_call([
-                        sys.executable, "-m", "pip", "install", f"{package}=={_ver.__str__()}"])
+                        sys.executable, "-m", "pip", "install", f"{colorama.Fore. + package}=={_ver.__str__()}"]) # pyright: ignore
+
                     return True
                 else:
                     subprocess.check_call([
                         sys.executable, "-m", "pip", "install", f"{package}"])
                     return True
             else:
-                LOGGER.info(f" ✅ You already have the latest version of {package}")
+                LOGGER.info(f" ✅ You already have the latest version of {colorama.Fore.LIGHTMAGENTA_EX + package + colorama.Fore.RESET}")
                 return True
         else:
             return False
