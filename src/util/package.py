@@ -134,7 +134,7 @@ class Package(object):
         cls.packages.reverse()
 
         for _, package in enumerate(cls.packages):
-            LOGGER.debug(
+            LOGGER.info(
                     "{id} {name} {version} {date}\n\t{description}".format(
                         id=package.id,
                         name=package.name,
@@ -348,7 +348,7 @@ class Package(object):
         LOGGER.debug(f" 📦 {colorama.Fore.LIGHTWHITE_EX} Refreshing package cache {colorama.Fore.RESET}")
         Package.packages.clear()
 
-        LOGGER.debug(f" 🔎 {colorama.Fore.LIGHTCYAN_EX}Searching for {package} {colorama.Fore.RESET}")
+        LOGGER.info(f" 🔎 {colorama.Fore.LIGHTCYAN_EX}Searching for {package} {colorama.Fore.RESET}")
         soup = Package.request_pypi_soup(package)
 
 
