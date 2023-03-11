@@ -1,33 +1,31 @@
 """
-The MIT License (MIT)
+source: Courier.util.setup
+test: tests.test_unit_setup
+~~~~~~~~~~~~~~~~~~~~
 
-Copyright (c) 2023 Joshua Rose
+This module tests utility function(s) that
+are used for formatting and general aethetics.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+:copyright: (c) 2023 by Joshua Rose.
+:license: MIT, see LICENSE for more details.
 """
 
+import os
 import unittest
-from datetime import datetime as dt
-from src.util import setup
+from util import Codescan
 
 
-class TestSetup(unittest.TestCase):
-    """ Test constructor file for utils package """
+class TestCodescan(unittest.TestCase):
+    """ Test codescan methods """
+    def test_scan(self):
+        Codescan.scan()
 
-    def test_get_date(self):
-        """ Test that date is correct """
-        setup.get_date(dt.now(), day=str(1))
-        setup.get_date(dt.now(), day=str(2))
-        setup.get_date(dt.now(), day=str(3))
+    def test_install_dependencies(self):
+        """ Test install deps from scan """
+        Codescan.install_dependencies()
 
 
 if __name__ == '__main__':
+    os.system('clear')
+    print(f" 🧪 Testing {os.getcwd()}")
     unittest.main()

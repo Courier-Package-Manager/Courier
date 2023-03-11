@@ -24,7 +24,7 @@ import colorama
 from .setup import get_date
 
 
-def file_exists(file, mode) -> str | bool:
+def file_exists(file: str, mode: str) -> None | bool:
     """Test if file exists in the current working directory
 
     :param file: Filename as a string
@@ -34,9 +34,12 @@ def file_exists(file, mode) -> str | bool:
     """
 
     try:
-        file = open(file, mode)
-        file.close()
-        return file
+        _file = open(file, mode)
+        try:
+            if isinstance(_file, bool):
+                return _file
+        finally:
+            _file.close()
     except FileNotFoundError:
         return False
 
@@ -53,8 +56,8 @@ def last_updated() -> str | Literal[False]:
     :rtype: string
     """
 
-    if file_exists(PACKAGE, 'r'):
-        with open(PACKAGE, 'r') as _file:
+    if file_exists('update.json', 'r'):
+        with open('update.json', 'r') as _file:
             data = json.load(_file)
             _file.close()
         timestamp = datetime.fromtimestamp(data['created'])
@@ -123,7 +126,7 @@ def create_package() -> None:
     """
 
     try:
-        with open(PACKAGE, 'w', True, 'UTF-8') as fp:
+        with open('update.json', 'w', True, 'UTF-8') as fp:
             ts = datetime.now().timestamp()
             data = {
                 "created": ts,
@@ -146,7 +149,7 @@ def get_package_name() -> DirEntry | None:
 
     switch_root()  # Switch root before asking if its in the switched directory
     for file in scan_dir(files=True, folders=False):
-        if file.name == PACKAGE:
+        if file.name == 'update.json':
             return file
 
 
@@ -167,10 +170,10 @@ def loc_package_file(
     """
 
     if not name or debug:
-        logger.info(f"Set {GREEN}{PACKAGE}{RESET} in {MAGENTA}{cwd}{RESET}")
+        logger.info(f"Set {GREEN}'update.json'{RESET} in {MAGENTA}{cwd}{RESET}")
         return create_package()
     else:
-        with open(PACKAGE, mode) as fp:
+        with open('update.json', mode) as fp:
             try:
                 try:
                     return fp
@@ -183,7 +186,6 @@ def loc_package_file(
 
 logger = logging.getLogger()
 
-PACKAGE = 'update.json'
 GREEN = colorama.Fore.GREEN
 RESET = colorama.Fore.RESET
 MAGENTA = colorama.Fore.MAGENTA

@@ -17,14 +17,21 @@ copies or substantial portions of the Software.
 import os
 import sys
 
+
+os.system('clear')
 PROJECT_PATH = os.getcwd()
 SOURCE_PATH = os.path.join(
     PROJECT_PATH, "src"
 )
+
+print(f" 📸 Adding {SOURCE_PATH} to project path: {PROJECT_PATH}")
+
 UTIL_PATH = os.path.join(
         SOURCE_PATH, 
         "util"
         )
+
+print(f" 📷 Adding {UTIL_PATH} to source path: {SOURCE_PATH}")
 
 sys.path.append(SOURCE_PATH)
 sys.path.append(UTIL_PATH)

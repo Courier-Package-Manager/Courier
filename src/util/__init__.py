@@ -21,12 +21,11 @@ from .update import get_project_folder
 from .update import loc_package_file
 from .update import last_updated
 from .update import scan_dir
-from .update import update_packages
 from .update import load_logging_ini
 from .update import get_date
 
 
-def display_if_online(url):
+def display_if_online(url: str) -> bool:
     """Queries url for response code
 
     :param url: String supporting a utf-8 url format.
@@ -43,7 +42,6 @@ def display_if_online(url):
             logger.debug(f" 🌍 {url} is up!")
         else:
             logging.critical(f" 🌐 {url} is down")
-            sys.exit(1)
         return up
 
 
@@ -54,7 +52,6 @@ __modules__ = [
     Codescan,
     last_updated,
     scan_dir,
-    update_packages,
     load_logging_ini,
 ]
 

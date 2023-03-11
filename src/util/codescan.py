@@ -25,7 +25,7 @@ class Codescan:
     """Hold methods pertaining to the codescan function"""
 
     @classmethod
-    def scan(cls):
+    def scan(cls) -> list:
         """Scan for imports in collected files"""
 
         py_files: list[PosixPath] = Package.auto_install()
