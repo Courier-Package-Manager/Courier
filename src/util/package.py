@@ -34,11 +34,12 @@ class Package(object):
     in a multi-instance context which is likely noticeable from the amount of staticmethods.
     """
 
+    packages = []
+
 
     def __init__(self, li, search_term) -> None:
         # Term to be highlighted differently as it
         # was explicitly searched for
-        Package.packages = []
         search_term = search_term
         if not li:
             return
@@ -625,7 +626,10 @@ class Package(object):
         if _version:
             _ver = version.parse(str(_version))
         else:
-            _ver = Package.packages[Package.id_from_name(package)]
+            try:
+                _ver = Package.packages[Package.id_from_name(package)]
+            except IndexError:
+                LOGGER.warning("No cache present. Searching...")
 
         for i in pkg_resources.working_set:
             packs[i.key] = i.parsed_version

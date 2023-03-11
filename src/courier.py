@@ -162,6 +162,7 @@ class Courier(object):
                         return
                     if len(args) == 2:
                         Package.update_package(args[args.index('install') + 1])
+                        return
                 case 'get':
                     match len(args):
                         case 1:
