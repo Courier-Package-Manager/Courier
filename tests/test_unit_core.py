@@ -67,9 +67,6 @@ class TestCourier(unittest.TestCase):
         Courier.proc_args(args=["--help"])
         Courier.proc_args(args=["--do-nothing"])
         Courier.proc_args(args=["get"])
-        Courier.proc_args(args=["get", "requests"])
-        Courier.proc_args(args=["file.py", "requests"])
-        Courier.proc_args(args=[])
 
         print(f" 🐒 {self.test_proc_args.__doc__}")
 

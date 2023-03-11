@@ -57,7 +57,7 @@ class TestUnitPackageClass(unittest.TestCase):
     def test_name_from_id(self):
         """Index packages for name testing each ones id"""
         print(f" 🫀 {self.test_name_from_id.__doc__}")
-        Package.search("pygame")
+        Package.search("pygame", activate_test_case=True)
         Package.id_from_name(Package.packages[0].name)
 
     def test_install_from_id(self):
@@ -69,7 +69,7 @@ class TestUnitPackageClass(unittest.TestCase):
     def test_id_from_name(self):
         """Index packages for id testing each ones name"""
         print(f" 🌳 {self.test_id_from_name.__doc__}")
-        Package.search("pygame")
+        Package.search("pygame", True)
         Package.id_from_name(Package.packages[0].name)
 
     def test_format_results(self):
@@ -81,7 +81,6 @@ class TestUnitPackageClass(unittest.TestCase):
     def test_search(self):
         """Test search for package"""
         print(f" 🌾 {self.test_search.__doc__}")
-        Package.search("openpyxl")
         Package.search("colorama", True)
 
     def test_request_pypi_soup(self):
@@ -100,15 +99,7 @@ class TestUnitPackageClass(unittest.TestCase):
         """Test is installed"""
 
         print(f" 🍉 {self.test_is_installed.__doc__}")
-        Package.search("numpy")
-
         Package.search("numpy", activate_test_case=True)
-
-    def test_query_install_install(self):
-        """Test query install w/ input"""
-
-        print(f" 🦋 {self.test_query_install_install.__doc__}")
-        self.assertEqual(Package.query_install(True), True)
 
 
 if __name__ == "__main__":

@@ -367,13 +367,13 @@ class Package(object):
 
         Package.format_results(soup, package)
 
-        if not len(Package.packages) or activate_test_case:
+        if not len(Package.packages):
             logging.critical(f" ❌ No results found for package '{package}'")
             return False
 
         Package.list()  # Display fetched packages with special formatting.
-        id = Package.query_install_input(False)
-        Package.install_from_id(id)
+        id = Package.query_install_input(activate_test_case)
+        Package.install_from_id(id, activate_test_case)
 
     @staticmethod
     def request_pypi(package: str):
