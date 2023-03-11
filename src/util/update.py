@@ -68,10 +68,9 @@ def last_updated() -> str | Literal[False]:
         return False
 
 
-def load_logging_ini() -> None:
+def load_logging_ini(config='config_info.ini') -> None:
     """Load logging configuration file"""
-
-    fileConfig('config.ini')
+    fileConfig(config)
 
 
 def scan_dir(files=True, folders=True) -> list[DirEntry]:

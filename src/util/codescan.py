@@ -16,7 +16,9 @@ TODO: codescan configuration file
 import logging
 import os
 from pathlib import PosixPath
+import pathlib
 
+import pkg_resources
 from .package import Package
 from .update import load_logging_ini
 
@@ -24,40 +26,29 @@ from .update import load_logging_ini
 class Codescan:
     """Hold methods pertaining to the codescan function"""
 
+    local_modules = [d.project_name for d in pkg_resources.working_set]
+    local_modules.remove('util')
+
     @classmethod
-    def scan(cls) -> list:
+    def scan(cls):
         """Scan for imports in collected files"""
 
         py_files: list[PosixPath] = Package.auto_install()
-        dependencies = []
-        folders = []
-        keywords = ['src', 'util']
+        dependencies = set()
+        folders = [i.name for i in pathlib.Path('.').rglob('*') if i.is_dir()]
 
         for file in py_files:
-            if os.path.isdir(file):
-                folders.append(file)
-                continue
-            with open(str(file.resolve()), 'r') as f:
-                for line in f.readlines():
-                    if line.startswith('#'):
-                        continue
-                    if ('import' or ('import' and 'from')) in line:
-                        if 'from' not in line:
-                            if line.split(' ')[1] not in folders:
-                                dependencies.append(line.split(' ')[1])
-                                continue
-                        dependency = line.split(' ')[1]
-                        if dependency.startswith('.'):
-                            folders.append(dependency.split('.')[1])
-                        if dependency in folders:
-                            continue
-                        if '.' in dependency:
-                            if dependency.split('.')[0] in keywords:
-                                continue
-                            dependencies.append(dependency.split('.')[0])
-                            continue
-                        dependencies.append(dependency)
-                f.close()
+            if not os.path.isdir(file):
+                with open(str(file.resolve()), 'r') as f:
+                    for line in f.readlines():
+                        if not line.startswith('#'):
+                            if ('import' or ('import' and 'from')) in line:
+                                if 'from' not in line.split(' '):
+                                    if line.split(' ')[1] not in folders:
+                                        dependencies.add(line.split(' ')[1])
+                                dependency = line.split(' ')[1]
+                                dependencies.add(dependency)
+                    f.close()
 
         return dependencies
     
@@ -68,10 +59,10 @@ class Codescan:
         The scan is run within the `install_dependencies` method.
         """
 
-        dependencies = list(set(cls.scan()))
+        dependencies = cls.scan()
         for dependency in dependencies:
-            Package.update_package(dependency)
-
+            if dependency in Codescan.local_modules:
+                Package.update_package(dependency)
 
 load_logging_ini()
 logger = logging.getLogger()

@@ -21,8 +21,6 @@ from typing import Literal
 from bs4 import BeautifulSoup
 import colorama
 from colorama import Fore
-from packaging import version
-import pkg_resources
 import requests
 
 from .update import load_logging_ini
@@ -34,11 +32,12 @@ class Package(object):
     in a multi-instance context which is likely noticeable from the amount of staticmethods.
     """
 
+    packages = []
+
 
     def __init__(self, li, search_term) -> None:
         # Term to be highlighted differently as it
         # was explicitly searched for
-        Package.packages = []
         search_term = search_term
         if not li:
             return
@@ -79,79 +78,9 @@ class Package(object):
                 color = Fore.BLUE,
                 name=desc,
                 reset = Fore.RESET)
-                    
-
         self._description = self.description.replace(
                 search_term, Fore.LIGHTMAGENTA_EX + search_term + Fore.LIGHTBLUE_EX)
-    @property
-    def cache_limit(self) -> int:
-        """The amount of packages that are allowed to be stored in cache at any given time.
-
-        :return: cache limit
-        :rtype: int
-        """
-
-        return self._cache_limit
-
-    @cache_limit.setter
-    def cache_limit(self, value):
-        """Set property dunder value to :value:
-
-        :value: int
-        """
-
-        self._cache_limit = value
-
-    @property
-    def name(self) -> str:
-        """Package name as received through pypi
-
-        :return: name
-        :rtype: str
-        """
-
-        return self._name
-
-    @name.setter
-    def name(self, value):
-        """Set property dunder value to :value:
-
-        :value: str
-        """
-        
-        self._name = value
-
-    @property
-    def version(self):
-        """Package version as received through pypi """
-
-        return self._version
-
-    @version.setter
-    def version(self, value):
-        """ Set property dunder value to :value: """
-
-        self._version = value
-
-    @property
-    def date(self) -> str:
-        """ Package date (created) as received through pypi """
-        return self._date
-
-    @date.setter
-    def date(self, value):
-        """ Set property dunder value to :value: """
-        self._date = value
-
-    @property
-    def id(self) -> int:
-        """ ID of package, determined by amount of packages in cache """
-        return self._id
-
-    @id.setter
-    def id(self, value):
-        """ Set property dunder value to :value: """
-        self._id = value
+        self.id = len(Package.packages) + 1
 
     @staticmethod
     def get_name_from_lxml(lxml: BeautifulSoup):
@@ -194,7 +123,7 @@ class Package(object):
         return lxml.select_one(".package-snippet__description")
 
     @classmethod
-    def list(cls, limit=10):
+    def list(cls):
         """Display packages fetched from pypi with syntax formatting.
 
         :param limit: The maximum amount as an Integer of packages to be displayed
@@ -204,11 +133,8 @@ class Package(object):
 
         cls.packages.reverse()
 
-        for index, package in enumerate(cls.packages):
-            if index >= limit:
-                return False
-
-            print(
+        for _, package in enumerate(cls.packages):
+            LOGGER.debug(
                     "{id} {name} {version} {date}\n\t{description}".format(
                         id=package.id,
                         name=package.name,
@@ -295,12 +221,13 @@ class Package(object):
                 else:
                     package = Package.packages[Package.packages.index(
                         Package.name_from_id(int(selector)))]
+                    return;
             case _:
                 logging.warning(
                         f"Datatype {type(selector)} is not supported as an indexer to a package.")
                 return
 
-        print("""
+        LOGGER.debug("""
               Package: {package_name}
               Date: {package_date}
               Version: {package_version}
@@ -332,7 +259,7 @@ class Package(object):
         # If not_package_count is cleaner to me and shorter
         # than doing the more common but verbose 'if package == ...'
         if not package_count:
-            LOGGER.critical(colorama.Fore.RED+" ❌ Could not index package list; no cache loaded"+colorama.Fore.RESET)
+            LOGGER.critical(colorama.Fore.RED+" ❌ Could not index package list; no cache loaded."+colorama.Fore.RESET)
             return
 
         LOGGER.debug(f' loaded {colorama.Fore.GREEN + str(package_count) + colorama.Fore.RESET} packages.')
@@ -418,11 +345,12 @@ class Package(object):
         :rtype: bool
         """
 
-        print(f" 🔎 {colorama.Fore.LIGHTCYAN_EX}Searching for {package} + {colorama.Fore.RESET}")
-        soup = Package.request_pypi_soup(package)
-
         LOGGER.debug(f" 📦 {colorama.Fore.LIGHTWHITE_EX} Refreshing package cache {colorama.Fore.RESET}")
         Package.packages.clear()
+
+        LOGGER.debug(f" 🔎 {colorama.Fore.LIGHTCYAN_EX}Searching for {package} {colorama.Fore.RESET}")
+        soup = Package.request_pypi_soup(package)
+
 
         Package.format_results(soup, package)
 
@@ -437,6 +365,7 @@ class Package(object):
         # LOGGER.debug(f' 🔎 {len(Package.packages)} packages found')
 
         Package.list()  # Display fetched packages with special formatting.
+        Package.query_install_input(False)  # unittest === False
         return True
 
     @staticmethod
@@ -535,12 +464,14 @@ class Package(object):
                 continue
             files.append(file)
 
+        """
         for file in path.rglob("*"):
             head, _ = os.path.join(file.parent, file.name).split("/", 1)
             if head in ignore:
                 continue
             if os.path.isdir(file):
                 files.append(file)
+        """
 
         files = sorted(files, key=os.path.getsize, reverse=True)
 
@@ -551,9 +482,7 @@ class Package(object):
                 if filesize in range(sizes[size]["min"], sizes[size]["max"]):
                     icon = sizes[size]["icon"]
                     color = sizes[size]["color"]
-
                     null = colorama.Fore.RESET
-
                     LOGGER.debug(f"{color} {icon} {str(file)}{null}")
         return files
 
@@ -606,48 +535,41 @@ class Package(object):
 
         return "".join(components)
 
+
     @staticmethod
-    def update_package(package: str, _version: bool | str = False):
+    def update_cache(package: str):
+        """ Sends results to cache but does not display or query input
+
+        :param package: Name of package to add to cache.
+        """
+        LOGGER.debug(f" 📦 {colorama.Fore.LIGHTWHITE_EX} Refreshing package cache {colorama.Fore.RESET}")
+        Package.packages.clear()
+        LOGGER.info(f" 🔎 {colorama.Fore.LIGHTCYAN_EX}Searching for {package} {colorama.Fore.RESET}")
+        soup = Package.request_pypi_soup(package)
+        Package.format_results(soup, package)
+
+        if not len(Package.packages):
+            logging.critical(f" ❌ No results found for package '{package}'")
+            return False
+
+    @staticmethod
+    def update_package(package: str):
         """Updates `package` to latest or specified version with pip.
 
         :param package: A string that matches a pypi supported dependency
-        :param version: (optional) The version of `package` to be
-            installed. If none is given, `package` is updated to the latest
-            version.
+
         :return: Returns if the operation was successful or not in
             updating `package`.
         :rtype: bool
         """
 
-        packs = {}
-        exists = True
-
-        if _version:
-            _ver = version.parse(str(_version))
-        else:
-            _ver = Package.packages[Package.id_from_name(package)]
-
-        for i in pkg_resources.working_set:
-            packs[i.key] = i.parsed_version
-
         try:
-            LOGGER.debug(_ver.__str__)
-            exists = False
-        except NameError:
-            pass
-
-        if package in packs.keys():
-            if _version is not False and exists:
-                # pyright gives an error that _ver is
-                # possibly unbound, however this cannot
-                # ever happen as this is checked before hand
-                # and is stored as an `exists` boolean
-
-                if _ver < packs[package]:  # pyright: ignore
-                    LOGGER.info(f" 📦 You already have {colorama.Fore.LIGHTMAGENTA_EX + str(package) + colorama.Fore.RESET} installed, however it is out of date.") # pyright: ignore
-                    LOGGER.info(f" ⏫ Updating {colorama.Fore.LIGHTMAGENTA_EX + package + colorama.Fore.RESET} to version {_ver}") # pyright: ignore
-                    subprocess.check_call([
-                        sys.executable, "-m", "pip", "install", f"{colorama.Fore.LIGHTMAGENTA_EX + package}=={_ver.__str__()}"]) # pyright: ignore
+            subprocess.check_call([
+                sys.executable, "-m", "pip", "install", package])
+        except subprocess.CalledProcessError:
+            logging.warning("Waning: failed to install package.")
+            return;
+        return;
 
 
 load_logging_ini()
