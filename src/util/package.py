@@ -16,7 +16,7 @@ import os
 import pathlib
 import subprocess
 import sys
-from typing import Literal, Type
+from typing import Literal
 
 from bs4 import BeautifulSoup
 import colorama
@@ -136,17 +136,6 @@ class Package(object):
         """ Set property dunder value to :value: """
 
         self._version = value
-
-    @property
-    def description(self) -> str:
-        """ Package description as received through pypi """
-
-        return self._description
-
-    @description.setter
-    def description(self, value):
-        """ Set property dunder value to :value: """
-        self._description = value
 
     @property
     def date(self) -> str:
@@ -635,6 +624,8 @@ class Package(object):
 
         if _version:
             _ver = version.parse(str(_version))
+        else:
+            _ver = Package.packages[Package.id_from_name(package)]
 
         for i in pkg_resources.working_set:
             packs[i.key] = i.parsed_version
@@ -668,9 +659,6 @@ class Package(object):
                 return True
         else:
             return False
-
-    def funcname(parameter_list):
-        pass
 
 
 load_logging_ini()
