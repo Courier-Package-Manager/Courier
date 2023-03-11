@@ -1,4 +1,5 @@
 requests
+Sphinx
 flake8
 coverage
 pytest
