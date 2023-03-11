@@ -9,7 +9,9 @@
 <a href="https://github.com/black">
  <img alt="Code style: black" src=https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge/>
  </a>
-
+<a href="https://codecov.io/gh/Courier-Package-Manager/Courier" > 
+ <img src="https://codecov.io/gh/Courier-Package-Manager/Courier/branch/stable/graph/badge.svg?token=QSKA1TXW6T&style=for-the-badge"/> 
+ </a>
 
 
 
