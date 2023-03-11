@@ -15,10 +15,10 @@ TODO: codescan configuration file
 
 import logging
 import os
-from pathlib import PosixPath
 import pathlib
 
 import pkg_resources
+
 from .package import Package
 from .update import load_logging_ini
 
@@ -34,7 +34,7 @@ class Codescan:
     def scan(cls):
         """Scan for imports in collected files"""
 
-        py_files: list[PosixPath] = Package.auto_install()
+        py_files: list = Package.auto_install()  # pyright: ignore
         dependencies = set()
         folders = [i.name for i in pathlib.Path(".").rglob("*") if i.is_dir()]
 

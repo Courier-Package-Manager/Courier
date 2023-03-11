@@ -535,6 +535,7 @@ class Package(object):
 
         :param package: Name of package to add to cache.
         """
+
         LOGGER.debug(
             f" 📦 {colorama.Fore.LIGHTWHITE_EX} Refreshing package cache {colorama.Fore.RESET}"
         )
