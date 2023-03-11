@@ -15,6 +15,7 @@ import logging
 import os
 import unittest
 
+import pytest
 from util import display_if_online
 from util.package import load_logging_ini
 

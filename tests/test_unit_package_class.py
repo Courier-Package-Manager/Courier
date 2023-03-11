@@ -16,6 +16,7 @@ import os
 import logging
 import unittest
 
+import pytest
 from requests.exceptions import MissingSchema
 
 from util.package import Package

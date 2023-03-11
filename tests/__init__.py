@@ -14,9 +14,10 @@ The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 """
 
+import pytest
+import pytest_sugar
 import os
 import sys
-
 
 os.system("clear")
 PROJECT_PATH = os.getcwd()

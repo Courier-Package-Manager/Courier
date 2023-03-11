@@ -10,6 +10,7 @@ primary Courier functions.
 :license: MIT, see LICENSE for more details.
 """
 
+import pytest
 import unittest
 import os
 

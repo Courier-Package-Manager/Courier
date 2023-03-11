@@ -10,6 +10,7 @@ are used for formatting and general aethetics.
 :license: MIT, see LICENSE for more details.
 """
 
+import pytest
 import os
 import unittest
 from util import Codescan

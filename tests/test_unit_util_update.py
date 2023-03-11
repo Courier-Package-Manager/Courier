@@ -15,6 +15,7 @@ dependencies such as colorama and logging.
 import logging
 import os
 import unittest
+import pytest
 
 from src.util.update import switch_root
 from src.util.update import scan_dir
