@@ -15,13 +15,10 @@ import pathlib
 import sys
 from typing import Literal
 
-import colorama
-
-from util.codescan import Codescan  # pyright: ignore
-from util.package import Package  # pyright: ignore
-from util.update import load_logging_ini  # pyright: ignore
-from util.update import last_updated  # pyright: ignore
-from util.update import loc_package_file  # pyright: ignore
+from util.codescan import Codescan
+from util.package import Package
+from util.update import load_logging_ini
+from util.update import loc_package_file
 
 
 class Courier(object):
