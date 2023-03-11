@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 Courier.courier
 ~~~~~~~~~~~~~~~
@@ -160,10 +161,43 @@ class Courier(object):
                                     Courier.read_docs(file="codescan.txt")
                                 )
                                 return
-                            case "-m" | "--menu" | "menu":
-                                Courier.print_formatted_list(
-                                    Courier.read_docs(file="menus.txt")
-                                )
+                            case "--menu" | "menu":
+                                if len(args) == 4:
+                                    match args[args.index("menu") + 1]:
+                                        case "menu":
+                                            Courier.print_formatted_list(
+                                                Courier.read_docs(file="menus.txt")
+                                            )
+                                            return
+                                        case "development":
+                                            Courier.print_formatted_list(
+                                                Courier.read_docs(file="development.txt")
+                                            )
+                                            return
+                                        case "testing":
+                                            Courier.print_formatted_list(
+                                                Courier.read_docs(file="testing.txt")
+                                            )
+                                            return
+                                        case "general":
+                                            Courier.print_formatted_list(
+                                                Courier.read_docs(file="help.txt")
+                                            )
+                                            return
+                                        case "help":
+                                            Courier.print_formatted_list(
+                                                Courier.read_docs(file="help.txt")
+                                            )
+                                            return
+                                        case _:
+                                            Courier.print_formatted_list(
+                                                Courier.read_docs(file="menus.txt")
+                                            )
+                                            return
+                                else:
+                                    Courier.print_formatted_list(
+                                        Courier.read_docs(file="menus.txt")
+                                    )
                                 return
                             case "help":
                                 print(
