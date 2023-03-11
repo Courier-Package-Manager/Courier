@@ -16,7 +16,6 @@ import os
 import pathlib
 import subprocess
 import sys
-from typing import Literal
 
 from bs4 import BeautifulSoup
 import colorama
@@ -35,7 +34,7 @@ class Package(object):
 
     packages = []
 
-    def __init__(self, li, search_term) -> None:
+    def __init__(self, li, search_term):
         # Term to be highlighted differently as it
         # was explicitly searched for
         search_term = search_term
@@ -81,7 +80,7 @@ class Package(object):
         self.id = len(Package.packages) + 1
 
     @staticmethod
-    def get_name_from_lxml(lxml: BeautifulSoup):
+    def get_name_from_lxml(lxml):
         """Returns mutable BeautifulSoup object from a specified HTML class.
 
         :param lxml: Data structure representing an HTML element as a `BeautifulSoup` object
@@ -111,7 +110,7 @@ class Package(object):
         return lxml.select_one(".package-snippet__created time")
 
     @staticmethod
-    def get_desc_from_lxml(lxml: BeautifulSoup):
+    def get_desc_from_lxml(lxml):
         """Returns mutable BeautifulSoup object from a specified HTML class.
 
         :param lxml: Data structure representing an HTML element as a `BeautifulSoup` object
@@ -145,7 +144,7 @@ class Package(object):
         return True
 
     @staticmethod
-    def name_from_id(id: int) -> str | Literal[False]:
+    def name_from_id(id):
         """Compare package ID to `id`.
 
         Only returns package name if package `id`
@@ -164,7 +163,7 @@ class Package(object):
         return False
 
     @staticmethod
-    def id_from_name(name: str) -> int | Literal[False]:
+    def id_from_name(name):
         """Compare package name to `name`.
 
         Only returns package ID if package name and `name` are equal.
@@ -182,7 +181,7 @@ class Package(object):
         return False
 
     @staticmethod
-    def format_results(soup: BeautifulSoup, package: str):
+    def format_results(soup, package):
         """Sort a given html element and convert into parseable format.
 
         :param soup: BeautifulSoup html element to be sorted through.
@@ -201,7 +200,7 @@ class Package(object):
             return False
 
     @staticmethod
-    def package_info(selector: str | int):
+    def package_info(selector):
         """Get package info from pypi.
 
         :param selector: If string then get the package name, if int then get the id of
@@ -243,7 +242,7 @@ class Package(object):
         )
 
     @staticmethod
-    def install_from_id(id: int | None, unittest=False):
+    def install_from_id(id, unittest):
         """Install a package from given list.
 
         This function matches the `id` parameter to a given
@@ -292,7 +291,7 @@ class Package(object):
             return
 
     @staticmethod
-    def query_install_input(unittest: bool) -> int:
+    def query_install_input(unittest):
         """Query user input to select package to install.
 
         :param unittest: Boolean value used in case of coverage.
@@ -312,7 +311,7 @@ class Package(object):
             return 1
 
     @staticmethod
-    def handle_query_input(selected: str | int, unittest: bool):
+    def handle_query_input(selected, unittest):
         """An indicator of whether a package is to be installed.
 
         :param selected: A python dependency parsed as a String or ID.
@@ -329,7 +328,7 @@ class Package(object):
                 return True
 
     @staticmethod
-    def query_install(unittest: bool):
+    def query_install(unittest):
         """Query the install ID of a given package.
 
         the package.Packages.packages (list) variable,
@@ -351,7 +350,7 @@ class Package(object):
             return False
 
     @staticmethod
-    def search(package: str, activate_test_case=False):
+    def search(package, unittest=False):
         """Search for package in the pypi database.
 
         :param package: Package name as string.
@@ -371,12 +370,14 @@ class Package(object):
             logging.critical(f" ❌ No results found for package '{package}'")
             return False
 
-        Package.list()  # Display fetched packages with special formatting.
-        id = Package.query_install_input(False)
-        Package.install_from_id(id)
+        if not unittest:
+            Package.list()  # Display fetched packages with special formatting.
+
+        id = Package.query_install_input(unittest)
+        Package.install_from_id(id, unittest)
 
     @staticmethod
-    def request_pypi(package: str):
+    def request_pypi(package):
         """Request an HTTP response for `package`
 
         :param package: A URL of a python package, typically matching
@@ -386,11 +387,10 @@ class Package(object):
         """
 
         pypi_request = requests.get(f"https://pypi.org/search/?q={package}")
-
         return pypi_request
 
     @staticmethod
-    def request_pypi_soup(package: str) -> BeautifulSoup:
+    def request_pypi_soup(package):
         """Requests a soup object from a pypy package URL.
 
         :param package: A URL of a python package, typically matching
@@ -531,7 +531,7 @@ class Package(object):
         return "".join(components)
 
     @staticmethod
-    def update_cache(package: str):
+    def update_cache(package):
         """Sends results to cache but does not display or query input
 
         :param package: Name of package to add to cache.
@@ -551,7 +551,7 @@ class Package(object):
             return False
 
     @staticmethod
-    def update_package(package: str):
+    def update_package(package):
         """Updates `package` to latest or specified version with pip.
 
         :param package: A string that matches a pypi supported dependency

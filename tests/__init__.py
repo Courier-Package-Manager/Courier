@@ -19,7 +19,6 @@ import pytest_sugar
 import os
 import sys
 
-os.system("clear")
 PROJECT_PATH = os.getcwd()
 SOURCE_PATH = os.path.join(PROJECT_PATH, "src")
 

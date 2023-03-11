@@ -15,9 +15,8 @@ import logging
 import os
 import unittest
 
-import pytest
-from util import display_if_online
-from util.package import load_logging_ini
+from src.util import display_if_online
+from src.util.package import load_logging_ini
 
 
 class TestUnitFileConstructor(unittest.TestCase):
@@ -34,7 +33,6 @@ class TestUnitFileConstructor(unittest.TestCase):
         """Test display if online function"""
         print(f" 🌏 {self.test_display_if_online.__doc__}")
         self.assertTrue(display_if_online(url="https://google.com"))
-
         print(f" 🌍 {self.test_display_if_online.__doc__}")
         display_if_online("https://not_a_website!/lol.com")
 

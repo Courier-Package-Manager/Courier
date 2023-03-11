@@ -22,7 +22,7 @@ from src.util.update import scan_dir
 from src.util.update import create_package
 from src.util.update import loc_package_file
 from src.util.update import file_exists
-from util.package import Package
+from src.util.package import Package
 
 
 class TestUtil(unittest.TestCase):

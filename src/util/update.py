@@ -16,15 +16,13 @@ import json
 import logging
 from logging.config import fileConfig
 import os
-from posix import DirEntry
-from typing import Any, IO, Literal
 
 import colorama
 
 from .setup import get_date
 
 
-def file_exists(file: str, mode: str) -> None | bool:
+def file_exists(file, mode):
     """Test if file exists in the current working directory
 
     :param file: Filename as a string
@@ -39,13 +37,15 @@ def file_exists(file: str, mode: str) -> None | bool:
             if isinstance(_file, bool):
                 return _file
         finally:
-            _file.close()
+            if not isinstance(_file, bool):
+                _file.close()
+            return
     except FileNotFoundError:
         logging.error("file not found")
         return
 
 
-def last_updated() -> str | Literal[False]:
+def last_updated():
     """last update in datetime format
 
     This is assuming that
@@ -68,12 +68,12 @@ def last_updated() -> str | Literal[False]:
         return False
 
 
-def load_logging_ini(config="config_info.ini") -> None:
+def load_logging_ini(config="config_info.ini"):
     """Load logging configuration file"""
     fileConfig(config)
 
 
-def scan_dir(files=True, folders=True) -> list[DirEntry]:
+def scan_dir(files=True, folders=True):
     """A better version of the os.scandir function, as it takes multiple args.
 
     :param files: (optional) List files in current directory
@@ -94,7 +94,7 @@ def scan_dir(files=True, folders=True) -> list[DirEntry]:
     return items
 
 
-def get_project_folder() -> str:
+def get_project_folder():
     """Dedicated function for testing
 
     :return: The current project folder name.
@@ -105,7 +105,7 @@ def get_project_folder() -> str:
     return project_folder
 
 
-def switch_root() -> str:
+def switch_root():
     """Auto switch root when not applicable
 
     :return: Full current project path as a String
@@ -118,7 +118,7 @@ def switch_root() -> str:
     return project_folder
 
 
-def create_package() -> None:
+def create_package():
     """Dump json object to `PACKAGE`
     raises permissions error if user
     does not have write permissions to current
@@ -135,7 +135,7 @@ def create_package() -> None:
         raise PermissionError
 
 
-def get_package_name() -> DirEntry | None:
+def get_package_name():
     """Get package name.
 
     Note that this function also allows for unit tests.
@@ -150,7 +150,7 @@ def get_package_name() -> DirEntry | None:
             return file
 
 
-def loc_package_file(name=get_package_name(), debug=False, mode="r") -> IO[Any] | None:
+def loc_package_file(name=get_package_name(), debug=False, mode="r"):
     """Locate the package file & create package file
 
     If the file does not exist it will be created in the current

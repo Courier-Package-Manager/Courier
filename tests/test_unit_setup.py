@@ -13,7 +13,7 @@ are used for formatting and general aethetics.
 import pytest
 import os
 import unittest
-from util import Codescan
+from src.util import Codescan
 
 
 class TestCodescan(unittest.TestCase):
@@ -28,6 +28,5 @@ class TestCodescan(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    os.system("clear")
     print(f" 🧪 Testing {os.getcwd()}")
     unittest.main()

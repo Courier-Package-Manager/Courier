@@ -64,7 +64,7 @@ class Courier(object):
         return os.path.basename(os.path.normpath(os.getcwd()))
 
     @staticmethod
-    def assert_file_path() -> bool:
+    def assert_file_path():
         """Assert if file path is set to the root directory name.
 
         :return: Boolean the root directory has been set.
@@ -236,7 +236,7 @@ class Courier(object):
         self.logger.debug("Package file %s update.json %s was created %s ")
 
     @staticmethod
-    def bashrc_exists() -> pathlib.Path | Literal[False]:
+    def bashrc_exists():
         """Locate (if present) the user bash configuration file.
 
         This function tests under the following directories:
