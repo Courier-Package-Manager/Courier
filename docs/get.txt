@@ -1,5 +1,0 @@
-syntax: courier get <package>
-
-Get a specific package (needs to be a string object).
-NOTE: If package is more than one word use quotation marks
-        eg: courier get "foo bar"

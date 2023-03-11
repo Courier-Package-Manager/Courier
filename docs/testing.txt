@@ -1,6 +1,0 @@
-Testing
--------
-Commands that are currently under development or being introduced
-
-    - name -                                  - description -
-courier codescan [--config <file>] .. Auto install unmet dependencies from files

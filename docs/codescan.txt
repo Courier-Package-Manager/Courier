@@ -1,7 +1,0 @@
-Codescan is best described as a feature that automatically 
-installs every non-native dependency.
-
-It does this with a series of checks, so that no already installed
-package will be re-installed, however it will auto-update if needed.
-
-Syntax: courer <codescan>

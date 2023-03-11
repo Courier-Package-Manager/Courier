@@ -1,6 +1,0 @@
-Development
------------
-Commands used specifically for development purposes
-
-    - name -                                  - description -
-courier --do-nothing                    Run courier executable without any commands
