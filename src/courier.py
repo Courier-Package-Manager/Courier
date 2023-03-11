@@ -17,11 +17,11 @@ from typing import Literal
 
 import colorama
 
-from util.codescan import Codescan
-from util.package import Package
-from util.update import load_logging_ini
-from util.update import last_updated
-from util.update import loc_package_file
+from util.codescan import Codescan       # pyright: ignore
+from util.package import Package       # pyright: ignore
+from util.update import load_logging_ini       # pyright: ignore
+from util.update import last_updated       # pyright: ignore
+from util.update import loc_package_file       # pyright: ignore
 
 
 class Courier(object):
@@ -149,8 +149,18 @@ class Courier(object):
                                 print(f"Optional argument \'{args[1]}\' not found")
                                 print("Run courier for a list of commands.")
                                 return
-                case '--do-nothing':
-                    return
+
+                # Currently being tested.
+                case '--do-nothing': return
+                case '--debug':
+                    load_logging_ini('config_debug.ini')
+                    Courier.print_formatted_list(Courier.read_docs(file="help.txt"))
+                    return;
+                case '--clear':
+                    os.system('clear')
+                    Courier.print_formatted_list(Courier.read_docs(file="help.txt"))
+                    return;
+
                 case 'codescan':
                     if len(args) == 1:
                         # logger.info(" 🔎 Scanning for unmet dependencies ... ")
@@ -175,12 +185,11 @@ class Courier(object):
                     Courier.print_formatted_list(Courier.read_docs(file="help.txt"))
                     return
 
-    @staticmethod
-    def get_package_created():
+    def get_package_created(self):
         """Format return value of the previous timestamp of update.json"""
 
         Courier.assert_file_path()
-        Courier.logger.debug("Package file %s update.json %s was created %s ",
+        self.logger.debug("Package file %s update.json %s was created %s ",
                      colorama.Fore.GREEN,
                      colorama.Fore.RESET,
                      last_updated())
