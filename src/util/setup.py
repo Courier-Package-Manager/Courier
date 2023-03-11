@@ -15,8 +15,10 @@ import re
 import colorama
 
 
-def get_date(date: datetime.datetime, day=datetime.datetime.now().strftime('%-d')) -> str:
-    """ Return a ❇️ colorized ❇️ version of timestamp
+def get_date(
+    date: datetime.datetime, day=datetime.datetime.now().strftime("%-d")
+) -> str:
+    """Return a ❇️ colorized ❇️ version of timestamp
 
     :param date: timestamp as a `datetime.datetime` instance
     :param day: (optional) String of current day without x0 format
@@ -27,15 +29,15 @@ def get_date(date: datetime.datetime, day=datetime.datetime.now().strftime('%-d'
 
     match int(day):
         case 1:
-            postfix = 'st'
+            postfix = "st"
         case 2:
-            postfix = 'nd'
+            postfix = "nd"
         case 3:
-            postfix = 'rd'
+            postfix = "rd"
         case _:
-            postfix = 'th'
+            postfix = "th"
 
-    day = colorama.Fore.MAGENTA + day + postfix + ',' + colorama.Fore.RESET
+    day = colorama.Fore.MAGENTA + day + postfix + "," + colorama.Fore.RESET
     month = colorama.Fore.BLUE + date.strftime("%B") + colorama.Fore.RESET
     year = colorama.Fore.BLUE + date.strftime("%Y") + colorama.Fore.RESET
     _date = f"{month} {day} {year}"
@@ -45,7 +47,7 @@ def get_date(date: datetime.datetime, day=datetime.datetime.now().strftime('%-d'
 
 def escape_ansi(line) -> str:
     """Remove formatting from colored string
-    
+
     credit: Édouard Lopez
 
     :param line: Colored string with escape characters
@@ -53,5 +55,5 @@ def escape_ansi(line) -> str:
     :rtype: string
     """
 
-    ansi_escape = re.compile(r'(?:\x1B[@-_]|[\x80-\x9F])[0-?]*[ -/]*[@-~]')
-    return ansi_escape.sub('', line)
+    ansi_escape = re.compile(r"(?:\x1B[@-_]|[\x80-\x9F])[0-?]*[ -/]*[@-~]")
+    return ansi_escape.sub("", line)

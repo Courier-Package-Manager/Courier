@@ -42,7 +42,7 @@ def file_exists(file: str, mode: str) -> None | bool:
             _file.close()
     except FileNotFoundError:
         logging.error("file not found")
-        return;
+        return
 
 
 def last_updated() -> str | Literal[False]:
@@ -57,18 +57,18 @@ def last_updated() -> str | Literal[False]:
     :rtype: string
     """
 
-    if file_exists('update.json', 'r'):
-        with open('update.json', 'r') as _file:
+    if file_exists("update.json", "r"):
+        with open("update.json", "r") as _file:
             data = json.load(_file)
             _file.close()
-        timestamp = datetime.fromtimestamp(data['created'])
+        timestamp = datetime.fromtimestamp(data["created"])
         date = get_date(timestamp)
         return date
     else:
         return False
 
 
-def load_logging_ini(config='config_info.ini') -> None:
+def load_logging_ini(config="config_info.ini") -> None:
     """Load logging configuration file"""
     fileConfig(config)
 
@@ -113,8 +113,8 @@ def switch_root() -> str:
     """
 
     project_folder = get_project_folder()
-    if project_folder != 'Courier':
-        os.chdir('..')
+    if project_folder != "Courier":
+        os.chdir("..")
     return project_folder
 
 
@@ -126,12 +126,9 @@ def create_package() -> None:
     """
 
     try:
-        with open('update.json', 'w', True, 'UTF-8') as fp:
+        with open("update.json", "w", True, "UTF-8") as fp:
             ts = datetime.now().timestamp()
-            data = {
-                "created": ts,
-                "dependencies": {}
-            }
+            data = {"created": ts, "dependencies": {}}
             json.dump(data, fp)
             fp.close()
     except PermissionError:
@@ -149,15 +146,12 @@ def get_package_name() -> DirEntry | None:
 
     switch_root()  # Switch root before asking if its in the switched directory
     for file in scan_dir(files=True, folders=False):
-        if file.name == 'update.json':
+        if file.name == "update.json":
             return file
 
 
-def loc_package_file(
-        name=get_package_name(),
-        debug=False,
-        mode='r') -> IO[Any] | None:
-    """Locate the package file & create package file 
+def loc_package_file(name=get_package_name(), debug=False, mode="r") -> IO[Any] | None:
+    """Locate the package file & create package file
 
     If the file does not exist it will be created in the current
     working directory of wherever `courier.py` was called from.
@@ -173,14 +167,14 @@ def loc_package_file(
         logger.info(f"Set {GREEN}'update.json'{RESET} in {MAGENTA}{cwd}{RESET}")
         return create_package()
     else:
-        with open('update.json', mode) as fp:
+        with open("update.json", mode) as fp:
             try:
                 try:
                     return fp
                 finally:
                     fp.close()
             finally:
-                if 'w' in list(mode):
+                if "w" in list(mode):
                     fp.close()
 
 

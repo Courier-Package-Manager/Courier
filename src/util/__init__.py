@@ -60,4 +60,4 @@ logger = logging.getLogger()
 
 colorama.init()
 
-display_if_online('https://pypi.org') 
+display_if_online("https://pypi.org")

@@ -17,11 +17,11 @@ from typing import Literal
 
 import colorama
 
-from util.codescan import Codescan       # pyright: ignore
-from util.package import Package       # pyright: ignore
-from util.update import load_logging_ini       # pyright: ignore
-from util.update import last_updated       # pyright: ignore
-from util.update import loc_package_file       # pyright: ignore
+from util.codescan import Codescan  # pyright: ignore
+from util.package import Package  # pyright: ignore
+from util.update import load_logging_ini  # pyright: ignore
+from util.update import last_updated  # pyright: ignore
+from util.update import loc_package_file  # pyright: ignore
 
 
 class Courier(object):
@@ -35,10 +35,14 @@ class Courier(object):
         self.exists = bool(self.bashrc_path) != False
 
         if self.exists:
-            self.logger.debug(f" 📂 Found bashrc in {Package.color_path(str(self.bashrc_path))}")
+            self.logger.debug(
+                f" 📂 Found bashrc in {Package.color_path(str(self.bashrc_path))}"
+            )
             self.add_bashrc_alias()
         else:
-            self.logger.warning(" ❌ Could not find bashrc file. Courier may behave unexpectedly.")
+            self.logger.warning(
+                " ❌ Could not find bashrc file. Courier may behave unexpectedly."
+            )
 
         self.proc_args(sys.argv)
         loc_package_file()
@@ -57,7 +61,7 @@ class Courier(object):
     def get_file_path():
         """Fetch immediate parent folder of current directory.
 
-        :return: String 
+        :return: String
         """
 
         return os.path.basename(os.path.normpath(os.getcwd()))
@@ -70,10 +74,10 @@ class Courier(object):
         """
 
         new_file_path = Courier.get_file_path()
-        return new_file_path == 'Courier'
+        return new_file_path == "Courier"
 
     @staticmethod
-    def read_docs(file='help.txt'):
+    def read_docs(file="help.txt"):
         """Read documentation file from folder.
 
         Colored documentation is going to be added, so I'm still
@@ -88,13 +92,13 @@ class Courier(object):
 
         if Courier.assert_file_path() is not True:
             logging.debug(Package.color_path(os.getcwd()))
-            os.chdir('..')
+            os.chdir("..")
 
         data = []
 
         # By using 'with' I can ensure that file is closed; thus avoiding
         # leaving open resources where there need not be any.
-        with open(os.path.join('docs', file), 'r', encoding='utf') as _file:
+        with open(os.path.join("docs", file), "r", encoding="utf") as _file:
             data = _file.read().strip().splitlines()
             Courier.close_file(_file)
 
@@ -120,80 +124,98 @@ class Courier(object):
         """
 
         for i in args:
-            if i.endswith('.py'):
+            if i.endswith(".py"):
                 args.remove(i)
 
         if len(args) == 0:
             Courier.print_formatted_list(Courier.read_docs(file="help.txt"))
-            return;
+            return
 
         for _, argument in enumerate(args):
             match argument:
-                case 'help':
+                case "help":
                     if len(args) == 1:
                         Courier.print_formatted_list(Courier.read_docs(file="help.txt"))
                         return
                     if len(args) >= 2:
-                        match args[args.index('help') + 1]:
-                            case '--list' | '-l' | 'list':
-                                Courier.print_formatted_list(Courier.read_docs(file="menus.txt"))
+                        match args[args.index("help") + 1]:
+                            case "--list" | "-l" | "list":
+                                Courier.print_formatted_list(
+                                    Courier.read_docs(file="menus.txt")
+                                )
                                 return
-                            case 'get' | 'g':
-                                Courier.print_formatted_list(Courier.read_docs(file="get.txt"))
+                            case "get" | "g":
+                                Courier.print_formatted_list(
+                                    Courier.read_docs(file="get.txt")
+                                )
                                 return
-                            case 'install' | 'i':
-                                Courier.print_formatted_list(Courier.read_docs(file="install.txt"))
+                            case "install" | "i":
+                                Courier.print_formatted_list(
+                                    Courier.read_docs(file="install.txt")
+                                )
                                 return
-                            case 'update' | 'u' | '--update':
-                                Courier.print_formatted_list(Courier.read_docs(file="update.txt"))
+                            case "update" | "u" | "--update":
+                                Courier.print_formatted_list(
+                                    Courier.read_docs(file="update.txt")
+                                )
                                 return
-                            case 'codescan' | 'cs' | 'scan':
-                                Courier.print_formatted_list(Courier.read_docs(file="codescan.txt"))
-                                return;
-                            case '-m' | '--menu' | 'menu':
-                                Courier.print_formatted_list(Courier.read_docs(file="menus.txt"))
-                                return;
-                            case 'help':
-                                print("The help command displays mandatory and compulsary arguments for Courier.")
-                                return;
+                            case "codescan" | "cs" | "scan":
+                                Courier.print_formatted_list(
+                                    Courier.read_docs(file="codescan.txt")
+                                )
+                                return
+                            case "-m" | "--menu" | "menu":
+                                Courier.print_formatted_list(
+                                    Courier.read_docs(file="menus.txt")
+                                )
+                                return
+                            case "help":
+                                print(
+                                    "The help command displays mandatory and compulsary arguments for Courier."
+                                )
+                                return
                             case _:
-                                print(f"Optional argument \'{args[1]}\' not found")
+                                print(f"Optional argument '{args[1]}' not found")
                                 print("Run courier for a list of commands.")
                                 return
 
-                case '--do-nothing':
+                case "--do-nothing":
                     return
 
-                case '--debug':
-                    load_logging_ini('config_debug.ini')
+                case "--debug":
+                    load_logging_ini("config_debug.ini")
                     Courier.print_formatted_list(Courier.read_docs(file="help.txt"))
-                    return;
+                    return
 
-                case '--clear':
-                    os.system('clear')
+                case "--clear":
+                    os.system("clear")
                     Courier.print_formatted_list(Courier.read_docs(file="help.txt"))
-                    return;
+                    return
 
-                case 'codescan':
+                case "codescan":
                     match len(args):
                         case 1:
                             Codescan.install_dependencies()
                             return
                         case 2:
-                            Courier.print_formatted_list(Courier.read_docs(file="codescan.txt"))
+                            Courier.print_formatted_list(
+                                Courier.read_docs(file="codescan.txt")
+                            )
                             return
-                case 'install':
+                case "install":
                     match len(args):
                         case 1:
                             print("Syntax: courier install <package> [version]")
                             return
                         case 2:
-                            Package.update_package(args[args.index('install') + 1])
+                            Package.update_package(args[args.index("install") + 1])
                             return
                         case 3:
-                            Courier.print_formatted_list(Courier.read_docs(file="install.txt"))
+                            Courier.print_formatted_list(
+                                Courier.read_docs(file="install.txt")
+                            )
                             return
-                case 'get':
+                case "get":
                     match len(args):
                         case 1:
                             print("Syntax: courier get <package>")
@@ -202,7 +224,9 @@ class Courier(object):
                             Package.search(args[len(args) - 1])
                             return
                         case 3:
-                            Courier.print_formatted_list(Courier.read_docs(file="get.txt"))
+                            Courier.print_formatted_list(
+                                Courier.read_docs(file="get.txt")
+                            )
                             return
                 case _:
                     Courier.print_formatted_list(Courier.read_docs(file="help.txt"))
@@ -227,13 +251,13 @@ class Courier(object):
             :class:`Literal <False>` boolean
         """
 
-        for file in glob(os.path.join(str(pathlib.Path.home()), '*')):
-            if 'bashrc' in file:
+        for file in glob(os.path.join(str(pathlib.Path.home()), "*")):
+            if "bashrc" in file:
                 return pathlib.Path(file)
 
-        if os.path.exists(os.path.join(str(pathlib.Path.home()), 'dotfiles')):
-            for file in glob(os.path.join(str(pathlib.Path.home()), 'dotfiles', '*')):
-                if 'bashrc' in file:
+        if os.path.exists(os.path.join(str(pathlib.Path.home()), "dotfiles")):
+            for file in glob(os.path.join(str(pathlib.Path.home()), "dotfiles", "*")):
+                if "bashrc" in file:
                     return pathlib.Path(file)
         return False
 
@@ -241,7 +265,7 @@ class Courier(object):
         """Eliminates need for 'python' prefix before file
 
         This function also removes the need for a '.py' suffix
-        when calling courier.py. This alias references the src 
+        when calling courier.py. This alias references the src
         directory such that 'src' is the working directory upon
         runtime. Courier will not work without this as multiple
         path locations and tests are configured around 'src'
@@ -250,23 +274,26 @@ class Courier(object):
 
         if self.exists:
             contents = []
-            with open(self.bashrc_path, 'r') as file:
+            with open(self.bashrc_path, "r") as file:
                 contents = file.read().strip()
                 file.close()
 
             file = os.path.join(os.getcwd(), "courier.py")
 
             # BUG can't be called globally for some reason?
-            alias = f'alias courier={sys.executable} {file}'  
+            alias = f"alias courier={sys.executable} {file}"
 
             if alias in contents:
                 return
 
-            with open(self.bashrc_path, 'a') as file:
-                file.write('\n# Generated by Courier\n')
-                file.write(f'{alias}\n')
+            with open(self.bashrc_path, "a") as file:
+                file.write("\n# Generated by Courier\n")
+                file.write(f"{alias}\n")
                 file.close()
 
-            self.logger.debug(f" 👀 Added alias to {Package.color_path(str(self.bashrc_path))}")
+            self.logger.debug(
+                f" 👀 Added alias to {Package.color_path(str(self.bashrc_path))}"
+            )
+
 
 courier = Courier()
