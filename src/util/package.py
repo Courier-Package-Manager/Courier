@@ -541,6 +541,7 @@ class Package(object):
                     LOGGER.info(
                             f" ⏫ Updating {package} to version {_ver}"
                             )
+                    LOGGER.debug(f"Using system executable: {sys.executable}")
                     subprocess.check_call(
                             [
                                 sys.executable,
