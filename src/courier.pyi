@@ -2,6 +2,12 @@ from io import TextIOWrapper
 import pathlib
 from typing import Literal
 
+from .util import update
+from .util import codescan
+from .util import package
+from .util import setup
+from .util import update
+
 class Courier(object):
     def __init__(self) -> None: ...
     def get_bashrc_created(self) -> None: ...

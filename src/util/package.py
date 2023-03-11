@@ -307,7 +307,6 @@ class Package(object):
             # that the return type is an integer instance and the numeric
             # value of the return type meets any ID presented to the user
             # which corresponds to a listed package.
-            print("Unit test flag called")
             return 1
 
     @staticmethod

@@ -1,5 +1,8 @@
 import logging
 
+from .package import Package
+from .update import load_logging_ini
+
 logger: logging.Logger
 
 class Codescan:

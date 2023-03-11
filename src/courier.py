@@ -13,7 +13,6 @@ import logging
 import os
 import pathlib
 import sys
-from typing import Literal
 
 from util.codescan import Codescan
 from util.package import Package

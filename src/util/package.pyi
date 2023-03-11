@@ -1,9 +1,13 @@
+from collections.abc import Callable
 import logging
 from pathlib import Path
 from typing import Literal
 
 from bs4 import BeautifulSoup
 import requests
+
+from .setup import escape_ansi
+from .update import load_logging_ini
 
 LOGGER: logging.Logger
 
@@ -32,7 +36,7 @@ class Package(object):
     @staticmethod
     def install_from_id(id: int | None, unittest: bool = ...) -> None: ...
     @staticmethod
-    def query_install_input(unittest: bool = ...) -> int: ...
+    def query_install_input(unittest: bool) -> int: ...
     @staticmethod
     def query_install(unittest: bool) -> bool: ...
     @staticmethod
@@ -44,7 +48,7 @@ class Package(object):
     @staticmethod
     def service_online(url: str = ...) -> bool: ...
     @staticmethod
-    def auto_install(root: str = ...) -> list[Path]: ...
+    def auto_install(root: str = ...) -> Callable: ...
     @staticmethod
     def color_path(path: str = ...) -> str: ...
     @staticmethod
