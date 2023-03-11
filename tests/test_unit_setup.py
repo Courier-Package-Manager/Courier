@@ -16,16 +16,17 @@ from util import Codescan
 
 
 class TestCodescan(unittest.TestCase):
-    """ Test codescan methods """
+    """Test codescan methods"""
+
     def test_scan(self):
         Codescan.scan()
 
     def test_install_dependencies(self):
-        """ Test install deps from scan """
+        """Test install deps from scan"""
         Codescan.install_dependencies()
 
 
-if __name__ == '__main__':
-    os.system('clear')
+if __name__ == "__main__":
+    os.system("clear")
     print(f" 🧪 Testing {os.getcwd()}")
     unittest.main()

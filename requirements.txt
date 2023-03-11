@@ -7,3 +7,4 @@ codecov
 colorama
 bs4
 packaging
+black==23.1.0 

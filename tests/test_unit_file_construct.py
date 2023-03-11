@@ -20,25 +20,26 @@ from util.package import load_logging_ini
 
 
 class TestUnitFileConstructor(unittest.TestCase):
-    """ Test unit file constructor """
+    """Test unit file constructor"""
+
     def setUp(self):
-        """ Set up instances & instance variables """
+        """Set up instances & instance variables"""
         print(f" 🔒 {self.setUp.__doc__}")
         load_logging_ini()
         self.logger = logging.getLogger()
         self.logger.level = logging.DEBUG
 
     def test_display_if_online(self):
-        """ Test display if online function """
+        """Test display if online function"""
         print(f" 🌏 {self.test_display_if_online.__doc__}")
-        self.assertTrue(display_if_online(url='https://google.com'))
-        os.system('clear')
+        self.assertTrue(display_if_online(url="https://google.com"))
+        os.system("clear")
         print(f" 🌍 {self.test_display_if_online.__doc__}")
-        display_if_online('https://not_a_website!/lol.com')
-        os.system('clear')
+        display_if_online("https://not_a_website!/lol.com")
+        os.system("clear")
 
 
-if __name__ == '__main__':
-    os.system('clear')
+if __name__ == "__main__":
+    os.system("clear")
     print(f" 🧪 Testing {os.getcwd()}")
     unittest.main()

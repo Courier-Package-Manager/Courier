@@ -12,6 +12,9 @@ lint:
 	@clear
 	@python -m pylint src/*.py
 
+blacken:
+	python -m black .
+
 cov:
 	@clear
 	# ============= RUNNING NEW TEST =============== #
