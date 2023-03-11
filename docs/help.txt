@@ -1,16 +1,12 @@
-Courier
-=======
-Courier is a command line utility to help locally version your projects.
-Here are some basic commands to get you started:
-
-General
--------
-A list of general commands that are more commonly used.
-
-    - name -                                  - description -
-courier <get> <package>                  Index pypy for a given package
-courier <update>                         Update courier to it's latest version
-courier <install> <package> [version]    Install a specific dependency and (optionally) version
-courier <help> [command]                 Show help regarding a specific command
-courier <help> [--list | -l]             List available help menus
-courier <help> [--menu | -m] <menu>      Display specific menu. | Options: see prev command for list
+╭────────────────────────────────────────────────────────────────────────────────────────╮
+│            [ GENERAL COMMANDS ]                            [ DESCRIPTION ]             │
+├─────────────────────────────────────────────┬──────────────────────────────────────────┤
+│                                             │                                          │
+│ • courier <get> <package>                   │  Index pypy for a given pacakage.        │
+│ • courier <update>                          │  Update courier to it's latest version.  │
+│ • courier <install> <package> [version]     │  Install a specific dependency.          │
+│ • courier <help> [command]                  │  Help for a specific command.            │
+│ • courier <help> [--list | -l]              │  List all available help menus.          │
+│ • courier <help> [--menu | m] <menu>        │  Display specific menu (see prev)        │
+│                                             │                                          │
+╰─────────────────────────────────────────────┴──────────────────────────────────────────╯ 

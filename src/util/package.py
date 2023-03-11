@@ -16,7 +16,7 @@ import os
 import pathlib
 import subprocess
 import sys
-from typing import Literal, Type, List
+from typing import Literal
 
 from bs4 import BeautifulSoup
 import colorama
@@ -38,12 +38,13 @@ class Package(object):
     def __init__(self, li, search_term) -> None:
         # Term to be highlighted differently as it
         # was explicitly searched for
-        Package.packages: List = []
+        Package.packages = []
         search_term = search_term
         if not li:
             return
         if not search_term:
             return
+
         lxml_name = Package.get_name_from_lxml(li)
         lxml_date = Package.get_date_from_lxml(li)
         lxml_desc = Package.get_desc_from_lxml(li)
@@ -58,30 +59,99 @@ class Package(object):
         if not lxml_ver:
             return
 
-        _name = lxml_name.text.strip()
+        name = lxml_name.text.strip()
         date = lxml_date.text.strip()
         desc = lxml_desc.text.strip()
         ver = lxml_ver.text.strip()
 
         self.name = "{color}{name}{reset}".format(
-                color=Fore.CYAN, name=_name, reset=Fore.RESET
-                )
+                color = Fore.CYAN,
+                name=name,
+                reset = Fore.RESET)
         self.version = "{color}{name}{reset}".format(
                 color=Fore.LIGHTCYAN_EX, name=ver, reset=Fore.RESET
                 )
         self.date = "{color}{name}{reset}".format(
-                color=Fore.LIGHTCYAN_EX, name=date, reset=Fore.RESET
-                )
-        self.description = "{color}{name}{reset}".format(
-                color=Fore.BLUE, name=desc, reset=Fore.RESET
-                )
+                color = Fore.LIGHTCYAN_EX,
+                name=date,
+                reset = Fore.RESET)
+        self.description: str = "{color}{name}{reset}".format(
+                color = Fore.BLUE,
+                name=desc,
+                reset = Fore.RESET)
+                    
 
-        self.id = len(Package.packages) + 1
+        self._description = self.description.replace(
+                search_term, Fore.LIGHTMAGENTA_EX + search_term + Fore.LIGHTBLUE_EX)
+    @property
+    def cache_limit(self) -> int:
+        """The amount of packages that are allowed to be stored in cache at any given time.
 
-        if search_term in self.description:
-            self.description = self.description.replace(
-                    search_term, Fore.LIGHTMAGENTA_EX + search_term + Fore.LIGHTBLUE_EX
-                    )
+        :return: cache limit
+        :rtype: int
+        """
+
+        return self._cache_limit
+
+    @cache_limit.setter
+    def cache_limit(self, value):
+        """Set property dunder value to :value:
+
+        :value: int
+        """
+
+        self._cache_limit = value
+
+    @property
+    def name(self) -> str:
+        """Package name as received through pypi
+
+        :return: name
+        :rtype: str
+        """
+
+        return self._name
+
+    @name.setter
+    def name(self, value):
+        """Set property dunder value to :value:
+
+        :value: str
+        """
+        
+        self._name = value
+
+    @property
+    def version(self):
+        """Package version as received through pypi """
+
+        return self._version
+
+    @version.setter
+    def version(self, value):
+        """ Set property dunder value to :value: """
+
+        self._version = value
+
+    @property
+    def date(self) -> str:
+        """ Package date (created) as received through pypi """
+        return self._date
+
+    @date.setter
+    def date(self, value):
+        """ Set property dunder value to :value: """
+        self._date = value
+
+    @property
+    def id(self) -> int:
+        """ ID of package, determined by amount of packages in cache """
+        return self._id
+
+    @id.setter
+    def id(self, value):
+        """ Set property dunder value to :value: """
+        self._id = value
 
     @staticmethod
     def get_name_from_lxml(lxml: BeautifulSoup):
@@ -124,10 +194,10 @@ class Package(object):
         return lxml.select_one(".package-snippet__description")
 
     @classmethod
-    def list(cls: Type, limit=10):
+    def list(cls, limit=10):
         """Display packages fetched from pypi with syntax formatting.
 
-        :param limit: The maximum amount of packages to be displayed
+        :param limit: The maximum amount as an Integer of packages to be displayed
         :return: The success state of the function
         :rtype: bool
         """
@@ -207,6 +277,40 @@ class Package(object):
             return False
 
     @staticmethod
+    def package_info(selector: str | int):
+        """Get package info from pypi.
+
+        :param selector: If string then get the package name, if int then get the id of
+        the last cached search. Note that str is mandatory if previous cache has been 
+        cleared.
+        """
+
+        match str(type(selector)):
+            case str(str()):
+                package = Package.packages[Package.packages.index(selector)]
+            case str(int()):
+                if len(Package.packages) == 0:
+                    logging.warning("Cannot search by ID: no cache present from previous search.")
+                    return;
+                else:
+                    package = Package.packages[Package.packages.index(
+                        Package.name_from_id(int(selector)))]
+            case _:
+                logging.warning(
+                        f"Datatype {type(selector)} is not supported as an indexer to a package.")
+                return
+
+        print("""
+              Package: {package_name}
+              Date: {package_date}
+              Version: {package_version}
+              Description: {package_description}""".format(
+            package_name=package.name,
+            package_date=package.date,
+            package_version=package.version,
+            package_description=package.description))
+
+    @staticmethod
     def install_from_id(id: int | None, unittest=False):
         """Install a package from given list.
 
@@ -228,11 +332,11 @@ class Package(object):
         # If not_package_count is cleaner to me and shorter
         # than doing the more common but verbose 'if package == ...'
         if not package_count:
-            LOGGER.critical(" ❌ Could not index package list; no cache loaded")
+            LOGGER.critical(colorama.Fore.RED+" ❌ Could not index package list; no cache loaded"+colorama.Fore.RESET)
             return
 
-        LOGGER.debug(f"loadeded {package_count} packages.")
-        if isinstance(id, int):
+        LOGGER.debug(f' loaded {colorama.Fore.GREEN + str(package_count) + colorama.Fore.RESET} packages.')
+        if isinstance(Package.name_from_id, int):
             package = Package.name_from_id(id)
         else:
             LOGGER.error(" ❌ No package specified")
@@ -314,10 +418,10 @@ class Package(object):
         :rtype: bool
         """
 
-        print(f" 🔎 Searching for {package}")
+        print(f" 🔎 {colorama.Fore.LIGHTCYAN_EX}Searching for {package} + {colorama.Fore.RESET}")
         soup = Package.request_pypi_soup(package)
 
-        LOGGER.debug(" 📦 Refreshing package cache")
+        LOGGER.debug(f" 📦 {colorama.Fore.LIGHTWHITE_EX} Refreshing package cache {colorama.Fore.RESET}")
         Package.packages.clear()
 
         Package.format_results(soup, package)
@@ -367,6 +471,7 @@ class Package(object):
     def service_online(url="https://pypi.org"):
         """This function checks if the specified URL is online.
 
+        :param url: URL String to be used as a request object.
         :return: Status code of request matches online status code (200)
         :rtype: bool
         """
@@ -418,11 +523,11 @@ class Package(object):
                     },
                 }
 
-        # LOGGER.debug(" 🔎 Recursively scanning for unmet dependencies")
-        LOGGER.debug(
-                """\n
-                📘 = small | 📕 = medium | 📗 = large | 📙 = chunky \n"""
-                )
+        LOGGER.debug(f"""\n
+                📘 = {colorama.Fore.LIGHTCYAN_EX}small{colorama.Fore.RESET}
+                📕 = {colorama.Fore.RESET}medium{colorama.Fore.RESET}
+                📗 = {colorama.Fore.GREEN}large{colorama.Fore.RESET}
+                📙 = {colorama.Fore.YELLOW}chunky{colorama.Fore.RESET} \n""")
 
         for file in path.rglob("*.py"):
             head, _ = os.path.join(file.parent, file.name).split("/", 1)
@@ -482,6 +587,7 @@ class Package(object):
         # If the color list is reached then end then
         # return to the start of the list as to not
         # run into an `IndexError`.
+
         for index, component in enumerate(components):
             if color_index > len(colors):
                 color_index = 0
@@ -518,6 +624,8 @@ class Package(object):
 
         if _version:
             _ver = version.parse(str(_version))
+        else:
+            _ver = Package.packages[Package.id_from_name(package)]
 
         for i in pkg_resources.working_set:
             packs[i.key] = i.parsed_version
@@ -534,36 +642,13 @@ class Package(object):
                 # possibly unbound, however this cannot
                 # ever happen as this is checked before hand
                 # and is stored as an `exists` boolean
-                if _ver < packs[package]:
-                    LOGGER.info(
-                            f" 📦 You already have {package} installed, however it is out of date."
-                            )
-                    LOGGER.info(
-                            f" ⏫ Updating {package} to version {_ver}"
-                            )
-                    LOGGER.debug(f"Using system executable: {sys.executable}")
-                    subprocess.check_call(
-                            [
-                                sys.executable,
-                                "-m",
-                                "pip",
-                                "install",
-                                f"{package}=={_ver.__str__()}",
-                                ]
-                            )
-                    return True
-                else:
-                    subprocess.check_call(
-                            [sys.executable, "-m", "pip", "install", f"{package}"]
-                            )
-                    return True
-            else:
-                LOGGER.info(f" ✅ You already have the latest version of {package}")
-                return True
-        else:
-            return False
+
+                if _ver < packs[package]:  # pyright: ignore
+                    LOGGER.info(f" 📦 You already have {colorama.Fore.LIGHTMAGENTA_EX + str(package)_ + colorama.Fore.RESET} installed, however it is out of date.") # pyright: ignore
+                    LOGGER.info(f" ⏫ Updating {colorama.Fore.LIGHTMAGENTA_EX + package + colorama.Fore.RESET} to version {_ver}") # pyright: ignore
+                    subprocess.check_call([
+                        sys.executable, "-m", "pip", "install", f"{colorama.Fore. + package}=={_ver.__str__()}"]) # pyright: ignore
 
 
 load_logging_ini()
-LOGGER = logging.getLogger()
 LOGGER = logging.getLogger()
