@@ -34,7 +34,7 @@ class Package(object):
        in a multi-instance context which is likely noticeable from the amount of staticmethods.
     """
 
-    packages: list[Package] = []
+    packages = []
 
     def __init__(self, li, search_term) -> None:
         # Term to be highlighted differently as it
@@ -127,20 +127,20 @@ class Package(object):
 
     @property
     def version(self):
-        """Package version as received through pypi
+        """Package version as received through pypi """
 
-
-        """
         return self._version
 
     @version.setter
     def version(self, value):
         """ Set property dunder value to :value: """
+
         self._version = value
 
     @property
     def description(self) -> str:
         """ Package description as received through pypi """
+
         return self._description
 
     @description.setter
