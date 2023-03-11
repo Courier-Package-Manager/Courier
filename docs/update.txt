@@ -1,0 +1,6 @@
+The update command is still in development.
+
+The update command will compare the client and server
+versions of Courier and update as needed.
+
+Syntax: courer <update>
