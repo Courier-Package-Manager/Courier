@@ -189,11 +189,7 @@ class Courier(object):
         """Format return value of the previous timestamp of update.json"""
 
         Courier.assert_file_path()
-        self.logger.debug("Package file %s update.json %s was created %s ",
-                     colorama.Fore.GREEN,
-                     colorama.Fore.RESET,
-                     last_updated())
-        return
+        self.logger.debug("Package file %s update.json %s was created %s ")
 
     @staticmethod
     def bashrc_exists() -> pathlib.Path | Literal[False]:
