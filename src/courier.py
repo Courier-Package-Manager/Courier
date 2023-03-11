@@ -125,15 +125,16 @@ class Courier(object):
 
         if len(args) == 0:
             Courier.print_formatted_list(Courier.read_docs(file="help.txt"))
+            return;
 
-        for argument in args:
+        for index, argument in enumerate(args):
             match argument:
                 case 'help':
                     if len(args) == 1:
                         Courier.print_formatted_list(Courier.read_docs(file="help.txt"))
                         return
-                    elif len(args) == 2:
-                        match args[1]:
+                    if len(args) >= 2:
+                        match argument[index]:
                             case '--list' | '-l':
                                 Courier.print_formatted_list(Courier.read_docs(file="menus.txt"))
                                 return
@@ -150,29 +151,38 @@ class Courier(object):
                                 print("Run courier for a list of commands.")
                                 return
 
-                # Currently being tested.
-                case '--do-nothing': return
+                case '--do-nothing':
+                    return
+
                 case '--debug':
                     load_logging_ini('config_debug.ini')
                     Courier.print_formatted_list(Courier.read_docs(file="help.txt"))
                     return;
+
                 case '--clear':
                     os.system('clear')
                     Courier.print_formatted_list(Courier.read_docs(file="help.txt"))
                     return;
 
                 case 'codescan':
-                    if len(args) == 1:
-                        # logger.info(" 🔎 Scanning for unmet dependencies ... ")
-                        Codescan.install_dependencies()
-                        return
+                    match len(args):
+                        case 1:
+                            Codescan.install_dependencies()
+                            return
+                        case 2:
+                            Courier.print_formatted_list(Courier.read_docs(file="codescan.txt"))
+                            return
                 case 'install':
-                    if len(args) == 1:
-                        print("Syntax: courier install <package> [version]")
-                        return
-                    if len(args) == 2:
-                        Package.update_package(args[args.index('install') + 1])
-                        return
+                    match len(args):
+                        case 1:
+                            print("Syntax: courier install <package> [version]")
+                            return
+                        case 2:
+                            Package.update_package(args[args.index('install') + 1])
+                            return
+                        case 3:
+                            Courier.print_formatted_list(Courier.read_docs(file="install.txt"))
+                            return
                 case 'get':
                     match len(args):
                         case 1:
@@ -180,6 +190,9 @@ class Courier(object):
                             return
                         case 2:
                             Package.search(args[len(args) - 1])
+                            return
+                        case 3:
+                            Courier.print_formatted_list(Courier.read_docs(file="get.txt"))
                             return
                 case _:
                     Courier.print_formatted_list(Courier.read_docs(file="help.txt"))
