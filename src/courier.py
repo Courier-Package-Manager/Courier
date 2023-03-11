@@ -127,25 +127,35 @@ class Courier(object):
             Courier.print_formatted_list(Courier.read_docs(file="help.txt"))
             return;
 
-        for index, argument in enumerate(args):
+        for _, argument in enumerate(args):
             match argument:
                 case 'help':
                     if len(args) == 1:
                         Courier.print_formatted_list(Courier.read_docs(file="help.txt"))
                         return
                     if len(args) >= 2:
-                        match argument[index]:
-                            case '--list' | '-l':
+                        match args[args.index('help') + 1]:
+                            case '--list' | '-l' | 'list':
                                 Courier.print_formatted_list(Courier.read_docs(file="menus.txt"))
                                 return
-                            case 'get':
+                            case 'get' | 'g':
                                 Courier.print_formatted_list(Courier.read_docs(file="get.txt"))
                                 return
-                            case 'install':
+                            case 'install' | 'i':
                                 Courier.print_formatted_list(Courier.read_docs(file="install.txt"))
                                 return
-                            case 'codescan':
+                            case 'update' | 'u' | '--update':
+                                Courier.print_formatted_list(Courier.read_docs(file="update.txt"))
+                                return
+                            case 'codescan' | 'cs' | 'scan':
                                 Courier.print_formatted_list(Courier.read_docs(file="codescan.txt"))
+                                return;
+                            case '-m' | '--menu' | 'menu':
+                                Courier.print_formatted_list(Courier.read_docs(file="menus.txt"))
+                                return;
+                            case 'help':
+                                print("The help command displays mandatory and compulsary arguments for Courier.")
+                                return;
                             case _:
                                 print(f"Optional argument \'{args[1]}\' not found")
                                 print("Run courier for a list of commands.")
