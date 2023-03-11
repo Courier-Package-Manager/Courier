@@ -7,3 +7,4 @@ __pycache__/
 # Local files
 update.json
 .tox
+*.json
