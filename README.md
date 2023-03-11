@@ -4,7 +4,6 @@
 </div>
 <br>
 <br>
-<br>
 
 [![tests](https://github.com/Courier-Package-Manager/Courier/actions/workflows/tests.yml/badge.svg?branch=stable)](https://github.com/Courier-Package-Manager/Courier/actions/workflows/tests.yml)
 
