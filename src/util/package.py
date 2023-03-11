@@ -23,6 +23,7 @@ import colorama
 from colorama import Fore
 import requests
 
+from .setup import escape_ansi
 from .update import load_logging_ini
 
 
@@ -256,17 +257,18 @@ class Package(object):
 
         package_count = len(Package.packages)
 
-        # If not_package_count is cleaner to me and shorter
-        # than doing the more common but verbose 'if package == ...'
         if not package_count:
             LOGGER.critical(colorama.Fore.RED+" ❌ Could not index package list; no cache loaded."+colorama.Fore.RESET)
             return
 
-        LOGGER.info(f' loaded {colorama.Fore.GREEN + str(package_count) + colorama.Fore.RESET} packages.')
-        if isinstance(Package.name_from_id, int):
-            package = Package.name_from_id(id)
+        LOGGER.debug(f' loaded {colorama.Fore.GREEN + str(package_count) + colorama.Fore.RESET} packages.')
+        if isinstance(id, int):
+            if isinstance(Package.name_from_id(id), str):
+                package = Package.name_from_id(id)
+            else:
+                LOGGER.error(" ❌ No package specified")
+                return
         else:
-            LOGGER.error(" ❌ No package specified")
             return
 
         if not package:
@@ -274,6 +276,8 @@ class Package(object):
         elif unittest:
             logging.debug(""" 🧪 Not doing anything due to unit test mock permissions""")
         else:
+            # remove formatting
+            package = escape_ansi(package)
             os.system(f"{sys.executable} -m pip install {package}")
             return
 
@@ -294,6 +298,7 @@ class Package(object):
             # that the return type is an integer instance and the numeric
             # value of the return type meets any ID presented to the user
             # which corresponds to a listed package.
+            print("Unit test flag called")
             return 1
 
     @staticmethod
@@ -345,9 +350,6 @@ class Package(object):
         :rtype: bool
         """
 
-        LOGGER.info(f" 📦 {colorama.Fore.LIGHTWHITE_EX} Refreshing package cache {colorama.Fore.RESET}")
-        Package.packages.clear()
-
         LOGGER.info(f" 🔎 {colorama.Fore.LIGHTCYAN_EX}Searching for {package} {colorama.Fore.RESET}")
         soup = Package.request_pypi_soup(package)
 
@@ -358,15 +360,9 @@ class Package(object):
             logging.critical(f" ❌ No results found for package '{package}'")
             return False
 
-        # NOTE log removed as it won't be seen most of the time as searching packages
-        # often turns up with more results that the size of the screen making the
-        # log pointless as it would not be visible 90% of the time one searches for
-        # any given package. (NOTE response quantity varies by package quantity obv)
-        # LOGGER.debug(f' 🔎 {len(Package.packages)} packages found')
-
         Package.list()  # Display fetched packages with special formatting.
-        Package.query_install_input(False)  # unittest === False
-        return True
+        id = Package.query_install_input(False)
+        Package.install_from_id(id)
 
     @staticmethod
     def request_pypi(package: str):
@@ -464,15 +460,6 @@ class Package(object):
                 continue
             files.append(file)
 
-        """
-        for file in path.rglob("*"):
-            head, _ = os.path.join(file.parent, file.name).split("/", 1)
-            if head in ignore:
-                continue
-            if os.path.isdir(file):
-                files.append(file)
-        """
-
         files = sorted(files, key=os.path.getsize, reverse=True)
 
         for file in files:
@@ -513,10 +500,6 @@ class Package(object):
 
         color_index = 0
 
-        # If the color list is reached then end then
-        # return to the start of the list as to not
-        # run into an `IndexError`.
-
         for index, component in enumerate(components):
             if color_index > len(colors):
                 color_index = 0
@@ -529,8 +512,7 @@ class Package(object):
                             colors[color_index - 1] + "/" + component + Fore.RESET
                             )
 
-            # Incrementing color index then switches
-            # to the next color in list `colors`.
+            # Incrementing color index then switches to the next color in list `colors`.
             color_index += 1
 
         return "".join(components)

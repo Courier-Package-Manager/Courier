@@ -41,7 +41,7 @@ def file_exists(file: str, mode: str) -> None | bool:
         finally:
             _file.close()
     except FileNotFoundError:
-        print( "file not found")
+        logging.error("file not found")
         return;
 
 

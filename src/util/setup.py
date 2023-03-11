@@ -10,6 +10,7 @@ are used for formatting and general aethetics.
 """
 
 import datetime
+import re
 
 import colorama
 
@@ -40,3 +41,17 @@ def get_date(date: datetime.datetime, day=datetime.datetime.now().strftime('%-d'
     _date = f"{month} {day} {year}"
 
     return _date
+
+
+def escape_ansi(line) -> str:
+    """Remove formatting from colored string
+    
+    credit: Édouard Lopez
+
+    :param line: Colored string with escape characters
+    :return: string with escape characters removed
+    :rtype: string
+    """
+
+    ansi_escape = re.compile(r'(?:\x1B[@-_]|[\x80-\x9F])[0-?]*[ -/]*[@-~]')
+    return ansi_escape.sub('', line)
