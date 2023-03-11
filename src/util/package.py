@@ -134,7 +134,7 @@ class Package(object):
         cls.packages.reverse()
 
         for _, package in enumerate(cls.packages):
-            LOGGER.info(
+            print(
                     "{id} {name} {version} {date}\n\t{description}".format(
                         id=package.id,
                         name=package.name,
@@ -227,7 +227,7 @@ class Package(object):
                         f"Datatype {type(selector)} is not supported as an indexer to a package.")
                 return
 
-        LOGGER.debug("""
+        LOGGER.info("""
               Package: {package_name}
               Date: {package_date}
               Version: {package_version}
@@ -262,7 +262,7 @@ class Package(object):
             LOGGER.critical(colorama.Fore.RED+" ❌ Could not index package list; no cache loaded."+colorama.Fore.RESET)
             return
 
-        LOGGER.debug(f' loaded {colorama.Fore.GREEN + str(package_count) + colorama.Fore.RESET} packages.')
+        LOGGER.info(f' loaded {colorama.Fore.GREEN + str(package_count) + colorama.Fore.RESET} packages.')
         if isinstance(Package.name_from_id, int):
             package = Package.name_from_id(id)
         else:
@@ -332,7 +332,7 @@ class Package(object):
             Package.handle_query_input(selected, unittest)
             return True
         except Exception as error:
-            logging.debug(str(error))
+            logging.error(str(error))
             return False
 
     @staticmethod
@@ -345,7 +345,7 @@ class Package(object):
         :rtype: bool
         """
 
-        LOGGER.debug(f" 📦 {colorama.Fore.LIGHTWHITE_EX} Refreshing package cache {colorama.Fore.RESET}")
+        LOGGER.info(f" 📦 {colorama.Fore.LIGHTWHITE_EX} Refreshing package cache {colorama.Fore.RESET}")
         Package.packages.clear()
 
         LOGGER.info(f" 🔎 {colorama.Fore.LIGHTCYAN_EX}Searching for {package} {colorama.Fore.RESET}")
