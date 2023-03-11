@@ -27,7 +27,8 @@ class Codescan:
     """Hold methods pertaining to the codescan function"""
 
     local_modules = [d.project_name for d in pkg_resources.working_set]
-    local_modules.remove("util")
+    if "util" in local_modules:
+        local_modules.remove("util")
 
     @classmethod
     def scan(cls):
