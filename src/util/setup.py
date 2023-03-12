@@ -55,5 +55,5 @@ def escape_ansi(line) -> str:
     :rtype: string
     """
 
-    ansi_escape = re.compile(r"(?:\x1B[@-_]|[\x80-\x9F])[0-?]*[ -/]*[@-~]")
+    ansi_escape = re.compile(r"(?:\x1B[\x80-\x9F])[0-?]*[ -/]")
     return ansi_escape.sub("", line)
