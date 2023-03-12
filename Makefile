@@ -12,4 +12,3 @@ install:
 	@clear
 	echo "Installation finished."
 	echo "Please ensure you execute from inside ./src"
-
