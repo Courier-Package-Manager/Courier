@@ -7,4 +7,17 @@ __pycache__/
 # Local files
 update.json
 .tox
-*.json
+
+venv/
+venv.sh
+
+setup.cfg
+setup.py
+
+
+.pytest_cache
+.mypy_cache
+
+htmlcov/
+
+
