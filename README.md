@@ -22,7 +22,7 @@ Please see the wiki for extensively documented details and instructions.
 
 ## Installation
 The stable branch is now the main branch, if it's not a critical error (meaning it stops the functionality of a program)
-then it will be worked on in `stable`. If it is _critical_, then an `issue` will be created with the
+then it will be worked on in `stable`. If it is _critical_, then a `issue` will be created with the
 appropriate labels and a branch will be created from that issue.
 See the [wiki](https://github.com/JoshuaDRose/Courier/wiki/Branches#why-delete-dev) for more
 info on branches / why this change was made.
@@ -48,12 +48,12 @@ This project hopes to extend upon that package management system, and develop fu
 features in the hope that it will assist with the local dependency maintenance of future
 projects.
 
-Currently unit testing is in full force, with a decline in coverage since release `0.2.3`.
-This is to go on for the foreseable future. There have been several changes to the 
-Actions component of this project, mainly that being un-needed dependencies such as 
-scrutinizer (provided coverage however codecov already provides coverage).
+Currently, unit testing is in full force, with a decline in coverage since release `0.2.3`.
+This is to go on for the foreseeable future. There have been several changes to the 
+Actions component of this project, mainly that being unneeded dependencies such as 
+scrutinizer (provided coverage however `codecov` already provides coverage).
 
-In relation to how these tests are impelemented in contribution or pull requests,
+In relation to how these tests are implemented in contribution or pull requests,
 please see the contributing section below.
 
 
@@ -69,7 +69,7 @@ doing so. Contributions are always appreciated.
 
 As this project is using TDD it is advisable to create test cases at the same time
 as developing any feature or fixing any bug. This is only recommended, and I'll still
-be accepting any PR's that pass tests, but it's preferred that they have coverage in the 
+be accepting any PRs' that pass tests, but it's preferred that they have coverage in the 
 PR as well.
 
 
