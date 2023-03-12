@@ -114,7 +114,7 @@ class Courier(object):
             print(line)
 
     @staticmethod
-    def proc_args(args):
+    def proc_args(args, get_test=False):
         """Process given command line arguments when Courier is called.
 
         :param args: List of CLI arguments, called through sys.argv()
@@ -162,7 +162,7 @@ class Courier(object):
                                 )
                                 return
                             case "--menu" | "menu":
-                                if len(args) == 4:
+                                if len(args) >= 3:
                                     match args[args.index("menu") + 1]:
                                         case "menu":
                                             Courier.print_formatted_list(
@@ -171,7 +171,9 @@ class Courier(object):
                                             return
                                         case "development":
                                             Courier.print_formatted_list(
-                                                Courier.read_docs(file="development.txt")
+                                                Courier.read_docs(
+                                                    file="development.txt"
+                                                )
                                             )
                                             return
                                         case "testing":
@@ -251,7 +253,7 @@ class Courier(object):
                             print("Syntax: courier get <package>")
                             return
                         case 2:
-                            Package.search(args[len(args) - 1])
+                            Package.search(args[len(args) - 1], get_test)
                             return
                         case 3:
                             Courier.print_formatted_list(
