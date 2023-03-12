@@ -1,2 +1,2 @@
-export MYPYPATH=./stubs/
-chmod +x ../src/courier
+# export MYPYPATH=./stubs/
+chmod +x ../src/courier.py
