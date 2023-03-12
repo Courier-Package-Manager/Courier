@@ -1,23 +1,14 @@
-# Copyright (c) 2023 Joshua Rose
-.ONESHELL:
+run:
+	black .
+	mypy --check-untyped-defs src
+	coverage run -m pytest -s tests
+	coverage html
+	pylint src/*.py
+	coverage report -m
 
 install:
-	@python -m pip install -r requirements.txt
-	@sh buildconfig/exports.sh
+	pip install -r requirements.txt
+	sh buildconfig/exports.sh
+	@clear
 	echo "Installation finished."
 	echo "Please ensure you execute from inside ./src"
-
-lint:
-	@clear
-	@python -m pylint src/*.py
-	black src tests
-
-test:
-	@clear
-
-	# ============= RUNNING NEW TEST =============== #
-	@python -m coverage run -m unittest discover
-
-	# ============= REPORT =============== #
-	@python -m coverage report -m
-	@python -m coverage html
