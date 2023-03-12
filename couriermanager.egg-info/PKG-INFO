@@ -1,0 +1,9 @@
+Metadata-Version: 2.1
+Name: couriermanager
+Version: 1.0.2a0
+Home-page: https://github.com/Courier-Package-Manager/Courier
+Author: Joshua Rose
+Author-email: courierpackagemanager@gmail.com
+License: MIT
+Keywords: package manager,CLI
+License-File: LICENSE
