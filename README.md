@@ -6,6 +6,8 @@
 <br>
 
 [![tests](https://github.com/Courier-Package-Manager/Courier/actions/workflows/tests.yml/badge.svg?branch=stable)](https://github.com/Courier-Package-Manager/Courier/actions/workflows/tests.yml)
+[![codecov](https://codecov.io/gh/Courier-Package-Manager/Courier/branch/stable/graph/badge.svg?token=QSKA1TXW6T)](https://codecov.io/gh/Courier-Package-Manager/Courier)
+
 
 
 ## About
