@@ -1,6 +1,8 @@
-Development
------------
-Commands used specifically for development purposes
-
-    - name -                                  - description -
-courier --do-nothing                    Run courier executable without any commands
+╭───────────────────────────────────────────────────────────────────────────────────────╮
+│                                         DEVELPOMENT                                   │
+├───────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                       │
+│ courier --do-nothing: Run courier executable without any commands                     │
+│ courier --clear: clear the screen before running courier                              │
+│                                                                                       │
+╰───────────────────────────────────────────────────────────────────────────────────────╯ 

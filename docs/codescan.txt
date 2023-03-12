@@ -1,7 +1,12 @@
-Codescan is best described as a feature that automatically 
-installs every non-native dependency.
-
-It does this with a series of checks, so that no already installed
-package will be re-installed, however it will auto-update if needed.
-
-Syntax: courer <codescan>
+╭───────────────────────────────────────────────────────────────────────────────────────╮
+│                                         CODE SCAN                                     │
+├───────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                       │
+│ Syntax: courier <codescan>.                                                           │
+│                                                                                       │
+│ Codescan automatically detects external python dependencies and installs them without │
+│ the hassle of individual file specification.                                          │
+│ It does this with a series of checks, such that no installed package is installed, but│
+│ only updated when needed.                                                             │
+│                                                                                       │
+╰───────────────────────────────────────────────────────────────────────────────────────╯ 

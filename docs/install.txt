@@ -1,16 +1,19 @@
-syntax: courier install <package> [version]
-
-Install a specific package. Courier will search pip to see if 
-the package already exists, if not it will automatically install. 
-If a version is specified it will install that specific version.
-
-If Courier has detected that a package is installed but not up-to-date then
-it will automatically update without prompting the user.
-If package is more than one word use quotation marks
-
-courier install "foo bar"
-
-with version:
-courier install "foo bar" 3.4.5
-
-Developer note: I'm planning to change force upgrade once future arguments are introduced.
+╭───────────────────────────────────────────────────────────────────────────────────────╮
+│                                         INSTALL                                       │
+├───────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                       │
+│ Syntax: courier install <package [version].                                           │
+│                                                                                       │
+│ Install a package to its latest version. Courier see if the package already exists.   │
+│ If the package does not exist, it be installed. If a version is specified             │
+│ it will install that specific version, provided the version is valid.                 │
+│                                                                                       │
+│ If the package is installed but can be updated, it will be updated. Additionally, if  │
+│ the package is greater than one word, it should be contained by quotation marks.      │
+│                                                                                       │
+│ courier install "foo bar"                                                             │
+│                                                                                       │
+│ with version:                                                                         │
+│ courier install "foo bar" 3.4.5                                                       │
+│                                                                                       │
+╰───────────────────────────────────────────────────────────────────────────────────────╯ 

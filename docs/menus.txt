@@ -1,10 +1,11 @@
-Menus
------
-A list of menus that can be called with courier <help> <menu>
-
-    - name -                                  - description -
-general                                  Default help menu | eg) courier <help>
-help                                     A more detailed help menu
-development                              Commands commonly used for management
-testing                                  Commands being introduced or fixed (unstable)
-menus                                    This help menu shown here
+╭───────────────────────────────────────────────────────────────────────────────────────╮
+│                                         DEVELPOMENT                                   │
+├───────────────────────────────────────────────────────────────────────────────────────┤
+│ Description: A lsit of menus that can be called with <courier help menu>              │
+│                                                                                       │
+│ general: Default help menu called with <courier help>                                 │
+│ help: A more detailed help  menu with additional commands                             │
+│ development: Commands commonly used for specific packages and developing Courier.     │
+│ testing: Commands being introduced or phased in *unstable*                            │
+│ menus: The menu shown here.                                                           │
+╰───────────────────────────────────────────────────────────────────────────────────────╯ 
