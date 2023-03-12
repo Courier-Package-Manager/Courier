@@ -61,12 +61,8 @@ please see the contributing section below.
 To contribute to a feature or bug, please clone the relative branch. If you want to lodge a
 bug report or feature report, please create an issue. 
 
-An important note: by default, logs will not show as `stable` is production-ready. It is recommended
-to change the `level` key in [config.ini](config.ini) for keys `logger_root` and 
-`handler_stream_handler`.
-
 When making commits in a forked repository (with the intent of a pr) please ensure that
-you read the [`commits`](commits.md) syntax file. Note that this file also generally applies
+you read the [`commits`](https://github.com/Courier-Package-Manager/Courier/wiki/Commits) syntax file. Note that this file also generally applies
 to pull requests as well. There are plans to make a contributing file in the future, however
 that is nor needed or relevant right now but will be introduced if there is good reason for 
 doing so. Contributions are always appreciated.
