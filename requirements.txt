@@ -6,13 +6,18 @@ packaging
 Sphinx
 
 flake8
-black==23.1.0 
+black>=23.1.0 
 
 coverage
 codecov
 
-mypy
+mypy>=0.991
 pytest
 pytest-cov
 pytest-sugar
-pytest
+
+types-PyYAML
+types-requests
+types-beautifulsoup4
+types-setuptools
+types-colorama
