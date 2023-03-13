@@ -2,7 +2,7 @@
 <a href="https://github.com/JoshuaDRose/Courier/"><img alt="github-header-image" src="https://user-images.githubusercontent.com/101031214/223869242-ac1234cf-1450-426e-baa9-69955ccc28ca.png"></a>
 <br>
 
-<a href="https://github.com/Courier-Package-Manager/Courier/wiki">Wiki</a> | <a href="https://github.com/Courier-Package-Manager/Courier/wiki#feature-overview">Features</a> | <a href="https://github.com/Courier-Package-Manager/Courier/wiki#design-philosophy"> Design Philosophy</a> | <a href="https://github.com/Courier-Package-Manager/Courier/wiki/Commands">Commands</a>
+<a href="https://github.com/Courier-Package-Manager/Courier/wiki">Wiki</a> | <a href="https://github.com/Courier-Package-Manager/Courier/wiki#feature-overview">Features</a> | <a href="https://github.com/Courier-Package-Manager/Courier/wiki#design-philosophy"> Design Philosophy</a> | <a href="https://courier-package-manager.github.io/Courier/">Documentation</a>
 
 </div>
 <br>
