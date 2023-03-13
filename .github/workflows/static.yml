@@ -19,7 +19,6 @@ permissions:
 concurrency:
   group: "pages"
   cancel-in-progress: true
-
 jobs:
   # Single deploy job since we're just deploying
   deploy:
@@ -31,9 +30,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Build documentation
-        uses: ammaraskar/sphinx-action@master
+        uses: ammaraskar/sphinx-action@0.4
         with:
-          docs-folder: "./docs/build/html"
+          docs-folder: "docs/build/html"
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
