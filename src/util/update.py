@@ -23,12 +23,12 @@ from .setup import get_date
 
 
 def file_exists(file, mode):
-    """Test if file exists in the current working directory
+    """Test if file exists in the current working directory.
 
     :param file: Filename as a string
-    :param mode: Given filemode eg: read, write, append (as char)
-    :return: False if file is not present or TextIOWrapper if present
-    :rtype: False | TextIOWrapper
+    :param mode: Given filemode eg: read, write, append (as `str`)
+    :return: `False` if file is not present or `TextIOWrapper` if present
+    :rtype: bool
     """
 
     try:
@@ -46,15 +46,15 @@ def file_exists(file, mode):
 
 
 def last_updated():
-    """last update in datetime format
+    """Last update in datetime format.
 
     This is assuming that
          >>> if project_folder != 'Courier': os.chdir('..')
     has run as this function is dependant on the current
     working directory containing the `PACKAGE` file.
 
-    :return: Current date as a timestamp
-    :rtype: string
+    :return: Current date as a `datetime` object.
+    :rtype: str
     """
 
     if file_exists("update.json", "r"):
@@ -69,7 +69,10 @@ def last_updated():
 
 
 def load_logging_ini(config="config_info.ini"):
-    """Load logging configuration file"""
+    """Load logging configuration file.
+
+    :param config: Configuration file as `str`.
+    """
     fileConfig(config)
 
 
@@ -95,9 +98,9 @@ def scan_dir(files=True, folders=True):
 
 
 def get_project_folder():
-    """Dedicated function for testing
+    """Dedicated function for testing.
 
-    :return: The current project folder name.
+    :return: The base-name of of the current project folder.
     :rtype: str
     """
 
@@ -106,10 +109,10 @@ def get_project_folder():
 
 
 def switch_root():
-    """Auto switch root when not applicable
+    """Auto switch root when not applicable.
 
-    :return: Full current project path as a String
-    :rtype: string
+    :return: Full current project path as `str`
+    :rtype: str
     """
 
     project_folder = get_project_folder()
@@ -119,10 +122,10 @@ def switch_root():
 
 
 def create_package():
-    """Dump json object to `PACKAGE`
-    raises permissions error if user
-    does not have write permissions to current
-    working directory.
+    """Dump json object to `PACKAGE`.
+
+    `create_package()` raises a permission error if the user
+    does not have write permissions to current working directory.
     """
 
     try:
@@ -141,7 +144,7 @@ def get_package_name():
     Note that this function also allows for unit tests.
 
     :return: A directory entry of the current file.
-    :rtype: DirEntry | None
+    :rtype: bool
     """
 
     switch_root()  # Switch root before asking if its in the switched directory
@@ -160,7 +163,7 @@ def loc_package_file(name=get_package_name(), debug=False, mode="r"):
     :param debug: If a unit test is to be conducted allow for artifically invoked edge cases.
     :param mode: Edit mode of file to be called as read, write or append.
     :return: File object if package has been opened or None
-    :rtype: FileIOWrapper | None
+    :rtype: `FileIOWrapper`
     """
 
     if not name or debug:

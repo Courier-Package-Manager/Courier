@@ -84,7 +84,8 @@ class Package(object):
         """Returns mutable BeautifulSoup object from a specified HTML class.
 
         :param lxml: Data structure representing an HTML element as a `BeautifulSoup` object
-        :return: BeautifulSoup tag that is part of a parse tree
+        :return: BeautifulSoup tag that is part of a parse tree.
+        :rtype: `BeautifulSoup`
         """
 
         return lxml.select_one(".package-snippet__name")
@@ -95,6 +96,7 @@ class Package(object):
 
         :param lxml: Data structure representing an HTML element as a `BeautifulSoup` object
         :return: BeautifulSoup tag that is part of a parse tree
+        :rtype: `BeautifulSoup`
         """
 
         return lxml.select_one(".package-snippet__version")
@@ -105,6 +107,7 @@ class Package(object):
 
         :param lxml: Data structure representing an HTML element as a `BeautifulSoup` object
         :return: BeautifulSoup tag that is part of a parse tree
+        :rtype: `BeautifulSoup`
         """
 
         return lxml.select_one(".package-snippet__created time")
@@ -115,6 +118,7 @@ class Package(object):
 
         :param lxml: Data structure representing an HTML element as a `BeautifulSoup` object
         :return: BeautifulSoup tag that is part of a parse tree
+        :rtype: `BeautifulSoup`
         """
 
         return lxml.select_one(".package-snippet__description")
@@ -152,7 +156,7 @@ class Package(object):
 
         :param id: An Integer of the package ID to get name from.
         :return: An integer of the package ID if package ID is equal to `id`
-        :rtype: str | Literal[False]
+        :rtype: str | bool
         """
 
         for package in Package.packages:
@@ -170,7 +174,7 @@ class Package(object):
 
         :param name: A string of the package name to get ID from.
         :return: A string of the package name if package name is equal to `name`
-        :rtype: int | Literal[False]
+        :rtype: int | bool
         """
 
         for package in Package.packages:
@@ -203,8 +207,8 @@ class Package(object):
     def package_info(selector):
         """Get package info from pypi.
 
-        :param selector: If string then get the package name, if int then get the id of
-        the last cached search. Note that str is mandatory if previous cache has been
+        :param selector: If `str` then get the package name, if `int` then get the id of
+        the last cached search. Note that `str` is mandatory if previous cache has been
         cleared.
         """
 
@@ -316,7 +320,7 @@ class Package(object):
         :param selected: A python dependency parsed as a String or ID.
         :param unittest: Boolean value used as coverage.
         :return: If a package is to be installed based on shown criteria.
-        :rtype: boolean
+        :rtype: bool
         """
 
         match selected:
@@ -337,7 +341,7 @@ class Package(object):
 
         :param unittest: Boolean value used as coverage
         :return: If exception caught from user input
-        :rtype: boolean
+        :rtype: bool
         """
 
         try:
@@ -382,7 +386,7 @@ class Package(object):
         :param package: A URL of a python package, typically matching
             that of a pypi package url.
         :return: Server response to requested URL `package`
-        :rtype: requests.Response
+        :rtype: `requests.Response`
         """
 
         pypi_request = requests.get(f"https://pypi.org/search/?q={package}")
@@ -395,7 +399,7 @@ class Package(object):
         :param package: A URL of a python package, typically matching
             that of a pypi package url.
         :return: BeautifulSoup data structure representing an html element.
-        :rtype: bs4.BeautifulSoup
+        :rtype: `BeautifulSoup`
         """
 
         pypi_request = Package.request_pypi(package)
@@ -491,7 +495,7 @@ class Package(object):
 
         :param path: (optional) Path as string which must contain at least two directories.
         :return: A list of path components that are then concatenated.
-        :rtype: String
+        :rtype: str
         """
 
         components = path.split("/", path.count("/"))
@@ -534,6 +538,8 @@ class Package(object):
         """Sends results to cache but does not display or query input
 
         :param package: Name of package to add to cache.
+        :return: bool if no results found
+        :rtype: bool
         """
 
         LOGGER.debug(
