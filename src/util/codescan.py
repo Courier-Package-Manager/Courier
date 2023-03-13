@@ -24,7 +24,11 @@ from .update import load_logging_ini
 
 
 class Codescan:
-    """Hold methods pertaining to the codescan function"""
+    """Hold methods pertaining to the codescan function.
+
+    BUG: Some modules are not included, despite being present in project.
+    TODO: Optimize `local_modules` such that only working modules are called.
+    """
 
     local_modules = [d.project_name for d in pkg_resources.working_set]
     if "util" in local_modules:
@@ -32,7 +36,17 @@ class Codescan:
 
     @classmethod
     def scan(cls):
-        """Scan for imports in collected files"""
+        """Scan for imports in collected files.
+
+        Calls `Package.auto_install()` to fetch files matching
+        a given regex. `scan()` then recursively iterates through
+        fetched files and extracts imports. Imports are then
+        validated in `install_dependencies()` to ensure that
+        they meet the criteria for external dependencies.
+
+        :return: List of import expressions extracted from `Package.auto_install()`
+        :rtype: list[str]
+        """
 
         py_files: list = Package.auto_install()  # pyright: ignore
         dependencies = set()
