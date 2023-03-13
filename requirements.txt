@@ -4,6 +4,7 @@ colorama
 packaging
 
 Sphinx
+rinohtype
 
 flake8
 black>=23.1.0 
