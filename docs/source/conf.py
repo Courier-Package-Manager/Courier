@@ -10,7 +10,7 @@ project = "Courier"
 copyright = "2023, Joshua Rose"
 author = "Joshua Rose"
 
-#version info
+# version info
 version = "0.1"
 release = "0.1.1"
 
@@ -21,7 +21,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx.ext.githubpages",
     "sphinx.ext.doctest",
-    "sphinx_design"
+    "sphinx_design",
 ]
 
 # Add any paths that contain templates here, relative to this directory.

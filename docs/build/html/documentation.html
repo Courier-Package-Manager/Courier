@@ -1,0 +1,1140 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="FAQ" href="faq.html" /><link rel="prev" title="Install" href="install.html" />
+
+    <!-- Generated with Sphinx 5.3.0 and Furo 2022.12.07 -->
+        <title>Documentation - Courier 0.1.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Courier 0.1.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">Courier 0.1.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="documentation">
+<h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h2>
+<p>This is the official documentation written for the referenced release version of the Courier Package Manager.
+Here you will find formatted descriptions of the source code. This documentation references all functions
+and classes in the Courier source code and goes into detail on their purpose, functionality and associated data.</p>
+<span class="target" id="module-courier"></span><section id="courier-courier">
+<h3>Courier.courier<a class="headerlink" href="#courier-courier" title="Permalink to this heading">#</a></h3>
+<p>This module handles user input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">copyright<span class="colon">:</span></dt>
+<dd class="field-odd"><ol class="loweralpha simple" start="3">
+<li><p>2023 by Joshua Rose.</p></li>
+</ol>
+</dd>
+<dt class="field-even">license<span class="colon">:</span></dt>
+<dd class="field-even"><p>MIT, see LICENSE for more details.</p>
+</dd>
+</dl>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="courier.Courier">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">courier.</span></span><span class="sig-name descname"><span class="pre">Courier</span></span><a class="reference internal" href="_modules/courier.html#Courier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#courier.Courier" title="Permalink to this definition">#</a></dt>
+<dd><p>Handles user input and file IO.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="courier.Courier.add_bashrc_alias">
+<span class="sig-name descname"><span class="pre">add_bashrc_alias</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/courier.html#Courier.add_bashrc_alias"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#courier.Courier.add_bashrc_alias" title="Permalink to this definition">#</a></dt>
+<dd><p>Eliminates need for ‘python’ prefix before file</p>
+<p>This function also removes the need for a ‘.py’ suffix
+when calling courier.py. This alias references the src
+directory such that ‘src’ is the working directory upon
+runtime. Courier will not work without this as multiple
+path locations and tests are configured around ‘src’
+being the working runtime directory.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="courier.Courier.assert_file_path">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">assert_file_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/courier.html#Courier.assert_file_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#courier.Courier.assert_file_path" title="Permalink to this definition">#</a></dt>
+<dd><p>Assert if file path is set to the root directory name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Boolean the root directory has been set.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="courier.Courier.bashrc_exists">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bashrc_exists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/courier.html#Courier.bashrc_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#courier.Courier.bashrc_exists" title="Permalink to this definition">#</a></dt>
+<dd><p>Locate (if present) the user bash configuration file.</p>
+<dl class="simple">
+<dt>This function tests under the following directories:</dt><dd><p>home/&lt;user&gt;/
+home/&lt;user&gt;/dotfiles/</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pathlib.Path</span></code> object
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Literal</span></code> boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="courier.Courier.close_file">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">close_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/courier.html#Courier.close_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#courier.Courier.close_file" title="Permalink to this definition">#</a></dt>
+<dd><p>Closes a file for unit testing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file</strong> – TextIOWrapper</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="courier.Courier.get_file_path">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_file_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/courier.html#Courier.get_file_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#courier.Courier.get_file_path" title="Permalink to this definition">#</a></dt>
+<dd><p>Fetch immediate parent folder of current directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="courier.Courier.get_package_created">
+<span class="sig-name descname"><span class="pre">get_package_created</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/courier.html#Courier.get_package_created"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#courier.Courier.get_package_created" title="Permalink to this definition">#</a></dt>
+<dd><p>Format return value of the previous timestamp of update.json</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="courier.Courier.print_formatted_list">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">print_formatted_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lines</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/courier.html#Courier.print_formatted_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#courier.Courier.print_formatted_list" title="Permalink to this definition">#</a></dt>
+<dd><p>Print list as a paragraph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>lines</strong> – List of strings removed of escape characters.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="courier.Courier.proc_args">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">proc_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/courier.html#Courier.proc_args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#courier.Courier.proc_args" title="Permalink to this definition">#</a></dt>
+<dd><p>Process given command line arguments when Courier is called.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>args</strong> – List of CLI arguments, called through sys.argv()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="courier.Courier.read_docs">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read_docs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'help.txt'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/courier.html#Courier.read_docs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#courier.Courier.read_docs" title="Permalink to this definition">#</a></dt>
+<dd><p>Read documentation file from folder.</p>
+<p>Colored documentation is going to be added, so I’m still
+finding a way to implement that, however it will be done.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file</strong> – (optional) file from /docs as reference.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>file contents excluding escape characters.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-util.package"></span><section id="courier-util-package">
+<h3>Courier.util.package<a class="headerlink" href="#courier-util-package" title="Permalink to this heading">#</a></h3>
+<p>This module holds the <cite>Package</cite> class
+which is used as a part dataclass part
+syntax convention to execute both utility
+and core methods.</p>
+<dl class="field-list simple">
+<dt class="field-odd">copyright<span class="colon">:</span></dt>
+<dd class="field-odd"><ol class="loweralpha simple" start="3">
+<li><p>2023 by Joshua Rose.</p></li>
+</ol>
+</dd>
+<dt class="field-even">license<span class="colon">:</span></dt>
+<dd class="field-even"><p>MIT, see LICENSE for more details.</p>
+</dd>
+</dl>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="util.package.Package">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.package.</span></span><span class="sig-name descname"><span class="pre">Package</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">li</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_term</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/package.html#Package"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.package.Package" title="Permalink to this definition">#</a></dt>
+<dd><p>Basic container for both singular and compound packages. Package regulates
+global package functions and reades files etc. Packages are often least used
+in a multi-instance context which is likely noticeable from the amount of staticmethods.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="util.package.Package.auto_install">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">auto_install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/package.html#Package.auto_install"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.package.Package.auto_install" title="Permalink to this definition">#</a></dt>
+<dd><p>Read all non-local imports <cite>root</cite> recursively.</p>
+<p>This function reads all files recursively while excluding
+specified folders which are set as exclusions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>root</strong> – (optional) Root directory as string.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of files that match the given quota</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.package.Package.color_path">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">color_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/Josh/Documents/Programming/Courier'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/package.html#Package.color_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.package.Package.color_path" title="Permalink to this definition">#</a></dt>
+<dd><p>Changes the color of each folder in <cite>path</cite> relative to a list preset of colors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> – (optional) Path as string which must contain at least two directories.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of path components that are then concatenated.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.package.Package.format_results">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">format_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">soup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">package</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/package.html#Package.format_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.package.Package.format_results" title="Permalink to this definition">#</a></dt>
+<dd><p>Sort a given html element and convert into parseable format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>soup</strong> – BeautifulSoup html element to be sorted through.</p></li>
+<li><p><strong>package</strong> – A given package to be added to list <cite>Package.packages</cite></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>If the given soup has the ‘select’ attribute.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.package.Package.get_date_from_lxml">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_date_from_lxml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lxml</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BeautifulSoup</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/package.html#Package.get_date_from_lxml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.package.Package.get_date_from_lxml" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns mutable BeautifulSoup object from a specified HTML class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>lxml</strong> – Data structure representing an HTML element as a <cite>BeautifulSoup</cite> object</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>BeautifulSoup tag that is part of a parse tree</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>BeautifulSoup</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.package.Package.get_desc_from_lxml">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_desc_from_lxml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lxml</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/package.html#Package.get_desc_from_lxml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.package.Package.get_desc_from_lxml" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns mutable BeautifulSoup object from a specified HTML class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>lxml</strong> – Data structure representing an HTML element as a <cite>BeautifulSoup</cite> object</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>BeautifulSoup tag that is part of a parse tree</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>BeautifulSoup</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.package.Package.get_name_from_lxml">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_name_from_lxml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lxml</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/package.html#Package.get_name_from_lxml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.package.Package.get_name_from_lxml" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns mutable BeautifulSoup object from a specified HTML class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>lxml</strong> – Data structure representing an HTML element as a <cite>BeautifulSoup</cite> object</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>BeautifulSoup tag that is part of a parse tree.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>BeautifulSoup</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.package.Package.get_version_from_lxml">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_version_from_lxml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lxml</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BeautifulSoup</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/package.html#Package.get_version_from_lxml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.package.Package.get_version_from_lxml" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns mutable BeautifulSoup object from a specified HTML class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>lxml</strong> – Data structure representing an HTML element as a <cite>BeautifulSoup</cite> object</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>BeautifulSoup tag that is part of a parse tree</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>BeautifulSoup</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.package.Package.handle_query_input">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">handle_query_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selected</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unittest</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/package.html#Package.handle_query_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.package.Package.handle_query_input" title="Permalink to this definition">#</a></dt>
+<dd><p>An indicator of whether a package is to be installed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>selected</strong> – A python dependency parsed as a String or ID.</p></li>
+<li><p><strong>unittest</strong> – Boolean value used as coverage.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>If a package is to be installed based on shown criteria.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.package.Package.id_from_name">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id_from_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/package.html#Package.id_from_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.package.Package.id_from_name" title="Permalink to this definition">#</a></dt>
+<dd><p>Compare package name to <cite>name</cite>.</p>
+<p>Only returns package ID if package name and <cite>name</cite> are equal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> – A string of the package name to get ID from.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A string of the package name if package name is equal to <cite>name</cite></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a> | <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.package.Package.install_from_id">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">install_from_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unittest</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/package.html#Package.install_from_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.package.Package.install_from_id" title="Permalink to this definition">#</a></dt>
+<dd><p>Install a package from given list.</p>
+<p>This function matches the <cite>id</cite> parameter to a given
+package that has been listed. It does this through
+the <cite>Package.name_from_id</cite> method. This can also
+be done in the opposite way as <cite>Package.id_from_name</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> – An integer of a listed package.</p></li>
+<li><p><strong>unittest</strong> – Boolean in the case of unit testing.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.package.Package.list">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/package.html#Package.list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.package.Package.list" title="Permalink to this definition">#</a></dt>
+<dd><p>Display packages fetched from pypi with syntax formatting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>limit</strong> – The maximum amount as an Integer of packages to be displayed</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The success state of the function</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.package.Package.name_from_id">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name_from_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/package.html#Package.name_from_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.package.Package.name_from_id" title="Permalink to this definition">#</a></dt>
+<dd><p>Compare package ID to <cite>id</cite>.</p>
+<p>Only returns package name if package <cite>id</cite>
+and the packge id are equal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> – An Integer of the package ID to get name from.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An integer of the package ID if package ID is equal to <cite>id</cite></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a> | <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.package.Package.package_info">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">package_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/package.html#Package.package_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.package.Package.package_info" title="Permalink to this definition">#</a></dt>
+<dd><p>Get package info from pypi.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>selector</strong> – If <cite>str</cite> then get the package name, if <cite>int</cite> then get the id of</p>
+</dd>
+</dl>
+<p>the last cached search. Note that <cite>str</cite> is mandatory if previous cache has been
+cleared.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.package.Package.query_install">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">query_install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unittest</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/package.html#Package.query_install"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.package.Package.query_install" title="Permalink to this definition">#</a></dt>
+<dd><p>Query the install ID of a given package.</p>
+<p>the package.Packages.packages (list) variable,
+the user may query an associated (int) ID to install
+a package which is converted to a string in ai
+<cite>Package</cite> class method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>unittest</strong> – Boolean value used as coverage</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>If exception caught from user input</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.package.Package.query_install_input">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">query_install_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unittest</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/package.html#Package.query_install_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.package.Package.query_install_input" title="Permalink to this definition">#</a></dt>
+<dd><p>Query user input to select package to install.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>unittest</strong> – Boolean value used in case of coverage.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The user selected package ID from displayed packages.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.package.Package.request_pypi">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">request_pypi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/package.html#Package.request_pypi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.package.Package.request_pypi" title="Permalink to this definition">#</a></dt>
+<dd><p>Request an HTTP response for <cite>package</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>package</strong> – A URL of a python package, typically matching
+that of a pypi package url.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Server response to requested URL <cite>package</cite></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>requests.Response</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.package.Package.request_pypi_soup">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">request_pypi_soup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/package.html#Package.request_pypi_soup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.package.Package.request_pypi_soup" title="Permalink to this definition">#</a></dt>
+<dd><p>Requests a soup object from a pypy package URL.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>package</strong> – A URL of a python package, typically matching
+that of a pypi package url.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>BeautifulSoup data structure representing an html element.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>BeautifulSoup</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.package.Package.search">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unittest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/package.html#Package.search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.package.Package.search" title="Permalink to this definition">#</a></dt>
+<dd><p>Search for package in the pypi database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>package</strong> – Package name as string.</p></li>
+<li><p><strong>activate_test_case</strong> – (optional) Used for unit test coverage.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>If search yields results (which is most of the time will)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.package.Package.service_online">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">service_online</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'https://pypi.org'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/package.html#Package.service_online"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.package.Package.service_online" title="Permalink to this definition">#</a></dt>
+<dd><p>This function checks if the specified URL is online.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>url</strong> – URL String to be used as a request object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Status code of request matches online status code (200)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.package.Package.update_cache">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">update_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/package.html#Package.update_cache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.package.Package.update_cache" title="Permalink to this definition">#</a></dt>
+<dd><p>Sends results to cache but does not display or query input</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>package</strong> – Name of package to add to cache.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool if no results found</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.package.Package.update_package">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">update_package</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/package.html#Package.update_package"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.package.Package.update_package" title="Permalink to this definition">#</a></dt>
+<dd><p>Updates <cite>package</cite> to latest or specified version with pip.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>package</strong> – A string that matches a pypi supported dependency</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns if the operation was successful or not in
+updating <cite>package</cite>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-util.codescan"></span><section id="courier-util-codescan">
+<h3>Courier.util.codescan<a class="headerlink" href="#courier-util-codescan" title="Permalink to this heading">#</a></h3>
+<p>Scans python files for unsatisfied imports.</p>
+<p>Codescan [verb] (my definition): To scan code for unmet dependencies.
+Codescan [noun] (my definition): A report of unmet dependencies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">copyright<span class="colon">:</span></dt>
+<dd class="field-odd"><ol class="loweralpha simple" start="3">
+<li><p>2023 by Joshua Rose.</p></li>
+</ol>
+</dd>
+<dt class="field-even">license<span class="colon">:</span></dt>
+<dd class="field-even"><p>MIT, see LICENSE for more details.</p>
+</dd>
+</dl>
+<p>TODO: codescan configuration file</p>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="util.codescan.Codescan">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">util.codescan.</span></span><span class="sig-name descname"><span class="pre">Codescan</span></span><a class="reference internal" href="_modules/util/codescan.html#Codescan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.codescan.Codescan" title="Permalink to this definition">#</a></dt>
+<dd><p>Hold methods pertaining to the codescan function.</p>
+<p>BUG: Some modules are not included, despite being present in project.
+TODO: Optimize <cite>local_modules</cite> such that only working modules are called.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="util.codescan.Codescan.install_dependencies">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">install_dependencies</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/codescan.html#Codescan.install_dependencies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.codescan.Codescan.install_dependencies" title="Permalink to this definition">#</a></dt>
+<dd><p>Install previous dependencies collected from scan.</p>
+<p>The scan is run within the <cite>install_dependencies</cite> method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="util.codescan.Codescan.scan">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">scan</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/codescan.html#Codescan.scan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.codescan.Codescan.scan" title="Permalink to this definition">#</a></dt>
+<dd><p>Scan for imports in collected files.</p>
+<p>Calls <cite>Package.auto_install()</cite> to fetch files matching
+a given regex. <cite>scan()</cite> then recursively iterates through
+fetched files and extracts imports. Imports are then
+validated in <cite>install_dependencies()</cite> to ensure that
+they meet the criteria for external dependencies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of import expressions extracted from <cite>Package.auto_install()</cite></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-util.setup"></span><section id="courier-util-setup">
+<h3>Courier.util.setup<a class="headerlink" href="#courier-util-setup" title="Permalink to this heading">#</a></h3>
+<p>This module contains utility function(s) that
+are used for formatting and general aethetics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">copyright<span class="colon">:</span></dt>
+<dd class="field-odd"><ol class="loweralpha simple" start="3">
+<li><p>2023 by Joshua Rose.</p></li>
+</ol>
+</dd>
+<dt class="field-even">license<span class="colon">:</span></dt>
+<dd class="field-even"><p>MIT, see LICENSE for more details.</p>
+</dd>
+</dl>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="util.setup.escape_ansi">
+<span class="sig-prename descclassname"><span class="pre">util.setup.</span></span><span class="sig-name descname"><span class="pre">escape_ansi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></span><a class="reference internal" href="_modules/util/setup.html#escape_ansi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.setup.escape_ansi" title="Permalink to this definition">#</a></dt>
+<dd><p>Remove formatting from colored string</p>
+<p>credit: Édouard Lopez</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>line</strong> – Colored string with escape characters</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>string with escape characters removed</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.setup.get_date">
+<span class="sig-prename descclassname"><span class="pre">util.setup.</span></span><span class="sig-name descname"><span class="pre">get_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.11)"><span class="pre">datetime</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">day</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'13'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></span><a class="reference internal" href="_modules/util/setup.html#get_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.setup.get_date" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a ❇️ colorized ❇️ version of timestamp</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>date</strong> – timestamp as a <cite>datetime.datetime</cite> instance</p></li>
+<li><p><strong>day</strong> – (optional) String of current day without x0 format</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Formatted string of the current date</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-util.update"></span><section id="courier-util-update">
+<h3>Courier.util.update<a class="headerlink" href="#courier-util-update" title="Permalink to this heading">#</a></h3>
+<p>This modules is reponsible for updating Courier as
+a program. This module is also responsibile for
+utility functions and the management of aesthetic
+dependencies such as colorama and logging.</p>
+<dl class="field-list simple">
+<dt class="field-odd">copyright<span class="colon">:</span></dt>
+<dd class="field-odd"><ol class="loweralpha simple" start="3">
+<li><p>2023 by Joshua Rose.</p></li>
+</ol>
+</dd>
+<dt class="field-even">license<span class="colon">:</span></dt>
+<dd class="field-even"><p>MIT, see LICENSE for more details.</p>
+</dd>
+</dl>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="util.update.create_package">
+<span class="sig-prename descclassname"><span class="pre">util.update.</span></span><span class="sig-name descname"><span class="pre">create_package</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/update.html#create_package"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.update.create_package" title="Permalink to this definition">#</a></dt>
+<dd><p>Dump json object to <cite>PACKAGE</cite>.</p>
+<p><cite>create_package()</cite> raises a permission error if the user
+does not have write permissions to current working directory.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.update.file_exists">
+<span class="sig-prename descclassname"><span class="pre">util.update.</span></span><span class="sig-name descname"><span class="pre">file_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/update.html#file_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.update.file_exists" title="Permalink to this definition">#</a></dt>
+<dd><p>Test if file exists in the current working directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> – Filename as a string</p></li>
+<li><p><strong>mode</strong> – Given filemode eg: read, write, append (as <cite>str</cite>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><cite>False</cite> if file is not present or <cite>TextIOWrapper</cite> if present</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.update.get_package_name">
+<span class="sig-prename descclassname"><span class="pre">util.update.</span></span><span class="sig-name descname"><span class="pre">get_package_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/update.html#get_package_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.update.get_package_name" title="Permalink to this definition">#</a></dt>
+<dd><p>Get package name.</p>
+<p>Note that this function also allows for unit tests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A directory entry of the current file.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.update.get_project_folder">
+<span class="sig-prename descclassname"><span class="pre">util.update.</span></span><span class="sig-name descname"><span class="pre">get_project_folder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/update.html#get_project_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.update.get_project_folder" title="Permalink to this definition">#</a></dt>
+<dd><p>Dedicated function for testing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The base-name of of the current project folder.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.update.last_updated">
+<span class="sig-prename descclassname"><span class="pre">util.update.</span></span><span class="sig-name descname"><span class="pre">last_updated</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/update.html#last_updated"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.update.last_updated" title="Permalink to this definition">#</a></dt>
+<dd><p>Last update in datetime format.</p>
+<dl>
+<dt>This is assuming that</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">project_folder</span> <span class="o">!=</span> <span class="s1">&#39;Courier&#39;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>has run as this function is dependant on the current
+working directory containing the <cite>PACKAGE</cite> file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Current date as a <cite>datetime</cite> object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.update.load_logging_ini">
+<span class="sig-prename descclassname"><span class="pre">util.update.</span></span><span class="sig-name descname"><span class="pre">load_logging_ini</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'config_info.ini'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/update.html#load_logging_ini"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.update.load_logging_ini" title="Permalink to this definition">#</a></dt>
+<dd><p>Load logging configuration file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config</strong> – Configuration file as <cite>str</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.update.loc_package_file">
+<span class="sig-prename descclassname"><span class="pre">util.update.</span></span><span class="sig-name descname"><span class="pre">loc_package_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name=&lt;DirEntry</span> <span class="pre">'update.json'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode='r'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/update.html#loc_package_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.update.loc_package_file" title="Permalink to this definition">#</a></dt>
+<dd><p>Locate the package file &amp; create package file</p>
+<p>If the file does not exist it will be created in the current
+working directory of wherever <cite>courier.py</cite> was called from.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – DirEntry of current package name as file</p></li>
+<li><p><strong>debug</strong> – If a unit test is to be conducted allow for artifically invoked edge cases.</p></li>
+<li><p><strong>mode</strong> – Edit mode of file to be called as read, write or append.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>File object if package has been opened or None</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>FileIOWrapper</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.update.scan_dir">
+<span class="sig-prename descclassname"><span class="pre">util.update.</span></span><span class="sig-name descname"><span class="pre">scan_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folders</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/update.html#scan_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.update.scan_dir" title="Permalink to this definition">#</a></dt>
+<dd><p>A better version of the os.scandir function, as it takes multiple args.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>files</strong> – (optional) List files in current directory</p></li>
+<li><p><strong>folders</strong> – (optional) List folders in current directory</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of current files and folders found</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[DirEntry]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="util.update.switch_root">
+<span class="sig-prename descclassname"><span class="pre">util.update.</span></span><span class="sig-name descname"><span class="pre">switch_root</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/util/update.html#switch_root"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#util.update.switch_root" title="Permalink to this definition">#</a></dt>
+<dd><p>Auto switch root when not applicable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Full current project path as <cite>str</cite></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="faq.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">FAQ</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="install.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Install</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2023, Joshua Rose
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Documentation</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a><ul>
+<li><a class="reference internal" href="#courier-courier">Courier.courier</a></li>
+<li><a class="reference internal" href="#courier.Courier"><code class="docutils literal notranslate"><span class="pre">Courier</span></code></a><ul>
+<li><a class="reference internal" href="#courier.Courier.add_bashrc_alias"><code class="docutils literal notranslate"><span class="pre">Courier.add_bashrc_alias()</span></code></a></li>
+<li><a class="reference internal" href="#courier.Courier.assert_file_path"><code class="docutils literal notranslate"><span class="pre">Courier.assert_file_path()</span></code></a></li>
+<li><a class="reference internal" href="#courier.Courier.bashrc_exists"><code class="docutils literal notranslate"><span class="pre">Courier.bashrc_exists()</span></code></a></li>
+<li><a class="reference internal" href="#courier.Courier.close_file"><code class="docutils literal notranslate"><span class="pre">Courier.close_file()</span></code></a></li>
+<li><a class="reference internal" href="#courier.Courier.get_file_path"><code class="docutils literal notranslate"><span class="pre">Courier.get_file_path()</span></code></a></li>
+<li><a class="reference internal" href="#courier.Courier.get_package_created"><code class="docutils literal notranslate"><span class="pre">Courier.get_package_created()</span></code></a></li>
+<li><a class="reference internal" href="#courier.Courier.print_formatted_list"><code class="docutils literal notranslate"><span class="pre">Courier.print_formatted_list()</span></code></a></li>
+<li><a class="reference internal" href="#courier.Courier.proc_args"><code class="docutils literal notranslate"><span class="pre">Courier.proc_args()</span></code></a></li>
+<li><a class="reference internal" href="#courier.Courier.read_docs"><code class="docutils literal notranslate"><span class="pre">Courier.read_docs()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#courier-util-package">Courier.util.package</a></li>
+<li><a class="reference internal" href="#util.package.Package"><code class="docutils literal notranslate"><span class="pre">Package</span></code></a><ul>
+<li><a class="reference internal" href="#util.package.Package.auto_install"><code class="docutils literal notranslate"><span class="pre">Package.auto_install()</span></code></a></li>
+<li><a class="reference internal" href="#util.package.Package.color_path"><code class="docutils literal notranslate"><span class="pre">Package.color_path()</span></code></a></li>
+<li><a class="reference internal" href="#util.package.Package.format_results"><code class="docutils literal notranslate"><span class="pre">Package.format_results()</span></code></a></li>
+<li><a class="reference internal" href="#util.package.Package.get_date_from_lxml"><code class="docutils literal notranslate"><span class="pre">Package.get_date_from_lxml()</span></code></a></li>
+<li><a class="reference internal" href="#util.package.Package.get_desc_from_lxml"><code class="docutils literal notranslate"><span class="pre">Package.get_desc_from_lxml()</span></code></a></li>
+<li><a class="reference internal" href="#util.package.Package.get_name_from_lxml"><code class="docutils literal notranslate"><span class="pre">Package.get_name_from_lxml()</span></code></a></li>
+<li><a class="reference internal" href="#util.package.Package.get_version_from_lxml"><code class="docutils literal notranslate"><span class="pre">Package.get_version_from_lxml()</span></code></a></li>
+<li><a class="reference internal" href="#util.package.Package.handle_query_input"><code class="docutils literal notranslate"><span class="pre">Package.handle_query_input()</span></code></a></li>
+<li><a class="reference internal" href="#util.package.Package.id_from_name"><code class="docutils literal notranslate"><span class="pre">Package.id_from_name()</span></code></a></li>
+<li><a class="reference internal" href="#util.package.Package.install_from_id"><code class="docutils literal notranslate"><span class="pre">Package.install_from_id()</span></code></a></li>
+<li><a class="reference internal" href="#util.package.Package.list"><code class="docutils literal notranslate"><span class="pre">Package.list()</span></code></a></li>
+<li><a class="reference internal" href="#util.package.Package.name_from_id"><code class="docutils literal notranslate"><span class="pre">Package.name_from_id()</span></code></a></li>
+<li><a class="reference internal" href="#util.package.Package.package_info"><code class="docutils literal notranslate"><span class="pre">Package.package_info()</span></code></a></li>
+<li><a class="reference internal" href="#util.package.Package.query_install"><code class="docutils literal notranslate"><span class="pre">Package.query_install()</span></code></a></li>
+<li><a class="reference internal" href="#util.package.Package.query_install_input"><code class="docutils literal notranslate"><span class="pre">Package.query_install_input()</span></code></a></li>
+<li><a class="reference internal" href="#util.package.Package.request_pypi"><code class="docutils literal notranslate"><span class="pre">Package.request_pypi()</span></code></a></li>
+<li><a class="reference internal" href="#util.package.Package.request_pypi_soup"><code class="docutils literal notranslate"><span class="pre">Package.request_pypi_soup()</span></code></a></li>
+<li><a class="reference internal" href="#util.package.Package.search"><code class="docutils literal notranslate"><span class="pre">Package.search()</span></code></a></li>
+<li><a class="reference internal" href="#util.package.Package.service_online"><code class="docutils literal notranslate"><span class="pre">Package.service_online()</span></code></a></li>
+<li><a class="reference internal" href="#util.package.Package.update_cache"><code class="docutils literal notranslate"><span class="pre">Package.update_cache()</span></code></a></li>
+<li><a class="reference internal" href="#util.package.Package.update_package"><code class="docutils literal notranslate"><span class="pre">Package.update_package()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#courier-util-codescan">Courier.util.codescan</a></li>
+<li><a class="reference internal" href="#util.codescan.Codescan"><code class="docutils literal notranslate"><span class="pre">Codescan</span></code></a><ul>
+<li><a class="reference internal" href="#util.codescan.Codescan.install_dependencies"><code class="docutils literal notranslate"><span class="pre">Codescan.install_dependencies()</span></code></a></li>
+<li><a class="reference internal" href="#util.codescan.Codescan.scan"><code class="docutils literal notranslate"><span class="pre">Codescan.scan()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#courier-util-setup">Courier.util.setup</a></li>
+<li><a class="reference internal" href="#util.setup.escape_ansi"><code class="docutils literal notranslate"><span class="pre">escape_ansi()</span></code></a></li>
+<li><a class="reference internal" href="#util.setup.get_date"><code class="docutils literal notranslate"><span class="pre">get_date()</span></code></a></li>
+<li><a class="reference internal" href="#courier-util-update">Courier.util.update</a></li>
+<li><a class="reference internal" href="#util.update.create_package"><code class="docutils literal notranslate"><span class="pre">create_package()</span></code></a></li>
+<li><a class="reference internal" href="#util.update.file_exists"><code class="docutils literal notranslate"><span class="pre">file_exists()</span></code></a></li>
+<li><a class="reference internal" href="#util.update.get_package_name"><code class="docutils literal notranslate"><span class="pre">get_package_name()</span></code></a></li>
+<li><a class="reference internal" href="#util.update.get_project_folder"><code class="docutils literal notranslate"><span class="pre">get_project_folder()</span></code></a></li>
+<li><a class="reference internal" href="#util.update.last_updated"><code class="docutils literal notranslate"><span class="pre">last_updated()</span></code></a></li>
+<li><a class="reference internal" href="#util.update.load_logging_ini"><code class="docutils literal notranslate"><span class="pre">load_logging_ini()</span></code></a></li>
+<li><a class="reference internal" href="#util.update.loc_package_file"><code class="docutils literal notranslate"><span class="pre">loc_package_file()</span></code></a></li>
+<li><a class="reference internal" href="#util.update.scan_dir"><code class="docutils literal notranslate"><span class="pre">scan_dir()</span></code></a></li>
+<li><a class="reference internal" href="#util.update.switch_root"><code class="docutils literal notranslate"><span class="pre">switch_root()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    <script src="_static/design-tabs.js"></script>
+    </body>
+</html>

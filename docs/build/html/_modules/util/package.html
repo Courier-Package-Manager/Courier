@@ -1,0 +1,657 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>util.package &#8212; Courier 0.1.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/readable.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head><body>
+  
+  
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Courier 0.1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">util.package</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for util.package</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Courier.util.package</span>
+<span class="sd">~~~~~~~~~~~~~~~~~~~~</span>
+
+<span class="sd">This module holds the `Package` class</span>
+<span class="sd">which is used as a part dataclass part</span>
+<span class="sd">syntax convention to execute both utility</span>
+<span class="sd">and core methods.</span>
+
+<span class="sd">:copyright: (c) 2023 by Joshua Rose.</span>
+<span class="sd">:license: MIT, see LICENSE for more details.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pathlib</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">colorama</span>
+<span class="kn">from</span> <span class="nn">colorama</span> <span class="kn">import</span> <span class="n">Fore</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="kn">from</span> <span class="nn">.setup</span> <span class="kn">import</span> <span class="n">escape_ansi</span>
+<span class="kn">from</span> <span class="nn">.update</span> <span class="kn">import</span> <span class="n">load_logging_ini</span>
+
+
+<div class="viewcode-block" id="Package"><a class="viewcode-back" href="../../index.html#util.package.Package">[docs]</a><span class="k">class</span> <span class="nc">Package</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Basic container for both singular and compound packages. Package regulates</span>
+<span class="sd">    global package functions and reades files etc. Packages are often least used</span>
+<span class="sd">    in a multi-instance context which is likely noticeable from the amount of staticmethods.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">packages</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">li</span><span class="p">,</span> <span class="n">search_term</span><span class="p">):</span>
+        <span class="c1"># Term to be highlighted differently as it</span>
+        <span class="c1"># was explicitly searched for</span>
+        <span class="n">search_term</span> <span class="o">=</span> <span class="n">search_term</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">li</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">search_term</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">lxml_name</span> <span class="o">=</span> <span class="n">Package</span><span class="o">.</span><span class="n">get_name_from_lxml</span><span class="p">(</span><span class="n">li</span><span class="p">)</span>
+        <span class="n">lxml_date</span> <span class="o">=</span> <span class="n">Package</span><span class="o">.</span><span class="n">get_date_from_lxml</span><span class="p">(</span><span class="n">li</span><span class="p">)</span>
+        <span class="n">lxml_desc</span> <span class="o">=</span> <span class="n">Package</span><span class="o">.</span><span class="n">get_desc_from_lxml</span><span class="p">(</span><span class="n">li</span><span class="p">)</span>
+        <span class="n">lxml_ver</span> <span class="o">=</span> <span class="n">Package</span><span class="o">.</span><span class="n">get_version_from_lxml</span><span class="p">(</span><span class="n">li</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">lxml_name</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">lxml_date</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">lxml_desc</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">lxml_ver</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">name</span> <span class="o">=</span> <span class="n">lxml_name</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="n">lxml_date</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">desc</span> <span class="o">=</span> <span class="n">lxml_desc</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">ver</span> <span class="o">=</span> <span class="n">lxml_ver</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{color}{name}{reset}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">Fore</span><span class="o">.</span><span class="n">CYAN</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="n">Fore</span><span class="o">.</span><span class="n">RESET</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{color}{name}{reset}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">Fore</span><span class="o">.</span><span class="n">LIGHTCYAN_EX</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">ver</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="n">Fore</span><span class="o">.</span><span class="n">RESET</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{color}{name}{reset}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">Fore</span><span class="o">.</span><span class="n">LIGHTCYAN_EX</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">date</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="n">Fore</span><span class="o">.</span><span class="n">RESET</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{color}{name}{reset}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">Fore</span><span class="o">.</span><span class="n">BLUE</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">desc</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="n">Fore</span><span class="o">.</span><span class="n">RESET</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_description</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+            <span class="n">search_term</span><span class="p">,</span> <span class="n">Fore</span><span class="o">.</span><span class="n">LIGHTMAGENTA_EX</span> <span class="o">+</span> <span class="n">search_term</span> <span class="o">+</span> <span class="n">Fore</span><span class="o">.</span><span class="n">LIGHTBLUE_EX</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Package</span><span class="o">.</span><span class="n">packages</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+<div class="viewcode-block" id="Package.get_name_from_lxml"><a class="viewcode-back" href="../../index.html#util.package.Package.get_name_from_lxml">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_name_from_lxml</span><span class="p">(</span><span class="n">lxml</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns mutable BeautifulSoup object from a specified HTML class.</span>
+
+<span class="sd">        :param lxml: Data structure representing an HTML element as a `BeautifulSoup` object</span>
+<span class="sd">        :return: BeautifulSoup tag that is part of a parse tree.</span>
+<span class="sd">        :rtype: `BeautifulSoup`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">lxml</span><span class="o">.</span><span class="n">select_one</span><span class="p">(</span><span class="s2">&quot;.package-snippet__name&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Package.get_version_from_lxml"><a class="viewcode-back" href="../../index.html#util.package.Package.get_version_from_lxml">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_version_from_lxml</span><span class="p">(</span><span class="n">lxml</span><span class="p">:</span> <span class="n">BeautifulSoup</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns mutable BeautifulSoup object from a specified HTML class.</span>
+
+<span class="sd">        :param lxml: Data structure representing an HTML element as a `BeautifulSoup` object</span>
+<span class="sd">        :return: BeautifulSoup tag that is part of a parse tree</span>
+<span class="sd">        :rtype: `BeautifulSoup`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">lxml</span><span class="o">.</span><span class="n">select_one</span><span class="p">(</span><span class="s2">&quot;.package-snippet__version&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Package.get_date_from_lxml"><a class="viewcode-back" href="../../index.html#util.package.Package.get_date_from_lxml">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_date_from_lxml</span><span class="p">(</span><span class="n">lxml</span><span class="p">:</span> <span class="n">BeautifulSoup</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns mutable BeautifulSoup object from a specified HTML class.</span>
+
+<span class="sd">        :param lxml: Data structure representing an HTML element as a `BeautifulSoup` object</span>
+<span class="sd">        :return: BeautifulSoup tag that is part of a parse tree</span>
+<span class="sd">        :rtype: `BeautifulSoup`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">lxml</span><span class="o">.</span><span class="n">select_one</span><span class="p">(</span><span class="s2">&quot;.package-snippet__created time&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Package.get_desc_from_lxml"><a class="viewcode-back" href="../../index.html#util.package.Package.get_desc_from_lxml">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_desc_from_lxml</span><span class="p">(</span><span class="n">lxml</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns mutable BeautifulSoup object from a specified HTML class.</span>
+
+<span class="sd">        :param lxml: Data structure representing an HTML element as a `BeautifulSoup` object</span>
+<span class="sd">        :return: BeautifulSoup tag that is part of a parse tree</span>
+<span class="sd">        :rtype: `BeautifulSoup`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">lxml</span><span class="o">.</span><span class="n">select_one</span><span class="p">(</span><span class="s2">&quot;.package-snippet__description&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Package.list"><a class="viewcode-back" href="../../index.html#util.package.Package.list">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Display packages fetched from pypi with syntax formatting.</span>
+
+<span class="sd">        :param limit: The maximum amount as an Integer of packages to be displayed</span>
+<span class="sd">        :return: The success state of the function</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">cls</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">package</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">packages</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">{id}</span><span class="s2"> </span><span class="si">{name}</span><span class="s2"> </span><span class="si">{version}</span><span class="s2"> </span><span class="si">{date}</span><span class="se">\n\t</span><span class="si">{description}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="nb">id</span><span class="o">=</span><span class="n">package</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">package</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">version</span><span class="o">=</span><span class="n">package</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
+                    <span class="n">date</span><span class="o">=</span><span class="n">package</span><span class="o">.</span><span class="n">date</span><span class="p">,</span>
+                    <span class="n">description</span><span class="o">=</span><span class="n">package</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Package.name_from_id"><a class="viewcode-back" href="../../index.html#util.package.Package.name_from_id">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">name_from_id</span><span class="p">(</span><span class="nb">id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compare package ID to `id`.</span>
+
+<span class="sd">        Only returns package name if package `id`</span>
+<span class="sd">        and the packge id are equal.</span>
+
+<span class="sd">        :param id: An Integer of the package ID to get name from.</span>
+<span class="sd">        :return: An integer of the package ID if package ID is equal to `id`</span>
+<span class="sd">        :rtype: str | bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">package</span> <span class="ow">in</span> <span class="n">Package</span><span class="o">.</span><span class="n">packages</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">package</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="nb">id</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">package</span><span class="o">.</span><span class="n">name</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">continue</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Package.id_from_name"><a class="viewcode-back" href="../../index.html#util.package.Package.id_from_name">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">id_from_name</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compare package name to `name`.</span>
+
+<span class="sd">        Only returns package ID if package name and `name` are equal.</span>
+
+<span class="sd">        :param name: A string of the package name to get ID from.</span>
+<span class="sd">        :return: A string of the package name if package name is equal to `name`</span>
+<span class="sd">        :rtype: int | bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">package</span> <span class="ow">in</span> <span class="n">Package</span><span class="o">.</span><span class="n">packages</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">package</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">package</span><span class="o">.</span><span class="n">id</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">continue</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Package.format_results"><a class="viewcode-back" href="../../index.html#util.package.Package.format_results">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">format_results</span><span class="p">(</span><span class="n">soup</span><span class="p">,</span> <span class="n">package</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sort a given html element and convert into parseable format.</span>
+
+<span class="sd">        :param soup: BeautifulSoup html element to be sorted through.</span>
+<span class="sd">        :param package: A given package to be added to list `Package.packages`</span>
+<span class="sd">        :return: If the given soup has the &#39;select&#39; attribute.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">soup</span><span class="p">,</span> <span class="s2">&quot;select&quot;</span><span class="p">):</span>
+            <span class="n">package_list</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;.package-snippet&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">package_list</span><span class="p">:</span>
+                <span class="n">Package</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Package</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">package</span><span class="p">))</span>
+                <span class="k">continue</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Package.package_info"><a class="viewcode-back" href="../../index.html#util.package.Package.package_info">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">package_info</span><span class="p">(</span><span class="n">selector</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get package info from pypi.</span>
+
+<span class="sd">        :param selector: If `str` then get the package name, if `int` then get the id of</span>
+<span class="sd">        the last cached search. Note that `str` is mandatory if previous cache has been</span>
+<span class="sd">        cleared.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">match</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">selector</span><span class="p">)):</span>
+            <span class="k">case</span> <span class="nb">str</span><span class="p">(</span><span class="nb">str</span><span class="p">()):</span>
+                <span class="n">package</span> <span class="o">=</span> <span class="n">Package</span><span class="o">.</span><span class="n">packages</span><span class="p">[</span><span class="n">Package</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">selector</span><span class="p">)]</span>
+            <span class="k">case</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">()):</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">Package</span><span class="o">.</span><span class="n">packages</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                        <span class="s2">&quot;Cannot search by ID: no cache present from previous search.&quot;</span>
+                    <span class="p">)</span>
+                    <span class="k">return</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">package</span> <span class="o">=</span> <span class="n">Package</span><span class="o">.</span><span class="n">packages</span><span class="p">[</span>
+                        <span class="n">Package</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">Package</span><span class="o">.</span><span class="n">name_from_id</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">selector</span><span class="p">)))</span>
+                    <span class="p">]</span>
+                    <span class="k">return</span>
+            <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Datatype </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">selector</span><span class="p">)</span><span class="si">}</span><span class="s2"> is not supported as an indexer to a package.&quot;</span>
+                <span class="p">)</span>
+                <span class="k">return</span>
+
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">              Package: {package_name}</span>
+<span class="sd">              Date: {package_date}</span>
+<span class="sd">              Version: {package_version}</span>
+<span class="sd">              Description: {package_description}&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">package_name</span><span class="o">=</span><span class="n">package</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">package_date</span><span class="o">=</span><span class="n">package</span><span class="o">.</span><span class="n">date</span><span class="p">,</span>
+                <span class="n">package_version</span><span class="o">=</span><span class="n">package</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
+                <span class="n">package_description</span><span class="o">=</span><span class="n">package</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Package.install_from_id"><a class="viewcode-back" href="../../index.html#util.package.Package.install_from_id">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">install_from_id</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">unittest</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Install a package from given list.</span>
+
+<span class="sd">        This function matches the `id` parameter to a given</span>
+<span class="sd">        package that has been listed. It does this through</span>
+<span class="sd">        the `Package.name_from_id` method. This can also</span>
+<span class="sd">        be done in the opposite way as `Package.id_from_name`.</span>
+
+<span class="sd">        :param id: An integer of a listed package.</span>
+<span class="sd">        :param unittest: Boolean in the case of unit testing.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># In the case that no package has been selected, simply return as NULL.</span>
+        <span class="k">if</span> <span class="nb">id</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">package_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Package</span><span class="o">.</span><span class="n">packages</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">package_count</span><span class="p">:</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span>
+                <span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">RED</span>
+                <span class="o">+</span> <span class="s2">&quot; ❌ Could not index package list; no cache loaded.&quot;</span>
+                <span class="o">+</span> <span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">RESET</span>
+            <span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot; loaded </span><span class="si">{</span><span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">GREEN</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">str</span><span class="p">(</span><span class="n">package_count</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">RESET</span><span class="si">}</span><span class="s2"> packages.&quot;</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Package</span><span class="o">.</span><span class="n">name_from_id</span><span class="p">(</span><span class="nb">id</span><span class="p">),</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">package</span> <span class="o">=</span> <span class="n">Package</span><span class="o">.</span><span class="n">name_from_id</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">LOGGER</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot; ❌ No package specified&quot;</span><span class="p">)</span>
+                <span class="k">return</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">package</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">elif</span> <span class="n">unittest</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;&quot;&quot; 🧪 Not doing anything due to unit test mock permissions&quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># remove formatting</span>
+            <span class="n">package</span> <span class="o">=</span> <span class="n">escape_ansi</span><span class="p">(</span><span class="n">package</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="si">}</span><span class="s2"> -m pip install </span><span class="si">{</span><span class="n">package</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Package.query_install_input"><a class="viewcode-back" href="../../index.html#util.package.Package.query_install_input">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">query_install_input</span><span class="p">(</span><span class="n">unittest</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Query user input to select package to install.</span>
+
+<span class="sd">        :param unittest: Boolean value used in case of coverage.</span>
+<span class="sd">        :return: The user selected package ID from displayed packages.</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">unittest</span><span class="p">:</span>
+            <span class="n">selected</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot; ==&gt; &quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">selected</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Return statement is to assert in the case of a unit test</span>
+            <span class="c1"># that the return type is an integer instance and the numeric</span>
+            <span class="c1"># value of the return type meets any ID presented to the user</span>
+            <span class="c1"># which corresponds to a listed package.</span>
+            <span class="k">return</span> <span class="mi">1</span></div>
+
+<div class="viewcode-block" id="Package.handle_query_input"><a class="viewcode-back" href="../../index.html#util.package.Package.handle_query_input">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">handle_query_input</span><span class="p">(</span><span class="n">selected</span><span class="p">,</span> <span class="n">unittest</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;An indicator of whether a package is to be installed.</span>
+
+<span class="sd">        :param selected: A python dependency parsed as a String or ID.</span>
+<span class="sd">        :param unittest: Boolean value used as coverage.</span>
+<span class="sd">        :return: If a package is to be installed based on shown criteria.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">match</span> <span class="n">selected</span><span class="p">:</span>
+            <span class="k">case</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+                <span class="n">Package</span><span class="o">.</span><span class="n">install_from_id</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">selected</span><span class="p">),</span> <span class="n">unittest</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Package.query_install"><a class="viewcode-back" href="../../index.html#util.package.Package.query_install">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">query_install</span><span class="p">(</span><span class="n">unittest</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Query the install ID of a given package.</span>
+
+<span class="sd">        the package.Packages.packages (list) variable,</span>
+<span class="sd">        the user may query an associated (int) ID to install</span>
+<span class="sd">        a package which is converted to a string in ai</span>
+<span class="sd">        `Package` class method.</span>
+
+<span class="sd">        :param unittest: Boolean value used as coverage</span>
+<span class="sd">        :return: If exception caught from user input</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">selected</span> <span class="o">=</span> <span class="n">Package</span><span class="o">.</span><span class="n">query_install_input</span><span class="p">(</span><span class="n">unittest</span><span class="p">)</span>
+            <span class="n">Package</span><span class="o">.</span><span class="n">handle_query_input</span><span class="p">(</span><span class="n">selected</span><span class="p">,</span> <span class="n">unittest</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Package.search"><a class="viewcode-back" href="../../index.html#util.package.Package.search">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="n">package</span><span class="p">,</span> <span class="n">unittest</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Search for package in the pypi database.</span>
+
+<span class="sd">        :param package: Package name as string.</span>
+<span class="sd">        :param activate_test_case: (optional) Used for unit test coverage.</span>
+<span class="sd">        :return: If search yields results (which is most of the time will)</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot; 🔎 </span><span class="si">{</span><span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">LIGHTCYAN_EX</span><span class="si">}</span><span class="s2">Searching for </span><span class="si">{</span><span class="n">package</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">RESET</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="n">soup</span> <span class="o">=</span> <span class="n">Package</span><span class="o">.</span><span class="n">request_pypi_soup</span><span class="p">(</span><span class="n">package</span><span class="p">)</span>
+
+        <span class="n">Package</span><span class="o">.</span><span class="n">format_results</span><span class="p">(</span><span class="n">soup</span><span class="p">,</span> <span class="n">package</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">Package</span><span class="o">.</span><span class="n">packages</span><span class="p">):</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; ❌ No results found for package &#39;</span><span class="si">{</span><span class="n">package</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">unittest</span><span class="p">:</span>
+            <span class="n">Package</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>  <span class="c1"># Display fetched packages with special formatting.</span>
+
+        <span class="nb">id</span> <span class="o">=</span> <span class="n">Package</span><span class="o">.</span><span class="n">query_install_input</span><span class="p">(</span><span class="n">unittest</span><span class="p">)</span>
+        <span class="n">Package</span><span class="o">.</span><span class="n">install_from_id</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">unittest</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Package.request_pypi"><a class="viewcode-back" href="../../index.html#util.package.Package.request_pypi">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">request_pypi</span><span class="p">(</span><span class="n">package</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Request an HTTP response for `package`</span>
+
+<span class="sd">        :param package: A URL of a python package, typically matching</span>
+<span class="sd">            that of a pypi package url.</span>
+<span class="sd">        :return: Server response to requested URL `package`</span>
+<span class="sd">        :rtype: `requests.Response`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">pypi_request</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;https://pypi.org/search/?q=</span><span class="si">{</span><span class="n">package</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pypi_request</span></div>
+
+<div class="viewcode-block" id="Package.request_pypi_soup"><a class="viewcode-back" href="../../index.html#util.package.Package.request_pypi_soup">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">request_pypi_soup</span><span class="p">(</span><span class="n">package</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Requests a soup object from a pypy package URL.</span>
+
+<span class="sd">        :param package: A URL of a python package, typically matching</span>
+<span class="sd">            that of a pypi package url.</span>
+<span class="sd">        :return: BeautifulSoup data structure representing an html element.</span>
+<span class="sd">        :rtype: `BeautifulSoup`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">pypi_request</span> <span class="o">=</span> <span class="n">Package</span><span class="o">.</span><span class="n">request_pypi</span><span class="p">(</span><span class="n">package</span><span class="p">)</span>
+        <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">pypi_request</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="s2">&quot;html.parser&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">soup</span></div>
+
+<div class="viewcode-block" id="Package.service_online"><a class="viewcode-back" href="../../index.html#util.package.Package.service_online">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">service_online</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://pypi.org&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;This function checks if the specified URL is online.</span>
+
+<span class="sd">        :param url: URL String to be used as a request object.</span>
+<span class="sd">        :return: Status code of request matches online status code (200)</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">pypi_request</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pypi_request</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span></div>
+
+<div class="viewcode-block" id="Package.auto_install"><a class="viewcode-back" href="../../index.html#util.package.Package.auto_install">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">auto_install</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read all non-local imports `root` recursively.</span>
+
+<span class="sd">        This function reads all files recursively while excluding</span>
+<span class="sd">        specified folders which are set as exclusions.</span>
+
+<span class="sd">        :param root: (optional) Root directory as string.</span>
+<span class="sd">        :return: A list of files that match the given quota</span>
+<span class="sd">        :rtype: list[str]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">files</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">ignore</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;.git&quot;</span><span class="p">,</span> <span class="s2">&quot;.github&quot;</span><span class="p">,</span> <span class="s2">&quot;libs&quot;</span><span class="p">,</span> <span class="s2">&quot;.tox&quot;</span><span class="p">,</span> <span class="s2">&quot;venv&quot;</span><span class="p">,</span> <span class="s2">&quot;htmlcov&quot;</span><span class="p">]</span>
+
+        <span class="n">path</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+
+        <span class="n">sizes</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;small&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">BLUE</span><span class="p">,</span>
+                <span class="s2">&quot;icon&quot;</span><span class="p">:</span> <span class="s2">&quot;📘&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;min&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="mi">999</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;medium&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">RED</span><span class="p">,</span>
+                <span class="s2">&quot;icon&quot;</span><span class="p">:</span> <span class="s2">&quot;📕&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;min&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+                <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="mi">9999</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;large&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">GREEN</span><span class="p">,</span>
+                <span class="s2">&quot;icon&quot;</span><span class="p">:</span> <span class="s2">&quot;📗&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;min&quot;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span>
+                <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="mi">99999</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;chunky&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span><span class="p">,</span>
+                <span class="s2">&quot;icon&quot;</span><span class="p">:</span> <span class="s2">&quot;📙&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;min&quot;</span><span class="p">:</span> <span class="mi">100000</span><span class="p">,</span>
+                <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="mi">999999</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\n</span>
+<span class="s2">                📘 = </span><span class="si">{</span><span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">LIGHTCYAN_EX</span><span class="si">}</span><span class="s2">small</span><span class="si">{</span><span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">RESET</span><span class="si">}</span>
+<span class="s2">                📕 = </span><span class="si">{</span><span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">RESET</span><span class="si">}</span><span class="s2">medium</span><span class="si">{</span><span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">RESET</span><span class="si">}</span>
+<span class="s2">                📗 = </span><span class="si">{</span><span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">GREEN</span><span class="si">}</span><span class="s2">large</span><span class="si">{</span><span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">RESET</span><span class="si">}</span>
+<span class="s2">                📙 = </span><span class="si">{</span><span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span><span class="si">}</span><span class="s2">chunky</span><span class="si">{</span><span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">RESET</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span>
+        <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">path</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.py&quot;</span><span class="p">):</span>
+            <span class="n">head</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="n">file</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">head</span> <span class="ow">in</span> <span class="n">ignore</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+        <span class="n">files</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+            <span class="n">filesize</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">size</span> <span class="ow">in</span> <span class="n">sizes</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">filesize</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sizes</span><span class="p">[</span><span class="n">size</span><span class="p">][</span><span class="s2">&quot;min&quot;</span><span class="p">],</span> <span class="n">sizes</span><span class="p">[</span><span class="n">size</span><span class="p">][</span><span class="s2">&quot;max&quot;</span><span class="p">]):</span>
+                    <span class="n">icon</span> <span class="o">=</span> <span class="n">sizes</span><span class="p">[</span><span class="n">size</span><span class="p">][</span><span class="s2">&quot;icon&quot;</span><span class="p">]</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="n">sizes</span><span class="p">[</span><span class="n">size</span><span class="p">][</span><span class="s2">&quot;color&quot;</span><span class="p">]</span>
+                    <span class="n">null</span> <span class="o">=</span> <span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">RESET</span>
+                    <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">color</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">icon</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="si">}{</span><span class="n">null</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">files</span></div>
+
+<div class="viewcode-block" id="Package.color_path"><a class="viewcode-back" href="../../index.html#util.package.Package.color_path">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">color_path</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Changes the color of each folder in `path` relative to a list preset of colors.</span>
+
+<span class="sd">        :param path: (optional) Path as string which must contain at least two directories.</span>
+<span class="sd">        :return: A list of path components that are then concatenated.</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">components</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">path</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">))</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">Fore</span><span class="o">.</span><span class="n">GREEN</span><span class="p">,</span>
+            <span class="n">Fore</span><span class="o">.</span><span class="n">RED</span><span class="p">,</span>
+            <span class="n">Fore</span><span class="o">.</span><span class="n">MAGENTA</span><span class="p">,</span>
+            <span class="n">Fore</span><span class="o">.</span><span class="n">CYAN</span><span class="p">,</span>
+            <span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span><span class="p">,</span>
+            <span class="n">Fore</span><span class="o">.</span><span class="n">BLUE</span><span class="p">,</span>
+            <span class="n">Fore</span><span class="o">.</span><span class="n">LIGHTGREEN_EX</span><span class="p">,</span>
+            <span class="n">Fore</span><span class="o">.</span><span class="n">LIGHTRED_EX</span><span class="p">,</span>
+            <span class="n">Fore</span><span class="o">.</span><span class="n">LIGHTMAGENTA_EX</span><span class="p">,</span>
+            <span class="n">Fore</span><span class="o">.</span><span class="n">LIGHTCYAN_EX</span><span class="p">,</span>
+            <span class="n">Fore</span><span class="o">.</span><span class="n">LIGHTYELLOW_EX</span><span class="p">,</span>
+            <span class="n">Fore</span><span class="o">.</span><span class="n">LIGHTBLUE_EX</span><span class="p">,</span>
+        <span class="p">]</span>
+
+        <span class="n">color_index</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">component</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">components</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">color_index</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">):</span>
+                <span class="n">color_index</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="k">match</span> <span class="n">index</span><span class="p">:</span>
+                <span class="k">case</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">components</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="n">color_index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">component</span> <span class="o">+</span> <span class="n">Fore</span><span class="o">.</span><span class="n">RESET</span>
+                <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+                    <span class="n">components</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">colors</span><span class="p">[</span><span class="n">color_index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">component</span> <span class="o">+</span> <span class="n">Fore</span><span class="o">.</span><span class="n">RESET</span>
+                    <span class="p">)</span>
+
+            <span class="c1"># Incrementing color index then switches to the next color in list `colors`.</span>
+            <span class="n">color_index</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">components</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Package.update_cache"><a class="viewcode-back" href="../../index.html#util.package.Package.update_cache">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">update_cache</span><span class="p">(</span><span class="n">package</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sends results to cache but does not display or query input</span>
+
+<span class="sd">        :param package: Name of package to add to cache.</span>
+<span class="sd">        :return: bool if no results found</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot; 📦 </span><span class="si">{</span><span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">LIGHTWHITE_EX</span><span class="si">}</span><span class="s2"> Refreshing package cache </span><span class="si">{</span><span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">RESET</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="n">Package</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot; 🔎 </span><span class="si">{</span><span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">LIGHTCYAN_EX</span><span class="si">}</span><span class="s2">Searching for </span><span class="si">{</span><span class="n">package</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">RESET</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="n">soup</span> <span class="o">=</span> <span class="n">Package</span><span class="o">.</span><span class="n">request_pypi_soup</span><span class="p">(</span><span class="n">package</span><span class="p">)</span>
+        <span class="n">Package</span><span class="o">.</span><span class="n">format_results</span><span class="p">(</span><span class="n">soup</span><span class="p">,</span> <span class="n">package</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">Package</span><span class="o">.</span><span class="n">packages</span><span class="p">):</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; ❌ No results found for package &#39;</span><span class="si">{</span><span class="n">package</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Package.update_package"><a class="viewcode-back" href="../../index.html#util.package.Package.update_package">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">update_package</span><span class="p">(</span><span class="n">package</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Updates `package` to latest or specified version with pip.</span>
+
+<span class="sd">        :param package: A string that matches a pypi supported dependency</span>
+
+<span class="sd">        :return: Returns if the operation was successful or not in</span>
+<span class="sd">            updating `package`.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">subprocess</span><span class="o">.</span><span class="n">check_call</span><span class="p">([</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="s2">&quot;-m&quot;</span><span class="p">,</span> <span class="s2">&quot;pip&quot;</span><span class="p">,</span> <span class="s2">&quot;install&quot;</span><span class="p">,</span> <span class="n">package</span><span class="p">])</span>
+        <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Waning: failed to install package.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="k">return</span></div></div>
+
+
+<span class="n">load_logging_ini</span><span class="p">()</span>
+<span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation index</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="footer">
+    &copy; Copyright 2023, Joshua Rose.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 6.1.3.
+  </div>
+  
+  </body>
+</html>

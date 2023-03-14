@@ -16,6 +16,7 @@ import os
 import pathlib
 import subprocess
 import sys
+from typing import List
 
 from bs4 import BeautifulSoup
 import colorama
@@ -32,7 +33,7 @@ class Package(object):
     in a multi-instance context which is likely noticeable from the amount of staticmethods.
     """
 
-    packages = []
+    packages: List = []
 
     def __init__(self, li, search_term):
         # Term to be highlighted differently as it

@@ -22,3 +22,9 @@ types-requests
 types-beautifulsoup4
 types-setuptools
 types-colorama
+
+sphinx-readable-theme
+sphinx-material
+sphinx-nameko-theme
+furo
+sphinx-design

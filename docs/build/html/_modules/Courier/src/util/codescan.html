@@ -56,7 +56,11 @@
 
 
 <div class="viewcode-block" id="Codescan"><a class="viewcode-back" href="../../../../index.html#Courier.src.util.codescan.Codescan">[docs]</a><span class="k">class</span> <span class="nc">Codescan</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Hold methods pertaining to the codescan function&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Hold methods pertaining to the codescan function.</span>
+
+<span class="sd">    BUG: Some modules are not included, despite being present in project.</span>
+<span class="sd">    TODO: Optimize `local_modules` such that only working modules are called.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">local_modules</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">project_name</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">working_set</span><span class="p">]</span>
     <span class="k">if</span> <span class="s2">&quot;util&quot;</span> <span class="ow">in</span> <span class="n">local_modules</span><span class="p">:</span>
@@ -64,7 +68,17 @@
 
 <div class="viewcode-block" id="Codescan.scan"><a class="viewcode-back" href="../../../../index.html#Courier.src.util.codescan.Codescan.scan">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">scan</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Scan for imports in collected files&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Scan for imports in collected files.</span>
+
+<span class="sd">        Calls `Package.auto_install()` to fetch files matching</span>
+<span class="sd">        a given regex. `scan()` then recursively iterates through</span>
+<span class="sd">        fetched files and extracts imports. Imports are then</span>
+<span class="sd">        validated in `install_dependencies()` to ensure that</span>
+<span class="sd">        they meet the criteria for external dependencies.</span>
+
+<span class="sd">        :return: List of import expressions extracted from `Package.auto_install()`</span>
+<span class="sd">        :rtype: list[str]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">py_files</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">Package</span><span class="o">.</span><span class="n">auto_install</span><span class="p">()</span>  <span class="c1"># pyright: ignore</span>
         <span class="n">dependencies</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>

@@ -116,7 +116,8 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns mutable BeautifulSoup object from a specified HTML class.</span>
 
 <span class="sd">        :param lxml: Data structure representing an HTML element as a `BeautifulSoup` object</span>
-<span class="sd">        :return: BeautifulSoup tag that is part of a parse tree</span>
+<span class="sd">        :return: BeautifulSoup tag that is part of a parse tree.</span>
+<span class="sd">        :rtype: `BeautifulSoup`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="n">lxml</span><span class="o">.</span><span class="n">select_one</span><span class="p">(</span><span class="s2">&quot;.package-snippet__name&quot;</span><span class="p">)</span></div>
@@ -127,6 +128,7 @@
 
 <span class="sd">        :param lxml: Data structure representing an HTML element as a `BeautifulSoup` object</span>
 <span class="sd">        :return: BeautifulSoup tag that is part of a parse tree</span>
+<span class="sd">        :rtype: `BeautifulSoup`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="n">lxml</span><span class="o">.</span><span class="n">select_one</span><span class="p">(</span><span class="s2">&quot;.package-snippet__version&quot;</span><span class="p">)</span></div>
@@ -137,6 +139,7 @@
 
 <span class="sd">        :param lxml: Data structure representing an HTML element as a `BeautifulSoup` object</span>
 <span class="sd">        :return: BeautifulSoup tag that is part of a parse tree</span>
+<span class="sd">        :rtype: `BeautifulSoup`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="n">lxml</span><span class="o">.</span><span class="n">select_one</span><span class="p">(</span><span class="s2">&quot;.package-snippet__created time&quot;</span><span class="p">)</span></div>
@@ -147,6 +150,7 @@
 
 <span class="sd">        :param lxml: Data structure representing an HTML element as a `BeautifulSoup` object</span>
 <span class="sd">        :return: BeautifulSoup tag that is part of a parse tree</span>
+<span class="sd">        :rtype: `BeautifulSoup`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="n">lxml</span><span class="o">.</span><span class="n">select_one</span><span class="p">(</span><span class="s2">&quot;.package-snippet__description&quot;</span><span class="p">)</span></div>
@@ -184,7 +188,7 @@
 
 <span class="sd">        :param id: An Integer of the package ID to get name from.</span>
 <span class="sd">        :return: An integer of the package ID if package ID is equal to `id`</span>
-<span class="sd">        :rtype: str | Literal[False]</span>
+<span class="sd">        :rtype: str | bool</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">for</span> <span class="n">package</span> <span class="ow">in</span> <span class="n">Package</span><span class="o">.</span><span class="n">packages</span><span class="p">:</span>
@@ -202,7 +206,7 @@
 
 <span class="sd">        :param name: A string of the package name to get ID from.</span>
 <span class="sd">        :return: A string of the package name if package name is equal to `name`</span>
-<span class="sd">        :rtype: int | Literal[False]</span>
+<span class="sd">        :rtype: int | bool</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">for</span> <span class="n">package</span> <span class="ow">in</span> <span class="n">Package</span><span class="o">.</span><span class="n">packages</span><span class="p">:</span>
@@ -235,8 +239,8 @@
     <span class="k">def</span> <span class="nf">package_info</span><span class="p">(</span><span class="n">selector</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get package info from pypi.</span>
 
-<span class="sd">        :param selector: If string then get the package name, if int then get the id of</span>
-<span class="sd">        the last cached search. Note that str is mandatory if previous cache has been</span>
+<span class="sd">        :param selector: If `str` then get the package name, if `int` then get the id of</span>
+<span class="sd">        the last cached search. Note that `str` is mandatory if previous cache has been</span>
 <span class="sd">        cleared.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -348,7 +352,7 @@
 <span class="sd">        :param selected: A python dependency parsed as a String or ID.</span>
 <span class="sd">        :param unittest: Boolean value used as coverage.</span>
 <span class="sd">        :return: If a package is to be installed based on shown criteria.</span>
-<span class="sd">        :rtype: boolean</span>
+<span class="sd">        :rtype: bool</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">match</span> <span class="n">selected</span><span class="p">:</span>
@@ -369,7 +373,7 @@
 
 <span class="sd">        :param unittest: Boolean value used as coverage</span>
 <span class="sd">        :return: If exception caught from user input</span>
-<span class="sd">        :rtype: boolean</span>
+<span class="sd">        :rtype: bool</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">try</span><span class="p">:</span>
@@ -414,7 +418,7 @@
 <span class="sd">        :param package: A URL of a python package, typically matching</span>
 <span class="sd">            that of a pypi package url.</span>
 <span class="sd">        :return: Server response to requested URL `package`</span>
-<span class="sd">        :rtype: requests.Response</span>
+<span class="sd">        :rtype: `requests.Response`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">pypi_request</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;https://pypi.org/search/?q=</span><span class="si">{</span><span class="n">package</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -427,7 +431,7 @@
 <span class="sd">        :param package: A URL of a python package, typically matching</span>
 <span class="sd">            that of a pypi package url.</span>
 <span class="sd">        :return: BeautifulSoup data structure representing an html element.</span>
-<span class="sd">        :rtype: bs4.BeautifulSoup</span>
+<span class="sd">        :rtype: `BeautifulSoup`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">pypi_request</span> <span class="o">=</span> <span class="n">Package</span><span class="o">.</span><span class="n">request_pypi</span><span class="p">(</span><span class="n">package</span><span class="p">)</span>
@@ -523,7 +527,7 @@
 
 <span class="sd">        :param path: (optional) Path as string which must contain at least two directories.</span>
 <span class="sd">        :return: A list of path components that are then concatenated.</span>
-<span class="sd">        :rtype: String</span>
+<span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">components</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">path</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">))</span>
@@ -566,6 +570,8 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sends results to cache but does not display or query input</span>
 
 <span class="sd">        :param package: Name of package to add to cache.</span>
+<span class="sd">        :return: bool if no results found</span>
+<span class="sd">        :rtype: bool</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>

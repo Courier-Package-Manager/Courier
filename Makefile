@@ -1,28 +1,29 @@
 run:
-	black .
-	mypy --check-untyped-defs src
-	coverage run -m pytest -s tests
-	coverage html
-	coverage report -m
+	python -m black .
+	python -m mypy --check-untyped-defs src
+	python -m coverage run -m pytest -s tests
+	python -m coverage html
+	python -m coverage report -m
 
 black:
-	black .
+	python -m black .
 
 
 blacken:
-	black .
+	python -m black .
 
 lint:
-	pylint src/*.py
+	python -m pylint src/*.py
 
 types:
-	mypy --check-untyped-defs src
+	export MYPYPATH=buildconfig/stubs
+	python -m mypy src --config-file mypy.ini
 
 test:
-	coverage run -m pytest -s tests
-	coverage html
-	pylint src/*.py
-	coverage report -m
+	python -m coverage run -m pytest -s tests
+	python -m coverage html
+	python -m pylint src/*.py
+	python -m coverage report -m
 
 install:
 	pip install -r requirements.txt

@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>src.util.codescan &#8212; Courier 0.1.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/readable.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head><body>
+  
+  
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Courier 0.1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">src.util.codescan</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for src.util.codescan</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Courier.util.codescan</span>
+<span class="sd">~~~~~~~~~~~~~~~~~~~~~</span>
+
+<span class="sd">Scans python files for unsatisfied imports.</span>
+
+<span class="sd">Codescan [verb] (my definition): To scan code for unmet dependencies.</span>
+<span class="sd">Codescan [noun] (my definition): A report of unmet dependencies.</span>
+
+<span class="sd">:copyright: (c) 2023 by Joshua Rose.</span>
+<span class="sd">:license: MIT, see LICENSE for more details.</span>
+
+<span class="sd">TODO: codescan configuration file</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pathlib</span>
+
+<span class="kn">import</span> <span class="nn">pkg_resources</span>
+
+<span class="kn">from</span> <span class="nn">.package</span> <span class="kn">import</span> <span class="n">Package</span>
+<span class="kn">from</span> <span class="nn">.update</span> <span class="kn">import</span> <span class="n">load_logging_ini</span>
+
+
+<div class="viewcode-block" id="Codescan"><a class="viewcode-back" href="../../../index.html#src.util.codescan.Codescan">[docs]</a><span class="k">class</span> <span class="nc">Codescan</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Hold methods pertaining to the codescan function.</span>
+
+<span class="sd">    BUG: Some modules are not included, despite being present in project.</span>
+<span class="sd">    TODO: Optimize `local_modules` such that only working modules are called.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">local_modules</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">project_name</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">working_set</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s2">&quot;util&quot;</span> <span class="ow">in</span> <span class="n">local_modules</span><span class="p">:</span>
+        <span class="n">local_modules</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;util&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Codescan.scan"><a class="viewcode-back" href="../../../index.html#src.util.codescan.Codescan.scan">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">scan</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Scan for imports in collected files.</span>
+
+<span class="sd">        Calls `Package.auto_install()` to fetch files matching</span>
+<span class="sd">        a given regex. `scan()` then recursively iterates through</span>
+<span class="sd">        fetched files and extracts imports. Imports are then</span>
+<span class="sd">        validated in `install_dependencies()` to ensure that</span>
+<span class="sd">        they meet the criteria for external dependencies.</span>
+
+<span class="sd">        :return: List of import expressions extracted from `Package.auto_install()`</span>
+<span class="sd">        :rtype: list[str]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">py_files</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">Package</span><span class="o">.</span><span class="n">auto_install</span><span class="p">()</span>  <span class="c1"># pyright: ignore</span>
+        <span class="n">dependencies</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">folders</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">is_dir</span><span class="p">()]</span>
+
+        <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">py_files</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">resolve</span><span class="p">()),</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">):</span>
+                            <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;import&quot;</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;import&quot;</span> <span class="ow">and</span> <span class="s2">&quot;from&quot;</span><span class="p">))</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="s2">&quot;from&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">):</span>
+                                    <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">folders</span><span class="p">:</span>
+                                        <span class="n">dependencies</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+                                <span class="n">dependency</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                                <span class="n">dependencies</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dependency</span><span class="p">)</span>
+                    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">dependencies</span></div>
+
+<div class="viewcode-block" id="Codescan.install_dependencies"><a class="viewcode-back" href="../../../index.html#src.util.codescan.Codescan.install_dependencies">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">install_dependencies</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Install previous dependencies collected from scan.</span>
+
+<span class="sd">        The scan is run within the `install_dependencies` method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">dependencies</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">scan</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">dependency</span> <span class="ow">in</span> <span class="n">dependencies</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dependency</span> <span class="ow">in</span> <span class="n">Codescan</span><span class="o">.</span><span class="n">local_modules</span><span class="p">:</span>
+                <span class="n">Package</span><span class="o">.</span><span class="n">update_package</span><span class="p">(</span><span class="n">dependency</span><span class="p">)</span></div></div>
+
+
+<span class="n">load_logging_ini</span><span class="p">()</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation index</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="footer">
+    &copy; Copyright 2023, Joshua Rose.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 6.1.3.
+  </div>
+  
+  </body>
+</html>

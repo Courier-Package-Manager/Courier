@@ -21,7 +21,7 @@ from util.update import load_logging_ini
 from util.update import loc_package_file
 
 
-class Courier(object):
+class Courier:
     """Handles user input and file IO."""
 
     def __init__(self):
@@ -141,6 +141,8 @@ class Courier(object):
                                     Courier.read_docs(file="menus.txt")
                                 )
                                 return
+                            case "files":
+                                print("Command still in development. Check back later.")
                             case "get" | "g":
                                 Courier.print_formatted_list(
                                     Courier.read_docs(file="get.txt")
@@ -260,6 +262,11 @@ class Courier(object):
                                 Courier.read_docs(file="get.txt")
                             )
                             return
+                case "files":
+                    """List files in an aesthetic way by size"""
+                    Package.auto_install(os.getcwd())
+                    return
+
                 case _:
                     Courier.print_formatted_list(Courier.read_docs(file="help.txt"))
                     return

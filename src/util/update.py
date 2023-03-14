@@ -90,9 +90,9 @@ def scan_dir(files=True, folders=True):
     for item in os.scandir(os.getcwd()):
         items.append(item)
     if not files:
-        [items.remove(item) for item in items if os.path.isfile(item)]
+        [item for item in items if os.path.isfile(item)]
     if not folders:
-        [items.remove(item) for item in items if os.path.isdir(item)]
+        [item for item in items if os.path.isdir(item)]
 
     return items
 

@@ -1,0 +1,268 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>util.update &#8212; Courier 0.1.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/readable.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head><body>
+  
+  
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Courier 0.1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">util.update</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for util.update</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Courier.util.update</span>
+<span class="sd">~~~~~~~~~~~~~~~~~~~~</span>
+
+<span class="sd">This modules is reponsible for updating Courier as</span>
+<span class="sd">a program. This module is also responsibile for</span>
+<span class="sd">utility functions and the management of aesthetic</span>
+<span class="sd">dependencies such as colorama and logging.</span>
+
+<span class="sd">:copyright: (c) 2023 by Joshua Rose.</span>
+<span class="sd">:license: MIT, see LICENSE for more details.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">logging.config</span> <span class="kn">import</span> <span class="n">fileConfig</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">colorama</span>
+
+<span class="kn">from</span> <span class="nn">.setup</span> <span class="kn">import</span> <span class="n">get_date</span>
+
+
+<div class="viewcode-block" id="file_exists"><a class="viewcode-back" href="../../index.html#util.update.file_exists">[docs]</a><span class="k">def</span> <span class="nf">file_exists</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test if file exists in the current working directory.</span>
+
+<span class="sd">    :param file: Filename as a string</span>
+<span class="sd">    :param mode: Given filemode eg: read, write, append (as `str`)</span>
+<span class="sd">    :return: `False` if file is not present or `TextIOWrapper` if present</span>
+<span class="sd">    :rtype: bool</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_file</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">_file</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_file</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+                <span class="n">_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">return</span>
+    <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;file not found&quot;</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="last_updated"><a class="viewcode-back" href="../../index.html#util.update.last_updated">[docs]</a><span class="k">def</span> <span class="nf">last_updated</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Last update in datetime format.</span>
+
+<span class="sd">    This is assuming that</span>
+<span class="sd">         &gt;&gt;&gt; if project_folder != &#39;Courier&#39;: os.chdir(&#39;..&#39;)</span>
+<span class="sd">    has run as this function is dependant on the current</span>
+<span class="sd">    working directory containing the `PACKAGE` file.</span>
+
+<span class="sd">    :return: Current date as a `datetime` object.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">file_exists</span><span class="p">(</span><span class="s2">&quot;update.json&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;update.json&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">_file</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">_file</span><span class="p">)</span>
+            <span class="n">_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;created&quot;</span><span class="p">])</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="n">get_date</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">date</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="load_logging_ini"><a class="viewcode-back" href="../../index.html#util.update.load_logging_ini">[docs]</a><span class="k">def</span> <span class="nf">load_logging_ini</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="s2">&quot;config_info.ini&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load logging configuration file.</span>
+
+<span class="sd">    :param config: Configuration file as `str`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fileConfig</span><span class="p">(</span><span class="n">config</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="scan_dir"><a class="viewcode-back" href="../../index.html#util.update.scan_dir">[docs]</a><span class="k">def</span> <span class="nf">scan_dir</span><span class="p">(</span><span class="n">files</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">folders</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A better version of the os.scandir function, as it takes multiple args.</span>
+
+<span class="sd">    :param files: (optional) List files in current directory</span>
+<span class="sd">    :param folders: (optional) List folders in current directory</span>
+<span class="sd">    :return: A list of current files and folders found</span>
+<span class="sd">    :rtype: list[DirEntry]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">scandir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()):</span>
+        <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">files</span><span class="p">:</span>
+        <span class="p">[</span><span class="n">items</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">item</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">folders</span><span class="p">:</span>
+        <span class="p">[</span><span class="n">items</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">item</span><span class="p">)]</span>
+
+    <span class="k">return</span> <span class="n">items</span></div>
+
+
+<div class="viewcode-block" id="get_project_folder"><a class="viewcode-back" href="../../index.html#util.update.get_project_folder">[docs]</a><span class="k">def</span> <span class="nf">get_project_folder</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dedicated function for testing.</span>
+
+<span class="sd">    :return: The base-name of of the current project folder.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">project_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()))</span>
+    <span class="k">return</span> <span class="n">project_folder</span></div>
+
+
+<div class="viewcode-block" id="switch_root"><a class="viewcode-back" href="../../index.html#util.update.switch_root">[docs]</a><span class="k">def</span> <span class="nf">switch_root</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Auto switch root when not applicable.</span>
+
+<span class="sd">    :return: Full current project path as `str`</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">project_folder</span> <span class="o">=</span> <span class="n">get_project_folder</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">project_folder</span> <span class="o">!=</span> <span class="s2">&quot;Courier&quot;</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s2">&quot;..&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">project_folder</span></div>
+
+
+<div class="viewcode-block" id="create_package"><a class="viewcode-back" href="../../index.html#util.update.create_package">[docs]</a><span class="k">def</span> <span class="nf">create_package</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dump json object to `PACKAGE`.</span>
+
+<span class="sd">    `create_package()` raises a permission error if the user</span>
+<span class="sd">    does not have write permissions to current working directory.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;update.json&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="n">ts</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;created&quot;</span><span class="p">:</span> <span class="n">ts</span><span class="p">,</span> <span class="s2">&quot;dependencies&quot;</span><span class="p">:</span> <span class="p">{}}</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">fp</span><span class="p">)</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">PermissionError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">PermissionError</span></div>
+
+
+<div class="viewcode-block" id="get_package_name"><a class="viewcode-back" href="../../index.html#util.update.get_package_name">[docs]</a><span class="k">def</span> <span class="nf">get_package_name</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get package name.</span>
+
+<span class="sd">    Note that this function also allows for unit tests.</span>
+
+<span class="sd">    :return: A directory entry of the current file.</span>
+<span class="sd">    :rtype: bool</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">switch_root</span><span class="p">()</span>  <span class="c1"># Switch root before asking if its in the switched directory</span>
+    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">scan_dir</span><span class="p">(</span><span class="n">files</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">folders</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;update.json&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">file</span></div>
+
+
+<div class="viewcode-block" id="loc_package_file"><a class="viewcode-back" href="../../index.html#util.update.loc_package_file">[docs]</a><span class="k">def</span> <span class="nf">loc_package_file</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">get_package_name</span><span class="p">(),</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Locate the package file &amp; create package file</span>
+
+<span class="sd">    If the file does not exist it will be created in the current</span>
+<span class="sd">    working directory of wherever `courier.py` was called from.</span>
+
+<span class="sd">    :param name: DirEntry of current package name as file</span>
+<span class="sd">    :param debug: If a unit test is to be conducted allow for artifically invoked edge cases.</span>
+<span class="sd">    :param mode: Edit mode of file to be called as read, write or append.</span>
+<span class="sd">    :return: File object if package has been opened or None</span>
+<span class="sd">    :rtype: `FileIOWrapper`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span> <span class="ow">or</span> <span class="n">debug</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Set </span><span class="si">{</span><span class="n">GREEN</span><span class="si">}</span><span class="s2">&#39;update.json&#39;</span><span class="si">{</span><span class="n">RESET</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="n">MAGENTA</span><span class="si">}{</span><span class="n">cwd</span><span class="si">}{</span><span class="n">RESET</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">create_package</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;update.json&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">fp</span>
+                <span class="k">finally</span><span class="p">:</span>
+                    <span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s2">&quot;w&quot;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">mode</span><span class="p">):</span>
+                    <span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+
+<span class="n">GREEN</span> <span class="o">=</span> <span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">GREEN</span>
+<span class="n">RESET</span> <span class="o">=</span> <span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">RESET</span>
+<span class="n">MAGENTA</span> <span class="o">=</span> <span class="n">colorama</span><span class="o">.</span><span class="n">Fore</span><span class="o">.</span><span class="n">MAGENTA</span>
+
+<span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation index</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="footer">
+    &copy; Copyright 2023, Joshua Rose.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 6.1.3.
+  </div>
+  
+  </body>
+</html>
