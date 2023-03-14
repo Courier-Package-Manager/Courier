@@ -57,6 +57,7 @@ class TestCourier(unittest.TestCase):
         """tests cli args are processed"""
 
         Courier.proc_args(args=[])
+        Courier.proc_args(args=["help", "list"])
         Courier.proc_args(args=["--help"])
         Courier.proc_args(args=["--do-nothing"])
         Courier.proc_args(args=["--menu"])
@@ -70,6 +71,7 @@ class TestCourier(unittest.TestCase):
         Courier.proc_args(args=["help"])
         Courier.proc_args(args=["install", "help", "mypy"])
         Courier.proc_args(args=["get"])
+        Courier.proc_args(args=["files"])
         Courier.proc_args(args=["get", "brown"], get_test=True)  # pyright: ignore
         Courier.proc_args(args=["get", "brown", "fox"])
         Courier.proc_args(args=["menu"])
@@ -77,11 +79,15 @@ class TestCourier(unittest.TestCase):
         Courier.proc_args(args=["help", "i"])
         Courier.proc_args(args=["help", "u"])
         Courier.proc_args(args=["help", "cs"])
+        Courier.proc_args(args=["help", "menu"])
+        Courier.proc_args(args=["help", "help"])
+        Courier.proc_args(args=["help", "_"])
         Courier.proc_args(args=["help", "menu", "menu"])
         Courier.proc_args(args=["help", "menu", "help"])
         Courier.proc_args(args=["help", "menu", "development"])
         Courier.proc_args(args=["help", "menu", "testing"])
         Courier.proc_args(args=["help", "menu", "general"])
+        Courier.proc_args(args=["help", "menu", "_"])
 
         print(f" 🐒 {self.test_proc_args.__doc__}")
 
