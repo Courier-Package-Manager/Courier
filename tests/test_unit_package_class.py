@@ -14,6 +14,8 @@ and core methods.
 
 import logging
 import unittest
+from src.courier import Courier
+from src.util import package
 
 from src.util.package import Package
 
@@ -93,6 +95,38 @@ class TestUnitPackageClass(unittest.TestCase):
         """Test is installed"""
         print(f" 🍉 {self.test_is_installed.__doc__}")
         Package.search("numpy", True)
+
+    def test_get_package_created(self):
+        """Test get package created"""
+        print(f" 🚸 {self.test_get_package_created.__doc__}")
+        courier = Courier()
+        courier.get_package_created()
+        del courier
+
+    def test_package_list(self):
+        """Test package list"""
+        print(f"   {self.test_package_list.__doc__}")
+        self.assertTrue(Package.list())
+
+    def test_package_args(self):
+        """Return package with NULL"""
+        print(f"   {self.test_package_args.__doc__}")
+        _package = Package(None, "")
+        del _package
+        _package = Package(None, None)
+        del _package
+        _package = Package("", None)
+        del _package
+
+    def test_package_info(self):
+        """Test package info"""
+        print(f"   {self.test_package_info.__doc__}")
+        with self.assertRaises(ValueError):
+            Package.package_info("test")
+        with self.assertRaises(ValueError):
+            Package.package_info(2)
+        with self.assertRaises(ValueError):
+            Package.package_info(True)
 
 
 if __name__ == "__main__":

@@ -11,6 +11,7 @@ primary Courier functions.
 """
 
 import os
+import subprocess
 import unittest
 
 from src.courier import Courier
@@ -18,6 +19,20 @@ from src.courier import Courier
 
 class TestCourier(unittest.TestCase):
     """Test courier functions"""
+
+    def setUp(self) -> None:
+        self.path = "/home/Josh/dotfiles/"
+        if not os.path.exists(self.path):
+            os.mkdir(self.path)
+        self.temp_rc = open("/home/Josh/dotfiles/.bashrc", "w")
+        return super().setUp()
+
+    def test_bashrc_exists(self):
+        courier = Courier()
+        courier.bashrc_exists()
+        self.temp_rc.close()
+        if os.path.exists(self.path):
+            os.system("rm -rf /home/Josh/dotfiles")
 
     def test_get_file_path(self):
         """Ensure file path is accurate"""
@@ -96,6 +111,10 @@ class TestCourier(unittest.TestCase):
 
         print(f" 🔒 {self.test_main.__doc__}")
         assert True
+
+    def tearDown(self) -> None:
+        del self.path
+        return super().tearDown()
 
 
 if __name__ == "__main__":
