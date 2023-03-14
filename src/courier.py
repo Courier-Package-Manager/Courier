@@ -277,8 +277,7 @@ class Courier:
         Courier.assert_file_path()
         self.logger.debug("Package file %s update.json %s was created %s ")
 
-    @staticmethod
-    def bashrc_exists():
+    def bashrc_exists(self):
         """Locate (if present) the user bash configuration file.
 
         This function tests under the following directories:
@@ -290,7 +289,8 @@ class Courier:
             :class:`Literal <False>` boolean
         """
 
-        for file in glob(os.path.join(str(pathlib.Path.home()), "*")):
+        for file in glob(os.path.join(str(pathlib.Path.home()), ".*")):
+            self.logger.debug(file)
             if "bashrc" in file:
                 return pathlib.Path(file)
 
