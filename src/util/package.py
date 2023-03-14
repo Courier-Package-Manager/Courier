@@ -20,7 +20,7 @@ from typing import List
 
 from bs4 import BeautifulSoup
 import colorama
-from colorama import Fore
+from colorama import Fore, ansitowin32
 import requests
 
 from .setup import escape_ansi
@@ -292,6 +292,7 @@ class Package(object):
         else:
             # remove formatting
             package = escape_ansi(package)
+            print(package)
             os.system(f"{sys.executable} -m pip install {package}")
             return
 
@@ -569,6 +570,7 @@ class Package(object):
         """
 
         try:
+            package = escape_ansi(package)
             subprocess.check_call([sys.executable, "-m", "pip", "install", package])
         except subprocess.CalledProcessError:
             logging.warning("Waning: failed to install package.")
