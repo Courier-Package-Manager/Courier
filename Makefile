@@ -1,6 +1,6 @@
 run:
 	python -m black .
-	python -m mypy --check-untyped-defs src
+	python -m mypy src --config-file mypy.ini
 	python -m coverage run -m pytest -s tests
 	python -m coverage html
 	python -m coverage report -m
@@ -27,8 +27,7 @@ test:
 
 install:
 	pip install -r requirements.txt
-	sh buildconfig/exports.sh
+	# sh buildconfig/exports.sh
 	@clear
 	echo "Installation finished."
 	echo "Please ensure you execute from inside ./src"
-

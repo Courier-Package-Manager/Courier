@@ -67,6 +67,7 @@ class TestCourier(unittest.TestCase):
         Courier.proc_args(args=["codescan", "test"])
         Courier.proc_args(args=["install"])
         Courier.proc_args(args=["install", "mypy"])
+        Courier.proc_args(args=["help"])
         Courier.proc_args(args=["install", "help", "mypy"])
         Courier.proc_args(args=["get"])
         Courier.proc_args(args=["get", "brown"], get_test=True)  # pyright: ignore
