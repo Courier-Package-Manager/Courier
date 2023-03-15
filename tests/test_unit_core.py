@@ -88,7 +88,7 @@ class TestCourier(unittest.TestCase):
         Courier.proc_args(args=["install", "help", "mypy"])
         Courier.proc_args(args=["get"])
         Courier.proc_args(args=["files"])
-        Courier.proc_args(args=["get", "brown"], get_test=True)  # pyright: ignore
+        Courier.proc_args(args=["get", "brown"], test_env=True)
         Courier.proc_args(args=["get", "brown", "fox"])
         Courier.proc_args(args=["menu"])
         Courier.proc_args(args=["help", "g"])

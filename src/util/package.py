@@ -479,7 +479,7 @@ class Package(object):
         )
 
         for file in path.rglob("*.py"):
-            head, _ = os.path.join(file.parent, file.name).split("/", 1)
+            head = os.path.join(file.parent, file.name).split("/", 1)
             if head in ignore:
                 continue
             files.append(file)

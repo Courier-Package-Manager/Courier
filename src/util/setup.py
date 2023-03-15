@@ -12,7 +12,12 @@ are used for formatting and general aethetics.
 import datetime
 import re
 
+from .update import load_logging_ini
+import logging
 import colorama
+
+load_logging_ini()
+logger = logging.getLogger()
 
 
 def get_date(
@@ -55,5 +60,9 @@ def escape_ansi(line) -> str:
     :rtype: string
     """
 
-    ansi_escape = re.compile(r"(?:\x1B[@-_]|[\x80-\x9F])[0-?]*[ -/]*[@-~]")
-    return ansi_escape.sub("", line)
+    try:
+        ansi_escape = re.compile(r"(?:\x1B[@-_]|[\x80-\x9F])[0-?]*[ -/]*[@-~]")
+        return ansi_escape.sub("", line)
+    except Exception as raw_exception:
+        logger.error(str(raw_exception))
+        return line
