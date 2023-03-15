@@ -35,7 +35,7 @@ class Codescan:
         local_modules.remove("util")
 
     @classmethod
-    def scan(cls):
+    def scan(cls) -> None:
         """Scan for imports in collected files.
 
         Calls `Package.auto_install()` to fetch files matching
@@ -46,6 +46,8 @@ class Codescan:
 
         :return: List of import expressions extracted from `Package.auto_install()`
         :rtype: list[str]
+
+        :returns: None
         """
 
         py_files: list = Package.auto_install()  # pyright: ignore
@@ -68,10 +70,12 @@ class Codescan:
         return dependencies
 
     @classmethod
-    def install_dependencies(cls):
+    def install_dependencies(cls) -> None:
         """Install previous dependencies collected from scan.
 
         The scan is run within the `install_dependencies` method.
+        
+        :returns: None
         """
 
         dependencies = cls.scan()
