@@ -11,7 +11,6 @@ primary Courier functions.
 """
 
 import os
-import subprocess
 import unittest
 
 from src.courier import Courier
