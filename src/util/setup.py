@@ -16,7 +16,7 @@ import colorama
 
 
 def get_date(
-    date: datetime.datetime, day=datetime.datetime.now().strftime("%-d")
+    date: datetime.datetime, day=datetime.datetime.now().strftime("%d")
 ) -> str:
     """Return a colorized version of timestamp
 
