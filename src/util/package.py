@@ -20,7 +20,7 @@ from typing import List
 
 from bs4 import BeautifulSoup
 import colorama
-from colorama import Fore, ansitowin32
+from colorama import Fore
 import requests
 
 from .setup import escape_ansi
@@ -28,9 +28,10 @@ from .update import load_logging_ini
 
 
 class Package(object):
-    """Basic container for both singular and compound packages. Package regulates
-    global package functions and reades files etc. Packages are often least used
-    in a multi-instance context which is likely noticeable from the amount of staticmethods.
+    """Basic container for both singular and compound packages.
+    Package regulates global package functions and reades files etc.
+    Packages are often least used in a multi-instance context which
+    is likely noticeable from the amount of staticmethods.
     """
 
     packages: List = []
@@ -64,27 +65,29 @@ class Package(object):
         ver = lxml_ver.text.strip()
 
         self.name = "{color}{name}{reset}".format(
-            color=Fore.CYAN, name=name, reset=Fore.RESET
-        )
+                color=Fore.CYAN, name=name, reset=Fore.RESET
+                )
         self.version = "{color}{name}{reset}".format(
-            color=Fore.LIGHTCYAN_EX, name=ver, reset=Fore.RESET
-        )
+                color=Fore.LIGHTCYAN_EX, name=ver, reset=Fore.RESET
+                )
         self.date = "{color}{name}{reset}".format(
-            color=Fore.LIGHTCYAN_EX, name=date, reset=Fore.RESET
-        )
+                color=Fore.LIGHTCYAN_EX, name=date, reset=Fore.RESET
+                )
         self.description: str = "{color}{name}{reset}".format(
-            color=Fore.BLUE, name=desc, reset=Fore.RESET
-        )
+                color=Fore.BLUE, name=desc, reset=Fore.RESET
+                )
         self._description = self.description.replace(
-            search_term, Fore.LIGHTMAGENTA_EX + search_term + Fore.LIGHTBLUE_EX
-        )
+                search_term, Fore.LIGHTMAGENTA_EX + search_term
+                                                  + Fore.LIGHTBLUE_EX
+                )
         self.id = len(Package.packages) + 1
 
     @staticmethod
     def get_name_from_lxml(lxml):
         """Returns mutable BeautifulSoup object from a specified HTML class.
 
-        :param lxml: Data structure representing an HTML element as a `BeautifulSoup` object
+        :param lxml: Data structure representing an HTML
+        element as a `BeautifulSoup` object
         :return: BeautifulSoup tag that is part of a parse tree.
         :rtype: `BeautifulSoup`
         """
@@ -95,7 +98,8 @@ class Package(object):
     def get_version_from_lxml(lxml: BeautifulSoup):
         """Returns mutable BeautifulSoup object from a specified HTML class.
 
-        :param lxml: Data structure representing an HTML element as a `BeautifulSoup` object
+        :param lxml: Data structure representing an HTML element
+        as a `BeautifulSoup` object
         :return: BeautifulSoup tag that is part of a parse tree
         :rtype: `BeautifulSoup`
         """
@@ -106,7 +110,8 @@ class Package(object):
     def get_date_from_lxml(lxml: BeautifulSoup):
         """Returns mutable BeautifulSoup object from a specified HTML class.
 
-        :param lxml: Data structure representing an HTML element as a `BeautifulSoup` object
+        :param lxml: Data structure representing an HTML element
+        as a `BeautifulSoup` object
         :return: BeautifulSoup tag that is part of a parse tree
         :rtype: `BeautifulSoup`
         """
@@ -117,7 +122,8 @@ class Package(object):
     def get_desc_from_lxml(lxml):
         """Returns mutable BeautifulSoup object from a specified HTML class.
 
-        :param lxml: Data structure representing an HTML element as a `BeautifulSoup` object
+        :param lxml: Data structure representing an HTML element
+        as a `BeautifulSoup` object
         :return: BeautifulSoup tag that is part of a parse tree
         :rtype: `BeautifulSoup`
         """
@@ -128,7 +134,8 @@ class Package(object):
     def list(cls):
         """Display packages fetched from pypi with syntax formatting.
 
-        :param limit: The maximum amount as an Integer of packages to be displayed
+        :param limit: The maximum amount as an Integer of packages
+        to be displayed
         :return: The success state of the function
         :rtype: bool
         """
@@ -137,14 +144,14 @@ class Package(object):
 
         for _, package in enumerate(cls.packages):
             print(
-                "{id} {name} {version} {date}\n\t{description}".format(
-                    id=package.id,
-                    name=package.name,
-                    version=package.version,
-                    date=package.date,
-                    description=package.description,
-                )
-            )
+                    "{id} {name} {version} {date}\n\t{description}".format(
+                        id=package.id,
+                        name=package.name,
+                        version=package.version,
+                        date=package.date,
+                        description=package.description,
+                        )
+                    )
 
         return True
 
@@ -174,7 +181,7 @@ class Package(object):
         Only returns package ID if package name and `name` are equal.
 
         :param name: A string of the package name to get ID from.
-        :return: A string of the package name if package name is equal to `name`
+        :return: A string of the package name if package name == `name`
         :rtype: int | bool
         """
 
@@ -208,9 +215,9 @@ class Package(object):
     def package_info(selector):
         """Get package info from pypi.
 
-        :param selector: If `str` then get the package name, if `int` then get the id of
-        the last cached search. Note that `str` is mandatory if previous cache has been
-        cleared.
+        :param selector: If `str` then get the package name, if `int` then
+        get the id of the last cached search. Note that `str` is mandatory
+        if previous cache has been cleared.
         """
 
         match str(type(selector)):
@@ -219,32 +226,32 @@ class Package(object):
             case str(int()):
                 if len(Package.packages) == 0:
                     logging.warning(
-                        "Cannot search by ID: no cache present from previous search."
-                    )
+                            """Cannot search by ID: no cache present from previous search."""
+                            )
                     return
                 else:
                     package = Package.packages[
-                        Package.packages.index(Package.name_from_id(int(selector)))
-                    ]
+                            Package.packages.index(Package.name_from_id(int(selector)))
+                            ]
                     return
             case _:
                 logging.warning(
-                    f"Datatype {type(selector)} is not supported as an indexer to a package."
-                )
+                        f"Datatype {type(selector)} is not supported as an indexer to a package."
+                        )
                 return
 
         LOGGER.info(
-            """
+                """
               Package: {package_name}
               Date: {package_date}
               Version: {package_version}
               Description: {package_description}""".format(
-                package_name=package.name,
-                package_date=package.date,
-                package_version=package.version,
-                package_description=package.description,
-            )
-        )
+                  package_name=package.name,
+                  package_date=package.date,
+                  package_version=package.version,
+                  package_description=package.description,
+                  )
+              )
 
     @staticmethod
     def install_from_id(id, unittest):
@@ -267,15 +274,15 @@ class Package(object):
 
         if not package_count:
             LOGGER.critical(
-                colorama.Fore.RED
-                + " ❌ Could not index package list; no cache loaded."
-                + colorama.Fore.RESET
-            )
+                    colorama.Fore.RED
+                    + " ❌ Could not index package list; no cache loaded."
+                    + colorama.Fore.RESET
+                    )
             return
 
         LOGGER.debug(
-            f" loaded {colorama.Fore.GREEN + str(package_count) + colorama.Fore.RESET} packages."
-        )
+                f" loaded {colorama.Fore.GREEN + str(package_count) + colorama.Fore.RESET} packages."
+                )
         if isinstance(id, int):
             if isinstance(Package.name_from_id(id), str):
                 package = Package.name_from_id(id)
@@ -365,8 +372,8 @@ class Package(object):
         """
 
         LOGGER.info(
-            f" 🔎 {colorama.Fore.LIGHTCYAN_EX}Searching for {package} {colorama.Fore.RESET}"
-        )
+                f" 🔎 {colorama.Fore.LIGHTCYAN_EX}Searching for {package} {colorama.Fore.RESET}"
+                )
         soup = Package.request_pypi_soup(package)
 
         Package.format_results(soup, package)
@@ -438,39 +445,39 @@ class Package(object):
         path = pathlib.Path(root)
 
         sizes = {
-            "small": {
-                "color": colorama.Fore.BLUE,
-                "icon": "📘",
-                "min": 0,
-                "max": 999,
-            },
-            "medium": {
-                "color": colorama.Fore.RED,
-                "icon": "📕",
-                "min": 1000,
-                "max": 9999,
-            },
-            "large": {
-                "color": colorama.Fore.GREEN,
-                "icon": "📗",
-                "min": 10000,
-                "max": 99999,
-            },
-            "chunky": {
-                "color": colorama.Fore.YELLOW,
-                "icon": "📙",
-                "min": 100000,
-                "max": 999999,
-            },
-        }
+                "small": {
+                    "color": colorama.Fore.BLUE,
+                    "icon": "📘",
+                    "min": 0,
+                    "max": 999,
+                    },
+                "medium": {
+                    "color": colorama.Fore.RED,
+                    "icon": "📕",
+                    "min": 1000,
+                    "max": 9999,
+                    },
+                "large": {
+                    "color": colorama.Fore.GREEN,
+                    "icon": "📗",
+                    "min": 10000,
+                    "max": 99999,
+                    },
+                "chunky": {
+                    "color": colorama.Fore.YELLOW,
+                    "icon": "📙",
+                    "min": 100000,
+                    "max": 999999,
+                    },
+                }
 
         LOGGER.debug(
-            f"""\n
+                f"""\n
                 📘 = {colorama.Fore.LIGHTCYAN_EX}small{colorama.Fore.RESET}
                 📕 = {colorama.Fore.RESET}medium{colorama.Fore.RESET}
                 📗 = {colorama.Fore.GREEN}large{colorama.Fore.RESET}
                 📙 = {colorama.Fore.YELLOW}chunky{colorama.Fore.RESET} \n"""
-        )
+                )
 
         for file in path.rglob("*.py"):
             head, _ = os.path.join(file.parent, file.name).split("/", 1)
@@ -493,28 +500,30 @@ class Package(object):
 
     @staticmethod
     def color_path(path=os.getcwd()):
-        """Changes the color of each folder in `path` relative to a list preset of colors.
+        """Changes the color of each folder in `path` relative
+        to a list preset of colors.
 
-        :param path: (optional) Path as string which must contain at least two directories.
+        :param path: (optional) Path as string which must contain at
+        least two directories.
         :return: A list of path components that are then concatenated.
         :rtype: str
         """
 
         components = path.split("/", path.count("/"))
         colors = [
-            Fore.GREEN,
-            Fore.RED,
-            Fore.MAGENTA,
-            Fore.CYAN,
-            Fore.YELLOW,
-            Fore.BLUE,
-            Fore.LIGHTGREEN_EX,
-            Fore.LIGHTRED_EX,
-            Fore.LIGHTMAGENTA_EX,
-            Fore.LIGHTCYAN_EX,
-            Fore.LIGHTYELLOW_EX,
-            Fore.LIGHTBLUE_EX,
-        ]
+                Fore.GREEN,
+                Fore.RED,
+                Fore.MAGENTA,
+                Fore.CYAN,
+                Fore.YELLOW,
+                Fore.BLUE,
+                Fore.LIGHTGREEN_EX,
+                Fore.LIGHTRED_EX,
+                Fore.LIGHTMAGENTA_EX,
+                Fore.LIGHTCYAN_EX,
+                Fore.LIGHTYELLOW_EX,
+                Fore.LIGHTBLUE_EX,
+                ]
 
         color_index = 0
 
@@ -524,13 +533,19 @@ class Package(object):
 
             match index:
                 case 0:
-                    components[index] = colors[color_index - 1] + component + Fore.RESET
+                    components[index] = (
+                            colors[color_index - 1] + component
+                                                    + Fore.RESET
+                             )
                 case _:
                     components[index] = (
-                        colors[color_index - 1] + "/" + component + Fore.RESET
-                    )
+                            colors[color_index - 1] + "/"
+                                                    + component
+                                                    + Fore.RESET
+                            )
 
-            # Incrementing color index then switches to the next color in list `colors`.
+            # Incrementing color index then switches to the next color
+            # in list `colors`.
             color_index += 1
 
         return "".join(components)
@@ -545,12 +560,12 @@ class Package(object):
         """
 
         LOGGER.debug(
-            f" 📦 {colorama.Fore.LIGHTWHITE_EX} Refreshing package cache {colorama.Fore.RESET}"
-        )
+                f" 📦 {colorama.Fore.LIGHTWHITE_EX} Refreshing package cache {colorama.Fore.RESET}"
+                )
         Package.packages.clear()
         LOGGER.info(
-            f" 🔎 {colorama.Fore.LIGHTCYAN_EX}Searching for {package} {colorama.Fore.RESET}"
-        )
+                f" 🔎 {colorama.Fore.LIGHTCYAN_EX}Searching for {package} {colorama.Fore.RESET}"
+                )
         soup = Package.request_pypi_soup(package)
         Package.format_results(soup, package)
 
@@ -571,7 +586,8 @@ class Package(object):
 
         try:
             package = escape_ansi(package)
-            subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+            subprocess.check_call([
+                sys.executable, "-m", "pip", "install", package])
         except subprocess.CalledProcessError:
             logging.warning("Waning: failed to install package.")
             return

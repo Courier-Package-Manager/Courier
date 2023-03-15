@@ -18,7 +18,7 @@ import colorama
 def get_date(
     date: datetime.datetime, day=datetime.datetime.now().strftime("%-d")
 ) -> str:
-    """Return a ❇️ colorized ❇️ version of timestamp
+    """Return a colorized version of timestamp
 
     :param date: timestamp as a `datetime.datetime` instance
     :param day: (optional) String of current day without x0 format

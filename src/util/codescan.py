@@ -44,7 +44,7 @@ class Codescan:
         validated in `install_dependencies()` to ensure that
         they meet the criteria for external dependencies.
 
-        :return: List of import expressions extracted from `Package.auto_install()`
+        :return: List import expressions extracted from `Package.auto_install`
         :rtype: list[str]
 
         :returns: None
@@ -74,7 +74,7 @@ class Codescan:
         """Install previous dependencies collected from scan.
 
         The scan is run within the `install_dependencies` method.
-        
+
         :returns: None
         """
 
