@@ -15,16 +15,19 @@ import os
 import pathlib
 import sys
 
+import typer
 from util.codescan import Codescan
 from util.package import Package
 from util.update import load_logging_ini
 from util.update import loc_package_file
 
 
-class Courier:
+class Courier(typer.Typer):
     """Handles user input and file IO."""
 
     def __init__(self):
+        super().__init__()
+
         load_logging_ini()
         self.logger = logging.getLogger()
 
@@ -334,5 +337,3 @@ class Courier:
                 f" 👀 Added alias to {Package.color_path(str(self.bashrc_path))}"
             )
 
-
-courier = Courier()
