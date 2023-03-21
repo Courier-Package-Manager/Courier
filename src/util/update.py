@@ -19,7 +19,6 @@ import os
 
 import colorama
 
-from .setup import get_date
 
 
 def file_exists(file, mode):
@@ -62,7 +61,7 @@ def last_updated():
             data = json.load(_file)
             _file.close()
         timestamp = datetime.fromtimestamp(data["created"])
-        date = get_date(timestamp)
+        date = get_date(timestamp) # pyright: ignore
         return date
     else:
         return False
